@@ -24,7 +24,7 @@ QString configPathForProfile(QString profile_name)
     {
         configPath.erase(pos);
     }
-    QString tmp = QString::fromStdString(configPath) + "/Candle2";
+    QString tmp = QString::fromStdString(configPath) + "/candle";
     QDir configDir(tmp);
     return configDir.filePath(QUrl::toPercentEncoding(profile_name) + ".ini");
 }
