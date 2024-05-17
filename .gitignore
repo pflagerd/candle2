@@ -3,8 +3,8 @@ ui_*
 moc_*
 .qmake.stash
 Makefile
-Candle2
+candle
 qrc_*
 settings.ini
 build-*/
-src/candle
+/cmake-build-debug
