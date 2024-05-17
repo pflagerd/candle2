@@ -130,6 +130,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
     sNan=65536
     APP_VERSION="2.2.0"
     _USE_MATH_DEFINES
+    UNIX
 )
 
 # Link the Qt libraries
