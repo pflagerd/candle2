@@ -26,7 +26,7 @@ contains(QT_CONFIG, opengles.) {
     target.path = /home/pi
 }
 
-TARGET = Candle2
+TARGET = candle
 TEMPLATE = app
 VERSION = 2.2.0
 RC_ICONS += images/candle.ico
