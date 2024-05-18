@@ -9,6 +9,7 @@ set(CMAKE_AUTORCC ON)
 # Set the C++ standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_GLOBAL_AUTOGEN_TARGET ON)
 
 # Find the Qt libraries
 find_package(Qt5 COMPONENTS Core Gui Widgets OpenGL Network SerialPort REQUIRED)
