@@ -10,6 +10,12 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_GLOBAL_AUTOGEN_TARGET ON)
+set(CMAKE_CXX_FLAGS_DEBUG "-g3")
+set(CMAKE_C_FLAGS_DEBUG "-g3")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
+set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O0")
+
+set(CMAKE_PREFIX_PATH "/home/oy753c/desktops/neon-candle/Qt5/build/qtbase")
 
 # Find the Qt libraries
 find_package(Qt5 COMPONENTS Core Gui Widgets OpenGL Network SerialPort REQUIRED)

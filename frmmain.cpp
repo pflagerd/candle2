@@ -138,16 +138,16 @@ frmMain::frmMain(QWidget *parent) :
     QString tt = ui->comboInterface->currentText();
 
 
-#ifdef WINDOWS
-    if(QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7)
-    {
-        m_taskBarButton = NULL;
-        m_taskBarProgress = NULL;
-    }
-#endif
-#ifndef UNIX
-    ui->cboCommand->setStyleSheet("QComboBox {padding: 2;} QComboBox::drop-down {width: 0; border-style: none;} QComboBox::down-arrow {image: url(noimg);	border-width: 0;}");
-#endif
+    #ifdef WINDOWS
+        if(QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7)
+        {
+            m_taskBarButton = NULL;
+            m_taskBarProgress = NULL;
+        }
+    #endif
+    #ifndef UNIX
+        ui->cboCommand->setStyleSheet("QComboBox {padding: 2;} QComboBox::drop-down {width: 0; border-style: none;} QComboBox::down-arrow {image: url(noimg);	border-width: 0;}");
+    #endif
 
     m_heightMapMode = false;
     m_lastDrawnLineIndex = 0;
@@ -489,14 +489,14 @@ double frmMain::toolZPosition()
 
 void frmMain::preloadSettings()
 {
-    QSettings set(m_settingsFilePath, QSettings::IniFormat);
-    set.setIniCodec("UTF-8");
+    QSettings settings(m_settingsFilePath, QSettings::IniFormat);
+    settings.setIniCodec("UTF-8");
 
-    qApp->setStyleSheet(QString(qApp->styleSheet()).replace(QRegExp("font-size:\\s*\\d+"), "font-size: " + set.value("fontSize", "8").toString()));
+    qApp->setStyleSheet(QString(qApp->styleSheet()).replace(QRegExp("font-size:\\s*\\d+"), "font-size: " + settings.value("fontSize", "8").toString()));
 
     // Update v-sync in glformat
     QGLFormat fmt = QGLFormat::defaultFormat();
-    fmt.setSwapInterval(set.value("vsync", false).toBool() ? 1 : 0);
+    fmt.setSwapInterval(settings.value("vsync", false).toBool() ? 1 : 0);
     QGLFormat::setDefaultFormat(fmt);
 }
 
