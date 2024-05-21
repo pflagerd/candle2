@@ -272,7 +272,7 @@ frmMain::frmMain(QWidget *parent) :
 
     ui->tblProgram->setModel(&m_programModel);
     ui->tblProgram->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
-    connect(ui->tblProgram->verticalScrollBar(), SIGNAL(actionTriggered(int)), this, SLOT(onScroolBarAction(int)));
+    connect(ui->tblProgram->verticalScrollBar(), SIGNAL(actionTriggered(int)), this, SLOT(onScrollBarAction(int)));
     connect(ui->tblProgram->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCurrentChanged(QModelIndex,QModelIndex)));    
     clearTable();
 
@@ -906,7 +906,7 @@ void frmMain::onVisualizatorRotationChanged()
     ui->cmdIsometric->setChecked(false);
 }
 
-void frmMain::onScroolBarAction(int action)
+void frmMain::onScrollBarAction(int action)
 {
     Q_UNUSED(action)
 

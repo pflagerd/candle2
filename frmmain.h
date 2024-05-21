@@ -128,7 +128,7 @@ private slots:
     void onTimerUpdateSpindleParser();
     void onTimerStatusQuery();
     void onVisualizatorRotationChanged();
-    void onScroolBarAction(int action);
+    void onScrollBarAction(int action);
     void onJogTimer();
     void onTableInsertLine();
     void onTableDeleteLines();
