@@ -69,8 +69,7 @@
     #include "shobjidl.h"
 #endif
 
-struct CommandAttributes
-{
+struct CommandAttributes {
     int length;
     int consoleIndex;
     int tableIndex;
@@ -78,15 +77,13 @@ struct CommandAttributes
 };
 
 
-struct CommandQueue
-{
+struct CommandQueue {
     QString command;
     int tableIndex;
     bool showInConsole;
 };
 
-struct CommandQueue2
-{
+struct CommandQueue2 {
     QString command;
     int tableIndex;
     int consoleIndex;
@@ -94,130 +91,217 @@ struct CommandQueue2
 };
 
 
-typedef enum
-{
+typedef enum {
     PROT_GRBL1_1 = 0, PROT_GRBL2, PROT_GRIP
 } Protocol_e;
 
 
-class CancelException : public std::exception
-{
+class CancelException : public std::exception {
 public:
-    const char *what() const noexcept
-    {
+    const char *what() const noexcept {
         return "Operation was cancelled by user";
     }
 };
 
 
-class frmMain : public QMainWindow
-{
-    Q_OBJECT
+class frmMain : public QMainWindow {
+Q_OBJECT
 
 public:
     explicit frmMain(QWidget *parent = 0);
+
     ~frmMain();
-    
+
 private slots:
+
     void updateHeightMapInterpolationDrawer(bool reset = false);
+
     void placeVisualizerButtons();
 
     void onProcessData();
+
     void onSendSerial();
 
     void onTimerUpdateSpindleParser();
+
     void onTimerStatusQuery();
+
     void onVisualizatorRotationChanged();
+
     void onScrollBarAction(int action);
+
     void onJogTimer();
+
     void onTableInsertLine();
+
     void onTableDeleteLines();
+
     void onActRecentFileTriggered();
+
     void onCboCommandReturnPressed();
+
     void onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2);
+
     void onConsoleResized(QSize size);
+
     void onPanelsSizeChanged(QSize size);
+
     void onCmdUserClicked(bool checked);
+
     void onOverridingToggled(bool checked);
+
     void onActSendFromLineTriggered();
 
     void on_actFileExit_triggered();
+
     void on_cmdFileOpen_clicked();
+
     void on_cmdFit_clicked();
+
     void on_cmdFileSend_clicked();
+
     void onTableCellChanged(QModelIndex i1, QModelIndex i2);
+
     void on_actServiceSettings_triggered();
+
     void on_actFileOpen_triggered();
+
     void on_cmdCommandSend_clicked();
+
     void on_cmdHome_clicked();
+
     void on_cmdTouch_clicked();
+
     void on_cmdZeroX_clicked();
+
     void on_cmdZeroY_clicked();
+
     void on_cmdZeroZ_clicked();
+
     void on_cmdRestoreOrigin_clicked();
+
     void on_cmdReset_clicked();
+
     void on_cmdUnlock_clicked();
+
     void on_cmdSafePosition_clicked();
+
     void on_cmdSpindle_toggled(bool checked);
+
     void on_chkTestMode_clicked(bool checked);
+
     void on_cmdFilePause_clicked(bool checked);
+
     void on_cmdFileReset_clicked();
+
     void on_actFileNew_triggered();
+
     void on_cmdClearConsole_clicked();
+
     void on_actFileSaveAs_triggered();
+
     void on_actFileSave_triggered();
+
     void on_actFileSaveTransformedAs_triggered();
+
     void on_cmdTop_clicked();
+
     void on_cmdFront_clicked();
+
     void on_cmdLeft_clicked();
+
     void on_cmdIsometric_clicked();
+
     void on_actAbout_triggered();
+
     void on_grpOverriding_toggled(bool checked);
+
     void on_grpSpindle_toggled(bool checked);
+
     void on_grpJog_toggled(bool checked);
+
     void on_grpUserCommands_toggled(bool checked);
+
     void on_chkKeyboardControl_toggled(bool checked);
+
     void on_tblProgram_customContextMenuRequested(const QPoint &pos);
+
     void on_splitter_splitterMoved(int pos, int index);
+
     void on_actRecentClear_triggered();
+
     void on_grpHeightMap_toggled(bool arg1);
+
     void on_chkHeightMapBorderShow_toggled(bool checked);
+
     void on_txtHeightMapBorderX_valueChanged(double arg1);
+
     void on_txtHeightMapBorderWidth_valueChanged(double arg1);
+
     void on_txtHeightMapBorderY_valueChanged(double arg1);
+
     void on_txtHeightMapBorderHeight_valueChanged(double arg1);
+
     void on_chkHeightMapGridShow_toggled(bool checked);
+
     void on_txtHeightMapGridX_valueChanged(double arg1);
+
     void on_txtHeightMapGridY_valueChanged(double arg1);
+
     void on_txtHeightMapGridZBottom_valueChanged(double arg1);
+
     void on_txtHeightMapGridZTop_valueChanged(double arg1);
+
     void on_cmdHeightMapMode_toggled(bool checked);
+
     void on_chkHeightMapInterpolationShow_toggled(bool checked);
+
     void on_cmdHeightMapLoad_clicked();
+
     void on_txtHeightMapInterpolationStepX_valueChanged(double arg1);
+
     void on_txtHeightMapInterpolationStepY_valueChanged(double arg1);
+
     void on_chkHeightMapUse_clicked(bool checked);
+
     void on_cmdHeightMapCreate_clicked();
+
     void on_cmdHeightMapBorderAuto_clicked();
+
     void on_cmdFileAbort_clicked();
-    void on_cmdSpindle_clicked(bool checked);   
+
+    void on_cmdSpindle_clicked(bool checked);
 
     void on_cmdYPlus_pressed();
+
     void on_cmdYPlus_released();
+
     void on_cmdYMinus_pressed();
+
     void on_cmdYMinus_released();
+
     void on_cmdXPlus_pressed();
+
     void on_cmdXPlus_released();
+
     void on_cmdXMinus_pressed();
+
     void on_cmdXMinus_released();
+
     void on_cmdZPlus_pressed();
+
     void on_cmdZPlus_released();
+
     void on_cmdZMinus_pressed();
+
     void on_cmdZMinus_released();
+
     void on_cmdStop_clicked();
+
     void on_cmdSpindle_triggered(QAction *arg1);
 
     void on_btnReload_clicked();
+
     void on_btnConnect_clicked();
 
     void on_comboInterface_currentTextChanged(const QString &arg1);
@@ -244,35 +328,56 @@ private slots:
 
 protected:
     void showEvent(QShowEvent *se);
+
     void hideEvent(QHideEvent *he);
+
     void resizeEvent(QResizeEvent *re);
+
     void timerEvent(QTimerEvent *);
+
     void closeEvent(QCloseEvent *ce);
+
     void dragEnterEvent(QDragEnterEvent *dee);
+
     void dropEvent(QDropEvent *de);
 
 private:
     void loadFile(QString fileName);
+
     void loadFile(QList<QString> data);
+
     void clearTable();
+
     void preloadSettings();
+
     void loadSettings();
+
     void saveSettings();
+
     bool saveChanges(bool heightMapMode);
+
     void updateControlsState();
 
     void sendCommand(QString command, int tableIndex = -1, bool showInConsole = true);
 
     void GrblReset();
+
     int BufferLength();
+
     void sendNextFileCommands();
+
     void applySettings();
+
     void updateParser();
+
     bool DataIsFloating(QString data);
+
     bool DataIsEnd(QString data);
+
     bool DataIsReset(QString data);
 
     void ProcessGRBL1_1();
+
     void ProcessGRBL2();
 
     void ProcessGRBL_ETH(QString data);
@@ -284,40 +389,69 @@ private:
     QString GetErrorMsg(int err_code);
 
     QTime updateProgramEstimatedTime(QList<LineSegment *> lines);
+
     bool saveProgramToFile(QString fileName, GCodeTableModel *model);
+
     QString FeedOverride(QString command);
 
     bool eventFilter(QObject *obj, QEvent *event);
+
     bool keyIsMovement(int key);
+
     void resizeCheckBoxes();
+
     void updateLayouts();
+
     void updateRecentFilesMenu();
+
     void addRecentFile(QString fileName);
+
     void addRecentHeightmap(QString fileName);
+
     double toMetric(double value);
 
     QRectF borderRectFromTextboxes();
+
     QRectF borderRectFromExtremes();
+
     void updateHeightMapBorderDrawer();
+
     bool updateHeightMapGrid();
+
     void loadHeightMap(QString fileName);
+
     bool saveHeightMap(QString fileName);
 
     GCodeTableModel *m_currentModel;
+
     QList<LineSegment *> subdivideSegment(LineSegment *segment);
+
     void resizeTableHeightMapSections();
+
     void updateHeightMapGrid(double arg1);
+
     void resetHeightmap();
+
     void storeParserState();
+
     void restoreParserState();
+
     void storeOffsets();
+
     void restoreOffsets();
+
     bool isGCodeFile(QString fileName);
+
     bool isHeightmapFile(QString fileName);
+
     bool compareCoordinates(double x, double y, double z);
+
     int getConsoleMinHeight();
+
     void UpdateOverride(SliderBox *slider, int value, char command);
+
     void jogStep();
+
     void updateJogTitle();
 
     QString findConfigPath();
