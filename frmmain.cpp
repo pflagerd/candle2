@@ -47,9 +47,8 @@ static const int SendTimerInterval_ms = 30;
 
 
 frmMain::frmMain(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::frmMain)
-{
+        QMainWindow(parent),
+        ui(new Ui::frmMain) {
     m_status << "Unknown"
              << "Idle"
              << "Alarm"
@@ -130,22 +129,21 @@ frmMain::frmMain(QWidget *parent) :
     // Get available Com Ports
     UpdateComPorts();
 
-    if(ui->comboInterface->currentText() == "ETHERNET")
-    {
+    if (ui->comboInterface->currentText() == "ETHERNET") {
         ui->comboBaud->setEnabled(false);
     }
     QString tt = ui->comboInterface->currentText();
 
 
     #ifdef WINDOWS
-        if(QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7)
-        {
-            m_taskBarButton = NULL;
-            m_taskBarProgress = NULL;
-        }
+    if(QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7)
+    {
+        m_taskBarButton = NULL;
+        m_taskBarProgress = NULL;
+    }
     #endif
     #ifndef UNIX
-        ui->cboCommand->setStyleSheet("QComboBox {padding: 2;} QComboBox::drop-down {width: 0; border-style: none;} QComboBox::down-arrow {image: url(noimg);	border-width: 0;}");
+    ui->cboCommand->setStyleSheet("QComboBox {padding: 2;} QComboBox::drop-down {width: 0; border-style: none;} QComboBox::down-arrow {image: url(noimg);	border-width: 0;}");
     #endif
 
     m_heightMapMode = false;
@@ -180,8 +178,8 @@ frmMain::frmMain(QWidget *parent) :
 
     ui->cboJogStep->setValidator(new QDoubleValidator(0, 10000, 2));
     ui->cboJogFeed->setValidator(new QIntValidator(0, 100000));
-    connect(ui->cboJogStep, &ComboBoxKey::currentTextChanged, [=] (QString) {updateJogTitle();});
-    connect(ui->cboJogFeed, &ComboBoxKey::currentTextChanged, [=] (QString) {updateJogTitle();});
+    connect(ui->cboJogStep, &ComboBoxKey::currentTextChanged, [=](QString) { updateJogTitle(); });
+    connect(ui->cboJogFeed, &ComboBoxKey::currentTextChanged, [=](QString) { updateJogTitle(); });
 
     // Prepare "Send"-button
     ui->cmdFileSend->setMinimumWidth(qMax(ui->cmdFileSend->width(), ui->cmdFileOpen->width()));
@@ -191,10 +189,9 @@ frmMain::frmMain(QWidget *parent) :
 
     connect(ui->cboCommand, SIGNAL(returnPressed()), this, SLOT(onCboCommandReturnPressed()));
 
-    foreach (StyledToolButton* button, this->findChildren<StyledToolButton*>(QRegExp("cmdUser\\d")))
-    {
-        connect(button, SIGNAL(clicked(bool)), this, SLOT(onCmdUserClicked(bool)));
-    }
+            foreach (StyledToolButton *button, this->findChildren<StyledToolButton *>(QRegExp("cmdUser\\d"))) {
+            connect(button, SIGNAL(clicked(bool)), this, SLOT(onCmdUserClicked(bool)));
+        }
 
     // Setting up slider boxes
     ui->slbFeedOverride->setRatio(1);
@@ -265,22 +262,27 @@ frmMain::frmMain(QWidget *parent) :
 
     connect(ui->glwVisualizer, SIGNAL(rotationChanged()), this, SLOT(onVisualizatorRotationChanged()));
     connect(ui->glwVisualizer, SIGNAL(resized()), this, SLOT(placeVisualizerButtons()));
-    connect(&m_programModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCellChanged(QModelIndex,QModelIndex)));
-    connect(&m_programHeightmapModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCellChanged(QModelIndex,QModelIndex)));
-    connect(&m_probeModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCellChanged(QModelIndex,QModelIndex)));
+    connect(&m_programModel, SIGNAL(dataChanged(QModelIndex, QModelIndex)), this,
+            SLOT(onTableCellChanged(QModelIndex, QModelIndex)));
+    connect(&m_programHeightmapModel, SIGNAL(dataChanged(QModelIndex, QModelIndex)), this,
+            SLOT(onTableCellChanged(QModelIndex, QModelIndex)));
+    connect(&m_probeModel, SIGNAL(dataChanged(QModelIndex, QModelIndex)), this,
+            SLOT(onTableCellChanged(QModelIndex, QModelIndex)));
     connect(&m_heightMapModel, SIGNAL(dataChangedByUserInput()), this, SLOT(updateHeightMapInterpolationDrawer()));
 
     ui->tblProgram->setModel(&m_programModel);
     ui->tblProgram->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
     connect(ui->tblProgram->verticalScrollBar(), SIGNAL(actionTriggered(int)), this, SLOT(onScrollBarAction(int)));
-    connect(ui->tblProgram->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCurrentChanged(QModelIndex,QModelIndex)));    
+    connect(ui->tblProgram->selectionModel(), SIGNAL(currentChanged(QModelIndex, QModelIndex)), this,
+            SLOT(onTableCurrentChanged(QModelIndex, QModelIndex)));
     clearTable();
 
     // Console window handling
     connect(ui->grpConsole, SIGNAL(resized(QSize)), this, SLOT(onConsoleResized(QSize)));
     connect(ui->scrollAreaWidgetContents, SIGNAL(sizeChanged(QSize)), this, SLOT(onPanelsSizeChanged(QSize)));
 
-    m_senderErrorBox = new QMessageBox(QMessageBox::Warning, qApp->applicationDisplayName(), QString(), QMessageBox::Ignore | QMessageBox::Abort, this);
+    m_senderErrorBox = new QMessageBox(QMessageBox::Warning, qApp->applicationDisplayName(), QString(),
+                                       QMessageBox::Ignore | QMessageBox::Abort, this);
     m_senderErrorBox->setCheckBox(new QCheckBox(tr("Don't show again")));
 
     // Loading settings
@@ -290,10 +292,9 @@ frmMain::frmMain(QWidget *parent) :
     updateControlsState();
 
     // Prepare jog buttons
-    foreach (StyledToolButton* button, ui->grpJog->findChildren<StyledToolButton*>(QRegExp("cmdJogFeed\\d")))
-    {
-        connect(button, SIGNAL(clicked(bool)), this, SLOT(onCmdJogFeedClicked()));
-    }
+            foreach (StyledToolButton *button, ui->grpJog->findChildren<StyledToolButton *>(QRegExp("cmdJogFeed\\d"))) {
+            connect(button, SIGNAL(clicked(bool)), this, SLOT(onCmdJogFeedClicked()));
+        }
 
     // Prepare User Buttons
     ui->cmdUser0->setText(m_settings->userCommands(0));
@@ -305,7 +306,7 @@ frmMain::frmMain(QWidget *parent) :
     ui->slbSpindle->setTitle(tr("Speed:"));
     ui->slbSpindle->setCheckable(false);
     ui->slbSpindle->setChecked(true);
-    connect(ui->slbSpindle, &SliderBox::valueUserChanged, [=] {m_updateSpindleSpeed = true;});
+    connect(ui->slbSpindle, &SliderBox::valueUserChanged, [=] { m_updateSpindleSpeed = true; });
     connect(ui->slbSpindle, &SliderBox::valueChanged, [=] {
         if (!ui->grpSpindle->isChecked() && ui->cmdSpindle->isChecked())
             ui->grpSpindle->setTitle(tr("Spindle") + QString(tr(" (%1)")).arg(ui->slbSpindle->value()));
@@ -327,8 +328,7 @@ frmMain::frmMain(QWidget *parent) :
     connect(&m_timerSend, SIGNAL(timeout()), this, SLOT(onSendSerial()));
 
     // Handle file drop
-    if (qApp->arguments().count() > 1 && isGCodeFile(qApp->arguments().last()))
-    {
+    if (qApp->arguments().count() > 1 && isGCodeFile(qApp->arguments().last())) {
         loadFile(qApp->arguments().last());
     }
 
@@ -352,8 +352,7 @@ frmMain::frmMain(QWidget *parent) :
     // Set isometric view
     ui->glwVisualizer->setIsometricView();
 
-    if (m_settings->layoutCompact())
-    {
+    if (m_settings->layoutCompact()) {
         ui->workCoordsLabel->hide();
         ui->machineCoordslabel->hide();
         ui->grpState->setTitle("");
@@ -362,7 +361,7 @@ frmMain::frmMain(QWidget *parent) :
         ui->grpSpindle->setTitle("");
         ui->grpHeightMap->setTitle("");
     }
-    
+
     // Start timers
     m_timerSpindleUpdate.start(500);
     m_timerStateQuery.start(200);
@@ -384,7 +383,8 @@ QString frmMain::findConfigPath() {
         return configPathForProfile(profiles[0]);
     } else {
         bool ok;
-        const auto pickedItem = QInputDialog::getItem(this, "Choose Profile", "Choose a profile:", profiles, 0, false, &ok);
+        const auto pickedItem = QInputDialog::getItem(this, "Choose Profile", "Choose a profile:", profiles, 0, false,
+                                                      &ok);
         if (ok) {
             return configPathForProfile(pickedItem);
         } else {
@@ -394,18 +394,16 @@ QString frmMain::findConfigPath() {
     }
 }
 
-void frmMain::UpdateComPorts()
-{
+void frmMain::UpdateComPorts() {
     // Clear combobox
     ui->comboInterface->clear();
     ui->comboHandwheel->clear();
 
     // Add available ports to combobox
-    foreach (QSerialPortInfo info, QSerialPortInfo::availablePorts())
-    {
-        ui->comboInterface->insertItem(0, info.portName());
-        ui->comboHandwheel->insertItem(0, info.portName());
-    }
+            foreach (QSerialPortInfo info, QSerialPortInfo::availablePorts()) {
+            ui->comboInterface->insertItem(0, info.portName());
+            ui->comboHandwheel->insertItem(0, info.portName());
+        }
     // Add Ethernet option
     ui->comboInterface->addItem("ETHERNET");
 
@@ -413,20 +411,17 @@ void frmMain::UpdateComPorts()
     ui->comboBaud->clear();
 
     // Get baudrates for serial port
-    foreach (int i, QSerialPortInfo::standardBaudRates())
-    {
-        // Only list between 9600 to 500k
-        if(i < 9600 || i > 500000)
-        {
-            continue;
+            foreach (int i, QSerialPortInfo::standardBaudRates()) {
+            // Only list between 9600 to 500k
+            if (i < 9600 || i > 500000) {
+                continue;
+            }
+            ui->comboBaud->addItem(QString::number(i));
         }
-        ui->comboBaud->addItem(QString::number(i));
-    }
 
     // Default 115200 baud
     int idx = ui->comboBaud->findText("115200");
-    if(idx != -1)
-    {
+    if (idx != -1) {
         ui->comboBaud->setCurrentIndex(idx);
     }
 
@@ -437,23 +432,18 @@ void frmMain::UpdateComPorts()
     m_serialHandWheel.setBaudRate(230400);
 }
 
-frmMain::~frmMain()
-{    
+frmMain::~frmMain() {
     saveSettings();
 
     // Close interface if still open
-    if(SerialIf_IsOpen())
-    {
+    if (SerialIf_IsOpen()) {
         // Disable steppers 0x17
-        if(m_Protocol == PROT_GRBL1_1)
-        {
-            SerialIf_Write(QByteArray(1, (char)0x17));
-        }
-        else if(m_Protocol == PROT_GRIP)
-        {
-            QByteArray data(1, (char)0x17);
+        if (m_Protocol == PROT_GRBL1_1) {
+            SerialIf_Write(QByteArray(1, (char) 0x17));
+        } else if (m_Protocol == PROT_GRIP) {
+            QByteArray data(1, (char) 0x17);
             //GrIP_Transmit(MSG_SYSTEM_CMD, 0, (const uint8_t*)data.constData(), data.length());
-            Pdu_t p = {(uint8_t*)data.data(), (uint16_t)data.length()};
+            Pdu_t p = {(uint8_t *) data.data(), (uint16_t) data.length()};
             GrIP_Transmit(MSG_REALTIME_CMD, 0, &p);
         }
 
@@ -461,8 +451,7 @@ frmMain::~frmMain()
 
         SerialIf_Close();
     }
-    if(m_serialHandWheel.isOpen())
-    {
+    if (m_serialHandWheel.isOpen()) {
         m_serialHandWheel.close();
     }
 
@@ -470,28 +459,28 @@ frmMain::~frmMain()
     delete ui;
 }
 
-bool frmMain::isGCodeFile(QString fileName)
-{
-    return fileName.endsWith(".txt", Qt::CaseInsensitive) || fileName.endsWith(".nc", Qt::CaseInsensitive) || fileName.endsWith(".ncc", Qt::CaseInsensitive)
-          || fileName.endsWith(".ngc", Qt::CaseInsensitive) || fileName.endsWith(".tap", Qt::CaseInsensitive) || fileName.endsWith(".gcode", Qt::CaseInsensitive);
+bool frmMain::isGCodeFile(QString fileName) {
+    return fileName.endsWith(".txt", Qt::CaseInsensitive) || fileName.endsWith(".nc", Qt::CaseInsensitive) ||
+           fileName.endsWith(".ncc", Qt::CaseInsensitive)
+           || fileName.endsWith(".ngc", Qt::CaseInsensitive) || fileName.endsWith(".tap", Qt::CaseInsensitive) ||
+           fileName.endsWith(".gcode", Qt::CaseInsensitive);
 }
 
-bool frmMain::isHeightmapFile(QString fileName)
-{
+bool frmMain::isHeightmapFile(QString fileName) {
     return fileName.endsWith(".map", Qt::CaseInsensitive);
 }
 
-double frmMain::toolZPosition()
-{
+double frmMain::toolZPosition() {
     return m_toolDrawer.toolPosition().z();
 }
 
-void frmMain::preloadSettings()
-{
+void frmMain::preloadSettings() {
     QSettings settings(m_settingsFilePath, QSettings::IniFormat);
     settings.setIniCodec("UTF-8");
 
-    qApp->setStyleSheet(QString(qApp->styleSheet()).replace(QRegExp("font-size:\\s*\\d+"), "font-size: " + settings.value("fontSize", "8").toString()));
+    qApp->setStyleSheet(QString(qApp->styleSheet()).replace(QRegExp("font-size:\\s*\\d+"), "font-size: " +
+                                                                                           settings.value("fontSize",
+                                                                                                          "8").toString()));
 
     // Update v-sync in glformat
     QGLFormat fmt = QGLFormat::defaultFormat();
@@ -499,8 +488,7 @@ void frmMain::preloadSettings()
     QGLFormat::setDefaultFormat(fmt);
 }
 
-void frmMain::updateControlsState()
-{
+void frmMain::updateControlsState() {
     bool portOpened = SerialIf_IsOpen();
 
     // Disable interface options (shouldn't be changed while open)
@@ -543,24 +531,24 @@ void frmMain::updateControlsState()
     ui->cmdFileAbort->setEnabled(m_processingFile);
     ui->actFileOpen->setEnabled(!m_processingFile);
     ui->mnuRecent->setEnabled(!m_processingFile && ((m_recentFiles.count() > 0 && !m_heightMapMode)
-                                                      || (m_recentHeightmaps.count() > 0 && m_heightMapMode)));
+                                                    || (m_recentHeightmaps.count() > 0 && m_heightMapMode)));
     ui->actFileSave->setEnabled(m_programModel.rowCount() > 1);
     ui->actFileSaveAs->setEnabled(m_programModel.rowCount() > 1);
 
     ui->tblProgram->setEditTriggers(m_processingFile ? QAbstractItemView::NoEditTriggers :
-                                                         QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked
-                                                         | QAbstractItemView::EditKeyPressed | QAbstractItemView::AnyKeyPressed);
+                                    QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked
+                                    | QAbstractItemView::EditKeyPressed | QAbstractItemView::AnyKeyPressed);
 
-    if (!portOpened)
-    {
+    if (!portOpened) {
         ui->txtStatus->setText(tr("Not connected"));
         ui->txtStatus->setStyleSheet(QString("background-color: palette(button); color: palette(text);"));
     }
 
-    this->setWindowTitle(m_programFileName.isEmpty() ? qApp->applicationDisplayName() : m_programFileName.mid(m_programFileName.lastIndexOf("/") + 1) + " - " + qApp->applicationDisplayName());
+    this->setWindowTitle(m_programFileName.isEmpty() ? qApp->applicationDisplayName() :
+                         m_programFileName.mid(m_programFileName.lastIndexOf("/") + 1) + " - " +
+                         qApp->applicationDisplayName());
 
-    if (!m_processingFile)
-    {
+    if (!m_processingFile) {
         ui->chkKeyboardControl->setChecked(m_storedKeyboardControl);
     }
 
@@ -618,13 +606,11 @@ void frmMain::updateControlsState()
 
     ui->cmdFileSend->menu()->actions().first()->setEnabled(!ui->cmdHeightMapMode->isChecked());
 
-    m_selectionDrawer.setVisible(!ui->cmdHeightMapMode->isChecked());    
+    m_selectionDrawer.setVisible(!ui->cmdHeightMapMode->isChecked());
 }
 
-void frmMain::sendCommand(QString command, int tableIndex, bool showInConsole)
-{
-    if (!SerialIf_IsOpen() || !m_resetCompleted)
-    {
+void frmMain::sendCommand(QString command, int tableIndex, bool showInConsole) {
+    if (!SerialIf_IsOpen() || !m_resetCompleted) {
         // Not connected or still resetting
         return;
     }
@@ -635,37 +621,29 @@ void frmMain::sendCommand(QString command, int tableIndex, bool showInConsole)
     cq.tableIndex = tableIndex;
     cq.length = command.length() + 1;
 
-    if (showInConsole)
-    {
+    if (showInConsole) {
         ui->txtConsole->appendPlainText(command);
         cq.consoleIndex = ui->txtConsole->blockCount() - 1;
-    }
-    else
-    {
+    } else {
         cq.consoleIndex = -1;
     }
 
     mCommandsWait.push_back(cq);
 }
 
-void frmMain::GrblReset()
-{
+void frmMain::GrblReset() {
     qDebug() << "GRBL Reset";
 
-    if(!m_settings->ResetAfterConnect())
-    {
+    if (!m_settings->ResetAfterConnect()) {
         return;
     }
 
     ui->txtConsole->clear();
 
     // Reset: 0x18
-    if(m_Protocol == PROT_GRBL1_1)
-    {
-        SerialIf_Write(QByteArray(1, (char)0x18));
-    }
-    else if(m_Protocol == PROT_GRIP)
-    {
+    if (m_Protocol == PROT_GRBL1_1) {
+        SerialIf_Write(QByteArray(1, (char) 0x18));
+    } else if (m_Protocol == PROT_GRIP) {
         //QByteArray data(1, (char)0x18);
         //GrIP_Transmit(MSG_SYSTEM_CMD, 0, (const uint8_t*)data.constData(), data.length());
         uint8_t c = 0x18;
@@ -711,8 +689,7 @@ void frmMain::GrblReset()
 
     ca.command = "[CTRL+X]";
 
-    if (m_settings->showUICommands())
-    {
+    if (m_settings->showUICommands()) {
         ui->txtConsole->appendPlainText(ca.command);
     }
 
@@ -725,12 +702,10 @@ void frmMain::GrblReset()
     updateControlsState();
 }
 
-int frmMain::BufferLength()
-{
+int frmMain::BufferLength() {
     int length = 0;
 
-    for(int i = 0; i < mCommandsSent.size(); ++i)
-    {
+    for (int i = 0; i < mCommandsSent.size(); ++i) {
         auto it = mCommandsSent.get_at(i);
         length += (*it).length;
     }
@@ -738,68 +713,58 @@ int frmMain::BufferLength()
     return length;
 }
 
-void frmMain::onProcessData()
-{
+void frmMain::onProcessData() {
     RX_Packet_t dat;
 
-    switch (m_Protocol)
-    {
-    case PROT_GRIP:
-        // GrIP
-        GrIP_Update();
-        if(GrIP_Receive(&dat))
-            ProcessGRBL_ETH(QString(QByteArray((const char*)dat.Data, dat.RX_Header.Length)));
-        break;
+    switch (m_Protocol) {
+        case PROT_GRIP:
+            // GrIP
+            GrIP_Update();
+            if (GrIP_Receive(&dat))
+                ProcessGRBL_ETH(QString(QByteArray((const char *) dat.Data, dat.RX_Header.Length)));
+            break;
 
-    case PROT_GRBL1_1:
-        // GRBL 1.1
-        ProcessGRBL1_1();
-        break;
+        case PROT_GRBL1_1:
+            // GRBL 1.1
+            ProcessGRBL1_1();
+            break;
 
-    case PROT_GRBL2:
-        // GRBL HAL
-        ProcessGRBL2();
-        break;
+        case PROT_GRBL2:
+            // GRBL HAL
+            ProcessGRBL2();
+            break;
 
-    default:
-        break;
+        default:
+            break;
     }
 
-    if(m_serialHandWheel.isOpen() && SerialIf_IsOpen() && m_serialHandWheel.canReadLine() && m_transferCompleted)
-    {
+    if (m_serialHandWheel.isOpen() && SerialIf_IsOpen() && m_serialHandWheel.canReadLine() && m_transferCompleted) {
         QString msg = m_serialHandWheel.readLine();
         //qDebug() << "HW: " << msg;
-        if(msg.size() < 3)
-        {
+        if (msg.size() < 3) {
             // RT message
             on_cmdStop_clicked();
             return;
         }
         sendCommand(msg, -1, false);
     }
-    if(m_transferCompleted == false && m_serialHandWheel.isOpen())
-    {
+    if (m_transferCompleted == false && m_serialHandWheel.isOpen()) {
         // Drop all data received while sending file
         m_serialHandWheel.clear();
     }
 }
 
-void frmMain::onSendSerial()
-{
-    for(int i = 0; i < 4; i++)
-    {
-        if(mCommandsWait.size() > 0)
-        {
-            if (!SerialIf_IsOpen())
-            {
+void frmMain::onSendSerial() {
+    for (int i = 0; i < 4; i++) {
+        if (mCommandsWait.size() > 0) {
+            if (!SerialIf_IsOpen()) {
                 return;
             }
 
             CommandQueue2 q = mCommandsWait.front();
             QString command(q.command);
 
-            if((BufferLength() + command.length() + 1) < GRBL_BUFFERLENGTH && !m_toolChangeActive)
-            {
+            if ((BufferLength() + command.length() + 1) < GRBL_BUFFERLENGTH && !m_toolChangeActive) {
                 mCommandsSent.push_back(q);
                 mCommandsWait.pop_front();
 
@@ -817,26 +782,22 @@ void frmMain::onSendSerial()
                 //qDebug() << "Send: " + command;
 
                 // Set M2 & M30 commands sent flag
-                if (command.contains(QRegExp("M0*2|M30")))
-                {
+                if (command.contains(QRegExp("M0*2|M30"))) {
                     m_fileEndSent = true;
                 }
 
-                if(m_settings->UseM6() && (command.contains("M6") || command.contains("M06")) && command[0] != '(' && command[0] != ';')
-                {
+                if (m_settings->UseM6() && (command.contains("M6") || command.contains("M06")) && command[0] != '(' &&
+                    command[0] != ';') {
                     qDebug() << "Tool change command";
                     m_toolChangeActive = true;
                 }
 
-                if(m_Protocol == PROT_GRBL1_1)
-                {
+                if (m_Protocol == PROT_GRBL1_1) {
                     SerialIf_Write((command + "\r").toLatin1());
-                }
-                else if(m_Protocol == PROT_GRIP)
-                {
+                } else if (m_Protocol == PROT_GRIP) {
                     QByteArray data((command + "\r").toLatin1());
                     //GrIP_Transmit(MSG_DATA_NO_RESPONSE, 0, (const uint8_t*)data.constData(), data.length());
-                    Pdu_t p = {(uint8_t*)data.data(), (uint16_t)data.length()};
+                    Pdu_t p = {(uint8_t *) data.data(), (uint16_t) data.length()};
                     GrIP_Transmit(MSG_DATA_NO_RESPONSE, 0, &p);
                 }
                 //qDebug() << "Sent: " << command;
@@ -847,104 +808,86 @@ void frmMain::onSendSerial()
     }
 }
 
-void frmMain::onTimerUpdateSpindleParser()
-{
+void frmMain::onTimerUpdateSpindleParser() {
     static bool updateSpinde = false;
 
-    if (SerialIf_IsOpen() && !m_homing && !ui->cmdFilePause->isChecked() && mCommandsWait.size() == 0)
-    {
-        if (m_updateSpindleSpeed)
-        {
+    if (SerialIf_IsOpen() && !m_homing && !ui->cmdFilePause->isChecked() && mCommandsWait.size() == 0) {
+        if (m_updateSpindleSpeed) {
             m_updateSpindleSpeed = false;
             sendCommand(QString("S%1").arg(ui->slbSpindle->value()), -2, m_settings->showUICommands());
         }
         updateSpinde = !updateSpinde;
-        if (m_updateParserStatus || updateSpinde)
-        {
+        if (m_updateParserStatus || updateSpinde) {
             m_updateParserStatus = false;
             sendCommand("$G", -3, false);
         }
     }
 }
 
-void frmMain::onTimerStatusQuery()
-{
+void frmMain::onTimerStatusQuery() {
     static int Timeout = 4;
 
-    if(SerialIf_IsOpen() && m_resetCompleted)
-    {
-        if(m_statusReceived || (Timeout <= 0))
-        {
+    if (SerialIf_IsOpen() && m_resetCompleted) {
+        if (m_statusReceived || (Timeout <= 0)) {
             Timeout = 4;
 
             // Status report: ?
-            if(m_Protocol == PROT_GRBL1_1)
-            {
+            if (m_Protocol == PROT_GRBL1_1) {
                 SerialIf_Write("?");
-            }
-            else if(m_Protocol == PROT_GRIP)
-            {
+            } else if (m_Protocol == PROT_GRIP) {
                 QByteArray data("?");
                 //GrIP_Transmit(MSG_SYSTEM_CMD, 0, (const uint8_t*)data.constData(), data.length());
-                Pdu_t p = {(uint8_t*)data.data(), (uint16_t)data.length()};
+                Pdu_t p = {(uint8_t *) data.data(), (uint16_t) data.length()};
                 GrIP_Transmit(MSG_SYSTEM_CMD, 0, &p);
             }
 
             m_statusReceived = false;
-        }
-        else
-        {
+        } else {
             Timeout--;
         }
     }
 
-    ui->glwVisualizer->setBufferState(QString(tr("Buffer: %1 / %2 / %3")).arg(BufferLength()).arg(mCommandsSent.size()).arg(mCommandsWait.size()));
+    ui->glwVisualizer->setBufferState(
+            QString(tr("Buffer: %1 / %2 / %3")).arg(BufferLength()).arg(mCommandsSent.size()).arg(
+                    mCommandsWait.size()));
 }
 
-void frmMain::onVisualizatorRotationChanged()
-{
+void frmMain::onVisualizatorRotationChanged() {
     ui->cmdIsometric->setChecked(false);
 }
 
-void frmMain::onScrollBarAction(int action)
-{
+void frmMain::onScrollBarAction(int action) {
     Q_UNUSED(action)
 
-    if (m_processingFile)
-    {
+    if (m_processingFile) {
         ui->chkAutoScroll->setChecked(false);
     }
 }
 
-void frmMain::onJogTimer()
-{
+void frmMain::onJogTimer() {
     m_jogBlock = false;
 }
 
-void frmMain::placeVisualizerButtons()
-{
+void frmMain::placeVisualizerButtons() {
     ui->cmdIsometric->move(ui->glwVisualizer->width() - ui->cmdIsometric->width() - 8, 8);
     ui->cmdTop->move(ui->cmdIsometric->geometry().left() - ui->cmdTop->width() - 8, 8);
     ui->cmdLeft->move(ui->glwVisualizer->width() - ui->cmdLeft->width() - 8, ui->cmdIsometric->geometry().bottom() + 8);
-    ui->cmdFront->move(ui->cmdLeft->geometry().left() - ui->cmdFront->width() - 8, ui->cmdIsometric->geometry().bottom() + 8);
+    ui->cmdFront->move(ui->cmdLeft->geometry().left() - ui->cmdFront->width() - 8,
+                       ui->cmdIsometric->geometry().bottom() + 8);
     ui->cmdFit->move(ui->glwVisualizer->width() - ui->cmdFit->width() - 8, ui->cmdLeft->geometry().bottom() + 8);
 }
 
-void frmMain::clearTable()
-{
+void frmMain::clearTable() {
     m_programModel.clear();
     m_programModel.insertRow(0);
 }
 
-void frmMain::on_cmdFit_clicked()
-{
+void frmMain::on_cmdFit_clicked() {
     ui->glwVisualizer->fitDrawable(m_currentDrawer);
 }
 
-void frmMain::on_cmdFileSend_clicked()
-{
-    if (m_currentModel->rowCount() == 1)
-    {
+void frmMain::on_cmdFileSend_clicked() {
+    if (m_currentModel->rowCount() == 1) {
         return;
     }
 
@@ -958,8 +901,7 @@ void frmMain::on_cmdFileSend_clicked()
     m_storedKeyboardControl = ui->chkKeyboardControl->isChecked();
     ui->chkKeyboardControl->setChecked(false);
 
-    if (!ui->chkTestMode->isChecked())
-    {
+    if (!ui->chkTestMode->isChecked()) {
         storeOffsets(); // Allready stored on check
     }
     storeParserState();
@@ -982,8 +924,7 @@ void frmMain::on_cmdFileSend_clicked()
     sendNextFileCommands();
 }
 
-void frmMain::onActSendFromLineTriggered()
-{
+void frmMain::onActSendFromLineTriggered() {
     if (m_currentModel->rowCount() == 1)
         return;
 
@@ -991,16 +932,15 @@ void frmMain::onActSendFromLineTriggered()
     int commandIndex = ui->tblProgram->currentIndex().row();
 
     // Set parser state
-    if (m_settings->autoLine())
-    {
+    if (m_settings->autoLine()) {
         GcodeViewParse *parser = m_currentDrawer->viewParser();
-        QList<LineSegment*> list = parser->getLineSegmentList();
+        QList<LineSegment *> list = parser->getLineSegmentList();
         QVector<QList<int>> lineIndexes = parser->getLinesIndexes();
 
         int lineNumber = m_currentModel->data(m_currentModel->index(commandIndex, 4)).toInt();
-        LineSegment* firstSegment = list.at(lineIndexes.at(lineNumber).first());
-        LineSegment* lastSegment = list.at(lineIndexes.at(lineNumber).last());
-        LineSegment* feedSegment = lastSegment;
+        LineSegment *firstSegment = list.at(lineIndexes.at(lineNumber).first());
+        LineSegment *lastSegment = list.at(lineIndexes.at(lineNumber).last());
+        LineSegment *feedSegment = lastSegment;
         int segmentIndex = list.indexOf(feedSegment);
 
         while (feedSegment->isFastTraverse() && segmentIndex > 0)
@@ -1011,22 +951,24 @@ void frmMain::onActSendFromLineTriggered()
         commands.append(QString("M3 S%1").arg(qMax<double>(lastSegment->getSpindleSpeed(), ui->slbSpindle->value())));
 
         commands.append(QString("G21 G90 G0 X%1 Y%2")
-                        .arg(firstSegment->getStart().x())
-                        .arg(firstSegment->getStart().y()));
+                                .arg(firstSegment->getStart().x())
+                                .arg(firstSegment->getStart().y()));
 
         commands.append(QString("G1 Z%1 F%2")
-                        .arg(firstSegment->getStart().z())
-                        .arg(feedSegment->getSpeed()));
+                                .arg(firstSegment->getStart().z())
+                                .arg(feedSegment->getSpeed()));
 
         commands.append(QString("%1 %2 %3 F%4")
-                        .arg(lastSegment->isMetric() ? "G21" : "G20")
-                        .arg(lastSegment->isAbsolute() ? "G90" : "G91")
-                        .arg(lastSegment->isFastTraverse() ? "G0" : "G1")
-                        .arg(lastSegment->isMetric() ? feedSegment->getSpeed() : feedSegment->getSpeed() / 25.4));
+                                .arg(lastSegment->isMetric() ? "G21" : "G20")
+                                .arg(lastSegment->isAbsolute() ? "G90" : "G91")
+                                .arg(lastSegment->isFastTraverse() ? "G0" : "G1")
+                                .arg(lastSegment->isMetric() ? feedSegment->getSpeed() : feedSegment->getSpeed() /
+                                                                                         25.4));
 
-        if (lastSegment->isArc())
-        {
-            commands.append(lastSegment->plane() == PointSegment::XY ? "G17" : lastSegment->plane() == PointSegment::ZX ? "G18" : "G19");
+        if (lastSegment->isArc()) {
+            commands.append(
+                    lastSegment->plane() == PointSegment::XY ? "G17" : lastSegment->plane() == PointSegment::ZX ? "G18"
+                                                                                                                : "G19");
         }
 
         QMessageBox box(this);
@@ -1037,16 +979,12 @@ void frmMain::onActSendFromLineTriggered()
         box.addButton(tr("Skip"), QMessageBox::DestructiveRole);
 
         int res = box.exec();
-        if (res == QMessageBox::Cancel)
-        {
+        if (res == QMessageBox::Cancel) {
             return;
-        }
-        else if (res == QMessageBox::Ok)
-        {
-            foreach (QString command, commands)
-            {
-                sendCommand(command, -1, m_settings->showUICommands());
-            }
+        } else if (res == QMessageBox::Ok) {
+                    foreach (QString command, commands) {
+                    sendCommand(command, -1, m_settings->showUICommands());
+                }
         }
     }
 
@@ -1055,11 +993,10 @@ void frmMain::onActSendFromLineTriggered()
     m_lastDrawnLineIndex = 0;
     m_probeIndex = -1;
 
-    QList<LineSegment*> list = m_viewParser.getLineSegmentList();
+    QList<LineSegment *> list = m_viewParser.getLineSegmentList();
 
     QList<int> indexes;
-    for (int i = 0; i < list.count(); i++)
-    {
+    for (int i = 0; i < list.count(); i++) {
         list[i]->setDrawn(list.at(i)->getLineNumber() < m_currentModel->data().at(commandIndex).line);
         indexes.append(i);
     }
@@ -1068,8 +1005,7 @@ void frmMain::onActSendFromLineTriggered()
 
     ui->tblProgram->setUpdatesEnabled(false);
 
-    for (int i = 0; i < m_currentModel->data().count() - 1; i++)
-    {
+    for (int i = 0; i < m_currentModel->data().count() - 1; i++) {
         m_currentModel->data()[i].state = i < commandIndex ? GCodeItem::Skipped : GCodeItem::InQueue;
         m_currentModel->data()[i].response = QString();
     }
@@ -1085,8 +1021,7 @@ void frmMain::onActSendFromLineTriggered()
     m_storedKeyboardControl = ui->chkKeyboardControl->isChecked();
     ui->chkKeyboardControl->setChecked(false);
 
-    if (!ui->chkTestMode->isChecked())
-    {
+    if (!ui->chkTestMode->isChecked()) {
         storeOffsets(); // Allready stored on check
     }
 
@@ -1113,71 +1048,60 @@ void frmMain::onActSendFromLineTriggered()
     sendNextFileCommands();
 }
 
-void frmMain::on_cmdFileAbort_clicked()
-{
+void frmMain::on_cmdFileAbort_clicked() {
     m_aborting = true;
 
-    if (!ui->chkTestMode->isChecked())
-    {
+    if (!ui->chkTestMode->isChecked()) {
         // Feed hold: !
-        if(m_Protocol == PROT_GRBL1_1)
-        {
+        if (m_Protocol == PROT_GRBL1_1) {
             SerialIf_Write("!");
-        }
-        else if(m_Protocol == PROT_GRIP)
-        {
+        } else if (m_Protocol == PROT_GRIP) {
             QByteArray data("!");
             //GrIP_Transmit(MSG_REALTIME_CMD, 0, (const uint8_t*)data.constData(), data.length());
-            Pdu_t p = {(uint8_t*)data.data(), (uint16_t)data.length()};
+            Pdu_t p = {(uint8_t *) data.data(), (uint16_t) data.length()};
             GrIP_Transmit(MSG_REALTIME_CMD, 0, &p);
         }
 
-    }
-    else
-    {
+    } else {
         GrblReset();
     }
 }
 
-void frmMain::storeParserState()
-{    
-    m_storedParserStatus = ui->glwVisualizer->parserStatus().remove(QRegExp("GC:|\\[|\\]|G[01234]\\s|M[0345]+\\s|\\sF[\\d\\.]+|\\sS[\\d\\.]+"));
+void frmMain::storeParserState() {
+    m_storedParserStatus = ui->glwVisualizer->parserStatus().remove(
+            QRegExp("GC:|\\[|\\]|G[01234]\\s|M[0345]+\\s|\\sF[\\d\\.]+|\\sS[\\d\\.]+"));
 }
 
-void frmMain::restoreParserState()
-{
-    if (!m_storedParserStatus.isEmpty())
-    {
+void frmMain::restoreParserState() {
+    if (!m_storedParserStatus.isEmpty()) {
         sendCommand(m_storedParserStatus, -1, m_settings->showUICommands());
     }
 }
 
-void frmMain::storeOffsets()
-{
+void frmMain::storeOffsets() {
 //    sendCommand2("$#", -2, m_settings->showUICommands());
 }
 
-void frmMain::restoreOffsets()
-{
+void frmMain::restoreOffsets() {
     // Still have pre-reset working position
     sendCommand(QString("G21G53G90X%1Y%2Z%3").arg(toMetric(ui->txtMPosX->text().toDouble()))
-                                       .arg(toMetric(ui->txtMPosY->text().toDouble()))
-                                       .arg(toMetric(ui->txtMPosZ->text().toDouble())), -1, m_settings->showUICommands());
+                        .arg(toMetric(ui->txtMPosY->text().toDouble()))
+                        .arg(toMetric(ui->txtMPosZ->text().toDouble())), -1, m_settings->showUICommands());
 
     sendCommand(QString("G21G92X%1Y%2Z%3").arg(toMetric(ui->txtWPosX->value()))
-                                       .arg(toMetric(ui->txtWPosY->value()))
-                                       .arg(toMetric(ui->txtWPosZ->value())), -1, m_settings->showUICommands());
+                        .arg(toMetric(ui->txtWPosY->value()))
+                        .arg(toMetric(ui->txtWPosZ->value())), -1, m_settings->showUICommands());
 }
 
-void frmMain::sendNextFileCommands()
-{
+void frmMain::sendNextFileCommands() {
     if (m_CommandQueueList.length() > 0)
         return;
 
     QString command = FeedOverride(m_currentModel->data(m_currentModel->index(m_fileCommandIndex, 1)).toString());
 
-    while (m_fileCommandIndex < m_currentModel->rowCount() - 1 && !(!m_CommandAttributesList.isEmpty() && m_CommandAttributesList.last().command.contains(QRegExp("M0*2|M30"))))
-    {
+    while (m_fileCommandIndex < m_currentModel->rowCount() - 1 && !(!m_CommandAttributesList.isEmpty() &&
+                                                                    m_CommandAttributesList.last().command.contains(
+                                                                            QRegExp("M0*2|M30")))) {
         //m_currentModel->setData(m_currentModel->index(m_fileCommandIndex, 2), GCodeItem::Sent);
         sendCommand(command, m_fileCommandIndex, m_settings->showProgramCommands());
         m_fileCommandIndex++;
@@ -1186,28 +1110,22 @@ void frmMain::sendNextFileCommands()
     }
 }
 
-void frmMain::on_actServiceSettings_triggered()
-{
-    if (m_settings->exec())
-    {
+void frmMain::on_actServiceSettings_triggered() {
+    if (m_settings->exec()) {
         qDebug() << "Applying settings";
 
         updateControlsState();
         applySettings();
-    }
-    else
-    {
+    } else {
         m_settings->undo();
     }
 }
 
-bool buttonLessThan(StyledToolButton *b1, StyledToolButton *b2)
-{
+bool buttonLessThan(StyledToolButton *b1, StyledToolButton *b2) {
     return b1->objectName().right(1).toDouble() < b2->objectName().right(1).toDouble();
 }
 
-void frmMain::updateParser()
-{
+void frmMain::updateParser() {
     QTime time;
 
     qDebug() << "Updating parser:" << m_currentModel << m_currentDrawer;
@@ -1228,20 +1146,17 @@ void frmMain::updateParser()
     progress.setWindowModality(Qt::WindowModal);
     progress.setFixedSize(progress.sizeHint());
 
-    if (m_currentModel->rowCount() > PROGRESSMINLINES)
-    {
+    if (m_currentModel->rowCount() > PROGRESSMINLINES) {
         progress.show();
         progress.setStyleSheet("QProgressBar {text-align: center; qproperty-format: \"\"}");
     }
 
-    for (int i = 0; i < m_currentModel->rowCount() - 1; i++)
-    {
+    for (int i = 0; i < m_currentModel->rowCount() - 1; i++) {
         // Get stored args
         args = m_currentModel->data().at(i).args;
 
         // Store args if none
-        if (args.isEmpty())
-        {
+        if (args.isEmpty()) {
             stripped = GcodePreprocessorUtils::removeComment(m_currentModel->data().at(i).command);
             args = GcodePreprocessorUtils::splitCommand(stripped);
             m_currentModel->data()[i].args = args;
@@ -1255,8 +1170,7 @@ void frmMain::updateParser()
         m_currentModel->data()[i].response = QString();
         m_currentModel->data()[i].line = gp.getCommandNumber();
 
-        if (progress.isVisible() && (i % PROGRESSSTEP == 0))
-        {
+        if (progress.isVisible() && (i % PROGRESSSTEP == 0)) {
             progress.setValue(i);
             qApp->processEvents();
 
@@ -1271,21 +1185,20 @@ void frmMain::updateParser()
 
     parser->reset();
 
-    updateProgramEstimatedTime(parser->getLinesFromParser(&gp, m_settings->arcPrecision(), m_settings->arcDegreeMode()));
+    updateProgramEstimatedTime(
+            parser->getLinesFromParser(&gp, m_settings->arcPrecision(), m_settings->arcDegreeMode()));
     m_currentDrawer->update();
     ui->glwVisualizer->updateExtremes(m_currentDrawer);
     updateControlsState();
 
-    if (m_currentModel == &m_programModel)
-    {
+    if (m_currentModel == &m_programModel) {
         m_fileChanged = true;
     }
 
     qDebug() << "Update parser time: " << time.elapsed();
 }
 
-void frmMain::on_cmdCommandSend_clicked()
-{
+void frmMain::on_cmdCommandSend_clicked() {
     QString command = ui->cboCommand->currentText();
 
     if (command.isEmpty())
@@ -1299,57 +1212,49 @@ void frmMain::on_cmdCommandSend_clicked()
     sendCommand(command, -1);
 }
 
-void frmMain::on_actFileOpen_triggered()
-{
+void frmMain::on_actFileOpen_triggered() {
     on_cmdFileOpen_clicked();
 }
 
-void frmMain::on_cmdHome_clicked()
-{
+void frmMain::on_cmdHome_clicked() {
     m_homing = true;
     m_updateSpindleSpeed = true;
 
     sendCommand("$H", -1, m_settings->showUICommands());
 }
 
-void frmMain::on_cmdTouch_clicked()
-{
+void frmMain::on_cmdTouch_clicked() {
 //    m_homing = true;
 
     QStringList list = m_settings->touchCommand().split(";");
 
-    foreach (QString cmd, list)
-    {
-        sendCommand(cmd.trimmed(), -1, m_settings->showUICommands());
-    }
+            foreach (QString cmd, list) {
+            sendCommand(cmd.trimmed(), -1, m_settings->showUICommands());
+        }
 }
 
-void frmMain::on_cmdZeroX_clicked()
-{
+void frmMain::on_cmdZeroX_clicked() {
     m_settingZeroX = true;
 
     sendCommand("G92X0", -1, m_settings->showUICommands());
     sendCommand("$#", -2, m_settings->showUICommands());
 }
 
-void frmMain::on_cmdZeroY_clicked()
-{
+void frmMain::on_cmdZeroY_clicked() {
     m_settingZeroXY = true;
 
     sendCommand("G92Y0", -1, m_settings->showUICommands());
     sendCommand("$#", -2, m_settings->showUICommands());
 }
 
-void frmMain::on_cmdZeroZ_clicked()
-{
+void frmMain::on_cmdZeroZ_clicked() {
     m_settingZeroZ = true;
 
     sendCommand("G92Z0", -1, m_settings->showUICommands());
     sendCommand("$#", -2, m_settings->showUICommands());
 }
 
-void frmMain::on_cmdRestoreOrigin_clicked()
-{
+void frmMain::on_cmdRestoreOrigin_clicked() {
     // Restore offset
     // G21: unit mm
     sendCommand(QString("G21"), -1, m_settings->showUICommands());
@@ -1358,146 +1263,117 @@ void frmMain::on_cmdRestoreOrigin_clicked()
     // G90: Absolut distance mode
     // G0: Rapid move
     sendCommand(QString("G53G90G0X%1Y%2Z%3").arg(toMetric(ui->txtMPosX->text().toDouble()))
-                                            .arg(toMetric(ui->txtMPosY->text().toDouble()))
-                                            .arg(toMetric(ui->txtMPosZ->text().toDouble())), -1, m_settings->showUICommands());
+                        .arg(toMetric(ui->txtMPosY->text().toDouble()))
+                        .arg(toMetric(ui->txtMPosZ->text().toDouble())), -1, m_settings->showUICommands());
 
     // G92: Makes the current position have the coordiantes you want (without motion)
     sendCommand(QString("G92X%1Y%2Z%3").arg(toMetric(ui->txtMPosX->text().toDouble()) - m_storedX)
-                                        .arg(toMetric(ui->txtMPosY->text().toDouble()) - m_storedY)
-                                        .arg(toMetric(ui->txtMPosZ->text().toDouble()) - m_storedZ), -1, m_settings->showUICommands());
+                        .arg(toMetric(ui->txtMPosY->text().toDouble()) - m_storedY)
+                        .arg(toMetric(ui->txtMPosZ->text().toDouble()) - m_storedZ), -1, m_settings->showUICommands());
 
     // Move tool
-    if (m_settings->moveOnRestore())
-    {
-        switch (m_settings->restoreMode())
-        {
-        case 0:
-            sendCommand("G0X0Y0", -1, m_settings->showUICommands());
-            break;
+    if (m_settings->moveOnRestore()) {
+        switch (m_settings->restoreMode()) {
+            case 0:
+                sendCommand("G0X0Y0", -1, m_settings->showUICommands());
+                break;
 
-        case 1:
-            sendCommand("G0X0Y0Z0", -1, m_settings->showUICommands());
-            break;
-        default:
-            break;
+            case 1:
+                sendCommand("G0X0Y0Z0", -1, m_settings->showUICommands());
+                break;
+            default:
+                break;
         }
     }
 }
 
-void frmMain::on_cmdReset_clicked()
-{
+void frmMain::on_cmdReset_clicked() {
     GrblReset();
 }
 
-void frmMain::on_cmdUnlock_clicked()
-{
+void frmMain::on_cmdUnlock_clicked() {
     m_updateSpindleSpeed = true;
 
     sendCommand("$X", -1, m_settings->showUICommands());
 }
 
-void frmMain::on_cmdSafePosition_clicked()
-{
+void frmMain::on_cmdSafePosition_clicked() {
     QStringList list = m_settings->safePositionCommand().split(";");
 
-    foreach (QString cmd, list)
-    {
-        sendCommand(cmd.trimmed(), -1, m_settings->showUICommands());
-    }
+            foreach (QString cmd, list) {
+            sendCommand(cmd.trimmed(), -1, m_settings->showUICommands());
+        }
 }
 
-void frmMain::on_cmdSpindle_toggled(bool checked)
-{
+void frmMain::on_cmdSpindle_toggled(bool checked) {
     ui->grpSpindle->setProperty("overrided", checked);
     style()->unpolish(ui->grpSpindle);
     ui->grpSpindle->ensurePolished();
 
-    if (checked)
-    {
-        if (!ui->grpSpindle->isChecked())
-        {
+    if (checked) {
+        if (!ui->grpSpindle->isChecked()) {
             ui->grpSpindle->setTitle(tr("Spindle") + QString(tr(" (%1)")).arg(ui->slbSpindle->value()));
         }
-    }
-    else
-    {
+    } else {
         ui->grpSpindle->setTitle(tr("Spindle"));
     }
 }
 
-void frmMain::on_cmdSpindle_clicked(bool checked)
-{
-    if (ui->cmdFilePause->isChecked())
-    {
+void frmMain::on_cmdSpindle_clicked(bool checked) {
+    if (ui->cmdFilePause->isChecked()) {
         // Toggle spindle stop
-        if(m_Protocol == PROT_GRBL1_1)
-        {
+        if (m_Protocol == PROT_GRBL1_1) {
             SerialIf_Write(QByteArray(1, char(0x9E)));
-        }
-        else if(m_Protocol == PROT_GRIP)
-        {
+        } else if (m_Protocol == PROT_GRIP) {
             QByteArray data(1, char(0x9E));
             //GrIP_Transmit(MSG_REALTIME_CMD, 0, (const uint8_t*)data.constData(), data.length());
-            Pdu_t p = {(uint8_t*)data.data(), (uint16_t)data.length()};
+            Pdu_t p = {(uint8_t *) data.data(), (uint16_t) data.length()};
             GrIP_Transmit(MSG_REALTIME_CMD, 0, &p);
         }
-    }
-    else
-    {
+    } else {
         sendCommand(checked ? QString("M3 S%1").arg(ui->slbSpindle->value()) : "M5", -1, m_settings->showUICommands());
     }
 }
 
-void frmMain::on_chkTestMode_clicked(bool checked)
-{
-    if (checked)
-    {
+void frmMain::on_chkTestMode_clicked(bool checked) {
+    if (checked) {
         storeOffsets();
         storeParserState();
 
         sendCommand("$C", -1, m_settings->showUICommands());
-    }
-    else
-    {
+    } else {
         m_aborting = true;
         GrblReset();
     }
 }
 
-void frmMain::on_cmdFilePause_clicked(bool checked)
-{
+void frmMain::on_cmdFilePause_clicked(bool checked) {
     // Feed hold / Cycle Resume
-    if(m_Protocol == PROT_GRBL1_1)
-    {
+    if (m_Protocol == PROT_GRBL1_1) {
         SerialIf_Write(checked ? "!" : "~");
-    }
-    else if(m_Protocol == PROT_GRIP)
-    {
+    } else if (m_Protocol == PROT_GRIP) {
         QByteArray data(1, char(checked ? '!' : '~'));
         //GrIP_Transmit(MSG_REALTIME_CMD, 0, (const uint8_t*)data.constData(), data.length());
-        Pdu_t p = {(uint8_t*)data.data(), (uint16_t)data.length()};
+        Pdu_t p = {(uint8_t *) data.data(), (uint16_t) data.length()};
         GrIP_Transmit(MSG_REALTIME_CMD, 0, &p);
     }
 }
 
-void frmMain::on_cmdFileReset_clicked()
-{
+void frmMain::on_cmdFileReset_clicked() {
     m_fileCommandIndex = 0;
     m_fileProcessedCommandIndex = 0;
     m_lastDrawnLineIndex = 0;
     m_probeIndex = -1;
 
-    if (!m_heightMapMode)
-    {
+    if (!m_heightMapMode) {
         QTime time;
 
         time.start();
 
-        QList<LineSegment*> list = m_viewParser.getLineSegmentList();
+        QList<LineSegment *> list = m_viewParser.getLineSegmentList();
 
         QList<int> indexes;
-        for (int i = 0; i < list.count(); i++)
-        {
+        for (int i = 0; i < list.count(); i++) {
             list[i]->setDrawn(false);
             indexes.append(i);
         }
@@ -1510,8 +1386,7 @@ void frmMain::on_cmdFileReset_clicked()
 
         ui->tblProgram->setUpdatesEnabled(false);
 
-        for (int i = 0; i < m_currentModel->data().count() - 1; i++)
-        {
+        for (int i = 0; i < m_currentModel->data().count() - 1; i++) {
             m_currentModel->data()[i].state = GCodeItem::InQueue;
             m_currentModel->data()[i].response = QString();
         }
@@ -1525,9 +1400,7 @@ void frmMain::on_cmdFileReset_clicked()
         ui->tblProgram->selectRow(0);
 
         ui->glwVisualizer->setSpendTime(QTime(0, 0, 0));
-    }
-    else
-    {
+    } else {
         ui->txtHeightMapGridX->setEnabled(true);
         ui->txtHeightMapGridY->setEnabled(true);
         ui->txtHeightMapGridZBottom->setEnabled(true);
@@ -1541,15 +1414,13 @@ void frmMain::on_cmdFileReset_clicked()
     }
 }
 
-void frmMain::on_actFileNew_triggered()
-{
+void frmMain::on_actFileNew_triggered() {
     qDebug() << "changes:" << m_fileChanged << m_heightMapChanged;
 
     if (!saveChanges(m_heightMapMode))
         return;
 
-    if (!m_heightMapMode)
-    {
+    if (!m_heightMapMode) {
         // Reset tables
         clearTable();
         m_probeModel.clear();
@@ -1564,7 +1435,7 @@ void frmMain::on_actFileNew_triggered()
         m_codeDrawer->update();
         m_currentDrawer = m_codeDrawer;
         ui->glwVisualizer->fitDrawable();
-        updateProgramEstimatedTime(QList<LineSegment*>());
+        updateProgramEstimatedTime(QList<LineSegment *>());
 
         m_programFileName = "";
         ui->chkHeightMapUse->setChecked(false);
@@ -1581,7 +1452,8 @@ void frmMain::on_actFileNew_triggered()
         ui->tblProgram->horizontalHeader()->restoreState(headerState);
 
         // Update tableview
-        connect(ui->tblProgram->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(onTableCurrentChanged(QModelIndex,QModelIndex)));
+        connect(ui->tblProgram->selectionModel(), SIGNAL(currentChanged(QModelIndex, QModelIndex)), this,
+                SLOT(onTableCurrentChanged(QModelIndex, QModelIndex)));
         ui->tblProgram->selectRow(0);
 
         // Clear selection marker
@@ -1589,9 +1461,7 @@ void frmMain::on_actFileNew_triggered()
         m_selectionDrawer.update();
 
         resetHeightmap();
-    }
-    else
-    {
+    } else {
         m_heightMapModel.clear();
         on_cmdFileReset_clicked();
         ui->txtHeightMap->setText(tr("Untitled"));
@@ -1606,13 +1476,11 @@ void frmMain::on_actFileNew_triggered()
     updateControlsState();
 }
 
-void frmMain::on_cmdClearConsole_clicked()
-{
+void frmMain::on_cmdClearConsole_clicked() {
     ui->txtConsole->clear();
 }
 
-bool frmMain::saveProgramToFile(QString fileName, GCodeTableModel *model)
-{
+bool frmMain::saveProgramToFile(QString fileName, GCodeTableModel *model) {
     QFile file(fileName);
     QDir dir;
 
@@ -1626,8 +1494,7 @@ bool frmMain::saveProgramToFile(QString fileName, GCodeTableModel *model)
 
     QTextStream textStream(&file);
 
-    for (int i = 0; i < model->rowCount() - 1; i++)
-    {
+    for (int i = 0; i < model->rowCount() - 1; i++) {
         textStream << model->data(model->index(i, 1)).toString() << "\r\n";
     }
 
@@ -1636,107 +1503,88 @@ bool frmMain::saveProgramToFile(QString fileName, GCodeTableModel *model)
     return true;
 }
 
-void frmMain::on_actFileSaveTransformedAs_triggered()
-{
-    QString fileName = (QFileDialog::getSaveFileName(this, tr("Save file as"), m_lastFolder, tr("G-Code files (*.nc *.ncc *.ngc *.tap *.txt *.gcode)")));
+void frmMain::on_actFileSaveTransformedAs_triggered() {
+    QString fileName = (QFileDialog::getSaveFileName(this, tr("Save file as"), m_lastFolder,
+                                                     tr("G-Code files (*.nc *.ncc *.ngc *.tap *.txt *.gcode)")));
 
-    if (!fileName.isEmpty())
-    {
+    if (!fileName.isEmpty()) {
         saveProgramToFile(fileName, &m_programHeightmapModel);
     }
 }
 
-void frmMain::on_actFileSaveAs_triggered()
-{
-    if (!m_heightMapMode)
-    {
-        QString fileName = (QFileDialog::getSaveFileName(this, tr("Save file as"), m_lastFolder, tr("G-Code files (*.nc *.ncc *.ngc *.tap *.txt *.gcode)")));
+void frmMain::on_actFileSaveAs_triggered() {
+    if (!m_heightMapMode) {
+        QString fileName = (QFileDialog::getSaveFileName(this, tr("Save file as"), m_lastFolder,
+                                                         tr("G-Code files (*.nc *.ncc *.ngc *.tap *.txt *.gcode)")));
 
-        if (!fileName.isEmpty()) if (saveProgramToFile(fileName, &m_programModel))
-        {
-            m_programFileName = fileName;
-            m_fileChanged = false;
+        if (!fileName.isEmpty())
+            if (saveProgramToFile(fileName, &m_programModel)) {
+                m_programFileName = fileName;
+                m_fileChanged = false;
 
-            addRecentFile(fileName);
-            updateRecentFilesMenu();
+                addRecentFile(fileName);
+                updateRecentFilesMenu();
 
-            updateControlsState();
-        }
-    }
-    else
-    {
-        QString fileName = (QFileDialog::getSaveFileName(this, tr("Save file as"), m_lastFolder, tr("Heightmap files (*.map)")));
+                updateControlsState();
+            }
+    } else {
+        QString fileName = (QFileDialog::getSaveFileName(this, tr("Save file as"), m_lastFolder,
+                                                         tr("Heightmap files (*.map)")));
 
-        if (!fileName.isEmpty()) if (saveHeightMap(fileName))
-        {
-            ui->txtHeightMap->setText(fileName.mid(fileName.lastIndexOf("/") + 1));
-            m_heightMapFileName = fileName;
-            m_heightMapChanged = false;
+        if (!fileName.isEmpty())
+            if (saveHeightMap(fileName)) {
+                ui->txtHeightMap->setText(fileName.mid(fileName.lastIndexOf("/") + 1));
+                m_heightMapFileName = fileName;
+                m_heightMapChanged = false;
 
-            addRecentHeightmap(fileName);
-            updateRecentFilesMenu();
+                addRecentHeightmap(fileName);
+                updateRecentFilesMenu();
 
-            updateControlsState();
-        }
+                updateControlsState();
+            }
     }
 }
 
-void frmMain::on_actFileSave_triggered()
-{
-    if (!m_heightMapMode)
-    {
+void frmMain::on_actFileSave_triggered() {
+    if (!m_heightMapMode) {
         // G-code saving
-        if (m_programFileName.isEmpty())
-        {
+        if (m_programFileName.isEmpty()) {
             on_actFileSaveAs_triggered();
-        }
-        else
-        {
+        } else {
             saveProgramToFile(m_programFileName, &m_programModel);
             m_fileChanged = false;
         }
-    }
-    else
-    {
+    } else {
         // Height map saving
-        if (m_heightMapFileName.isEmpty())
-        {
+        if (m_heightMapFileName.isEmpty()) {
             on_actFileSaveAs_triggered();
-        }
-        else
-        {
+        } else {
             saveHeightMap(m_heightMapFileName);
         }
     }
 }
 
-void frmMain::on_cmdTop_clicked()
-{
+void frmMain::on_cmdTop_clicked() {
     ui->glwVisualizer->setTopView();
 }
 
-void frmMain::on_cmdFront_clicked()
-{
+void frmMain::on_cmdFront_clicked() {
     ui->glwVisualizer->setFrontView();
 }
 
-void frmMain::on_cmdLeft_clicked()
-{
+void frmMain::on_cmdLeft_clicked() {
     ui->glwVisualizer->setLeftView();
 }
 
-void frmMain::on_cmdIsometric_clicked()
-{
+void frmMain::on_cmdIsometric_clicked() {
     ui->glwVisualizer->setIsometricView();
 }
 
-void frmMain::on_actAbout_triggered()
-{
+void frmMain::on_actAbout_triggered() {
     m_frmAbout.exec();
 }
 
-bool frmMain::DataIsEnd(QString data)
-{
+bool frmMain::DataIsEnd(QString data) {
     QStringList ends;
 
     ends << "ok";
@@ -1750,16 +1598,14 @@ bool frmMain::DataIsEnd(QString data)
 //    ends << "Check Door";
 //    ends << "Pgm End";
 
-    foreach (QString str, ends)
-    {
-        if (data.contains(str)) return true;
-    }
+            foreach (QString str, ends) {
+            if (data.contains(str)) return true;
+        }
 
     return false;
 }
 
-bool frmMain::DataIsFloating(QString data)
-{
+bool frmMain::DataIsFloating(QString data) {
     QStringList ends;
 
     ends << "Reset to continue";
@@ -1768,19 +1614,16 @@ bool frmMain::DataIsFloating(QString data)
     ends << "ALARM: Hard limit";
     ends << "Check Door";
 
-    foreach (QString str, ends)
-    {
-        if (data.contains(str))
-        {
-            return true;
+            foreach (QString str, ends) {
+            if (data.contains(str)) {
+                return true;
+            }
         }
-    }
 
     return false;
 }
 
-bool frmMain::DataIsReset(QString data)
-{
+bool frmMain::DataIsReset(QString data) {
     // "GRBL" in either case, optionally followed by a number of non-whitespace characters,
     // followed by a version number in the format x.y.
     // This matches e.g.
@@ -1789,8 +1632,7 @@ bool frmMain::DataIsReset(QString data)
     return QRegExp("^GRBL[^ ]*\\s\\d\\.\\d").indexIn(data.toUpper()) != -1;
 }
 
-QString frmMain::FeedOverride(QString command)
-{
+QString frmMain::FeedOverride(QString command) {
     // Feed override if not in heightmap probing mode
 //    if (!ui->cmdHeightMapMode->isChecked()) command = GcodePreprocessorUtils::overrideSpeed(command, ui->chkFeedOverride->isChecked() ?
 //        ui->txtFeed->value() : 100, &m_originalFeed);
@@ -1798,32 +1640,25 @@ QString frmMain::FeedOverride(QString command)
     return command;
 }
 
-void frmMain::on_grpOverriding_toggled(bool checked)
-{
-    if (checked)
-    {
+void frmMain::on_grpOverriding_toggled(bool checked) {
+    if (checked) {
         ui->grpOverriding->setTitle(tr("Overriding"));
-    }
-    else if (ui->slbFeedOverride->isChecked() | ui->slbRapidOverride->isChecked() | ui->slbSpindleOverride->isChecked())
-    {
+    } else if (ui->slbFeedOverride->isChecked() | ui->slbRapidOverride->isChecked() |
+               ui->slbSpindleOverride->isChecked()) {
         ui->grpOverriding->setTitle(tr("Overriding") + QString(tr(" (%1/%2/%3)"))
-                                    .arg(ui->slbFeedOverride->isChecked() ? QString::number(ui->slbFeedOverride->value()) : "-")
-                                    .arg(ui->slbRapidOverride->isChecked() ? QString::number(ui->slbRapidOverride->value()) : "-")
-                                    .arg(ui->slbSpindleOverride->isChecked() ? QString::number(ui->slbSpindleOverride->value()) : "-"));
+                .arg(ui->slbFeedOverride->isChecked() ? QString::number(ui->slbFeedOverride->value()) : "-")
+                .arg(ui->slbRapidOverride->isChecked() ? QString::number(ui->slbRapidOverride->value()) : "-")
+                .arg(ui->slbSpindleOverride->isChecked() ? QString::number(ui->slbSpindleOverride->value()) : "-"));
     }
     updateLayouts();
 
     ui->widgetFeed->setVisible(checked);
 }
 
-void frmMain::on_grpSpindle_toggled(bool checked)
-{
-    if (checked)
-    {
+void frmMain::on_grpSpindle_toggled(bool checked) {
+    if (checked) {
         ui->grpSpindle->setTitle(tr("Spindle"));
-    }
-    else if (ui->cmdSpindle->isChecked())
-    {
+    } else if (ui->cmdSpindle->isChecked()) {
         ui->grpSpindle->setTitle(tr("Spindle") + QString(tr(" (%1)")).arg(ui->slbSpindle->value()));
     }
 
@@ -1832,48 +1667,41 @@ void frmMain::on_grpSpindle_toggled(bool checked)
     ui->widgetSpindle->setVisible(checked);
 }
 
-void frmMain::on_grpUserCommands_toggled(bool checked)
-{
+void frmMain::on_grpUserCommands_toggled(bool checked) {
     ui->widgetUserCommands->setVisible(checked);
 }
 
-int frmMain::getConsoleMinHeight()
-{
-    return ui->grpConsole->height() - ui->grpConsole->contentsRect().height() + ui->spacerConsole->geometry().height() + ui->grpConsole->layout()->margin() * 2 + ui->cboCommand->height();
+int frmMain::getConsoleMinHeight() {
+    return ui->grpConsole->height() - ui->grpConsole->contentsRect().height() + ui->spacerConsole->geometry().height() +
+           ui->grpConsole->layout()->margin() * 2 + ui->cboCommand->height();
 }
 
-void frmMain::onConsoleResized(QSize size)
-{
+void frmMain::onConsoleResized(QSize size) {
     Q_UNUSED(size)
 
     int minHeight = getConsoleMinHeight();
     bool visible = ui->grpConsole->height() > minHeight;
 
-    if (ui->txtConsole->isVisible() != visible)
-    {
+    if (ui->txtConsole->isVisible() != visible) {
         ui->txtConsole->setVisible(visible);
     }
 }
 
-void frmMain::onPanelsSizeChanged(QSize size)
-{
-    ui->splitPanels->setSizes(QList<int>() << size.height() + 4  << ui->splitPanels->height() - size.height() - 4 - ui->splitPanels->handleWidth());
+void frmMain::onPanelsSizeChanged(QSize size) {
+    ui->splitPanels->setSizes(QList<int>() << size.height() + 4 << ui->splitPanels->height() - size.height() - 4 -
+                                                                   ui->splitPanels->handleWidth());
 }
 
-void frmMain::on_tblProgram_customContextMenuRequested(const QPoint &pos)
-{
-    if (m_processingFile)
-    {
+void frmMain::on_tblProgram_customContextMenuRequested(const QPoint &pos) {
+    if (m_processingFile) {
         return;
     }
 
-    if (ui->tblProgram->selectionModel()->selectedRows().count() > 0)
-    {
+    if (ui->tblProgram->selectionModel()->selectedRows().count() > 0) {
         m_tableMenu->actions().at(0)->setEnabled(true);
-        m_tableMenu->actions().at(1)->setEnabled(ui->tblProgram->selectionModel()->selectedRows()[0].row() != m_currentModel->rowCount() - 1);
-    }
-    else
-    {
+        m_tableMenu->actions().at(1)->setEnabled(
+                ui->tblProgram->selectionModel()->selectedRows()[0].row() != m_currentModel->rowCount() - 1);
+    } else {
         m_tableMenu->actions().at(0)->setEnabled(false);
         m_tableMenu->actions().at(1)->setEnabled(false);
     }
@@ -1881,15 +1709,13 @@ void frmMain::on_tblProgram_customContextMenuRequested(const QPoint &pos)
     m_tableMenu->popup(ui->tblProgram->viewport()->mapToGlobal(pos));
 }
 
-void frmMain::on_splitter_splitterMoved(int pos, int index)
-{
+void frmMain::on_splitter_splitterMoved(int pos, int index) {
     Q_UNUSED(pos)
     Q_UNUSED(index)
 
     static bool tableCollapsed = ui->splitter->sizes()[1] == 0;
 
-    if ((ui->splitter->sizes()[1] == 0) != tableCollapsed)
-    {
+    if ((ui->splitter->sizes()[1] == 0) != tableCollapsed) {
         this->setUpdatesEnabled(false);
         ui->chkAutoScroll->setVisible(ui->splitter->sizes()[1] && !m_heightMapMode);
         updateLayouts();
@@ -1903,30 +1729,25 @@ void frmMain::on_splitter_splitterMoved(int pos, int index)
     }
 }
 
-void frmMain::updateLayouts()
-{
+void frmMain::updateLayouts() {
     this->update();
     qApp->processEvents(QEventLoop::ExcludeUserInputEvents);
 }
 
-void frmMain::addRecentFile(QString fileName)
-{
+void frmMain::addRecentFile(QString fileName) {
     m_recentFiles.removeAll(fileName);
     m_recentFiles.append(fileName);
 
-    if (m_recentFiles.count() > 5)
-    {
+    if (m_recentFiles.count() > 5) {
         m_recentFiles.takeFirst();
     }
 }
 
-void frmMain::onActRecentFileTriggered()
-{
-    QAction *action = static_cast<QAction*>(sender());
+void frmMain::onActRecentFileTriggered() {
+    QAction *action = static_cast<QAction *>(sender());
     QString fileName = action->text();
 
-    if (action != NULL)
-    {
+    if (action != NULL) {
         if (!saveChanges(m_heightMapMode))
             return;
 
@@ -1937,8 +1758,7 @@ void frmMain::onActRecentFileTriggered()
     }
 }
 
-void frmMain::onCboCommandReturnPressed()
-{
+void frmMain::onCboCommandReturnPressed() {
     QString command = ui->cboCommand->currentText();
 
     if (command.isEmpty())
@@ -1948,31 +1768,26 @@ void frmMain::onCboCommandReturnPressed()
     sendCommand(command, -1);
 }
 
-void frmMain::updateRecentFilesMenu()
-{
-    foreach (QAction * action, ui->mnuRecent->actions())
-    {
-        if (action->text() == "")
-            break;
-        else
-        {
-            ui->mnuRecent->removeAction(action);
-            delete action;
+void frmMain::updateRecentFilesMenu() {
+            foreach (QAction *action, ui->mnuRecent->actions()) {
+            if (action->text() == "")
+                break;
+            else {
+                ui->mnuRecent->removeAction(action);
+                delete action;
+            }
         }
-    }
 
-    foreach (QString file, !m_heightMapMode ? m_recentFiles : m_recentHeightmaps)
-    {
-        QAction *action = new QAction(file, this);
-        connect(action, SIGNAL(triggered()), this, SLOT(onActRecentFileTriggered()));
-        ui->mnuRecent->insertAction(ui->mnuRecent->actions()[0], action);
-    }
+            foreach (QString file, !m_heightMapMode ? m_recentFiles : m_recentHeightmaps) {
+            QAction *action = new QAction(file, this);
+            connect(action, SIGNAL(triggered()), this, SLOT(onActRecentFileTriggered()));
+            ui->mnuRecent->insertAction(ui->mnuRecent->actions()[0], action);
+        }
 
     updateControlsState();
 }
 
-void frmMain::on_actRecentClear_triggered()
-{
+void frmMain::on_actRecentClear_triggered() {
     if (!m_heightMapMode)
         m_recentFiles.clear();
     else
@@ -1981,119 +1796,99 @@ void frmMain::on_actRecentClear_triggered()
     updateRecentFilesMenu();
 }
 
-double frmMain::toMetric(double value)
-{
+double frmMain::toMetric(double value) {
     return m_settings->units() == 0 ? value : value * 25.4;
 }
 
-bool frmMain::compareCoordinates(double x, double y, double z)
-{
-    return ui->txtMPosX->text().toDouble() == x && ui->txtMPosY->text().toDouble() == y && ui->txtMPosZ->text().toDouble() == z;
+bool frmMain::compareCoordinates(double x, double y, double z) {
+    return ui->txtMPosX->text().toDouble() == x && ui->txtMPosY->text().toDouble() == y &&
+           ui->txtMPosZ->text().toDouble() == z;
 }
 
-void frmMain::onCmdUserClicked(bool checked)
-{
+void frmMain::onCmdUserClicked(bool checked) {
     Q_UNUSED(checked);
 
     int i = sender()->objectName().right(1).toInt();
 
     QStringList list = m_settings->userCommands(i).split(";");
 
-    foreach (QString cmd, list)
-    {
-        sendCommand(cmd.trimmed(), -1, m_settings->showUICommands());
-    }
+            foreach (QString cmd, list) {
+            sendCommand(cmd.trimmed(), -1, m_settings->showUICommands());
+        }
 }
 
-void frmMain::onOverridingToggled(bool checked)
-{
+void frmMain::onOverridingToggled(bool checked) {
     Q_UNUSED(checked);
 
-    ui->grpOverriding->setProperty("overrided", ui->slbFeedOverride->isChecked() || ui->slbRapidOverride->isChecked() || ui->slbSpindleOverride->isChecked());
+    ui->grpOverriding->setProperty("overrided", ui->slbFeedOverride->isChecked() || ui->slbRapidOverride->isChecked() ||
+                                                ui->slbSpindleOverride->isChecked());
 
     style()->unpolish(ui->grpOverriding);
     ui->grpOverriding->ensurePolished();
 }
 
-void frmMain::UpdateOverride(SliderBox *slider, int value, char command)
-{
+void frmMain::UpdateOverride(SliderBox *slider, int value, char command) {
     slider->setCurrentValue(value);
 
     int target = slider->isChecked() ? slider->value() : 100;
     bool smallStep = abs(target - slider->currentValue()) < 10 || m_settings->queryStateTime() < 100;
 
-    if (slider->currentValue() < target)
-    {
+    if (slider->currentValue() < target) {
 
-        if(m_Protocol == PROT_GRBL1_1)
-        {
+        if (m_Protocol == PROT_GRBL1_1) {
             SerialIf_Write(QByteArray(1, char(smallStep ? command + 2 : command)));
-        }
-        else if(m_Protocol == PROT_GRIP)
-        {
+        } else if (m_Protocol == PROT_GRIP) {
             QByteArray data(1, char(smallStep ? command + 2 : command));
             //GrIP_Transmit(MSG_REALTIME_CMD, 0, (const uint8_t*)data.constData(), data.length());
-            Pdu_t p = {(uint8_t*)data.data(), (uint16_t)data.length()};
+            Pdu_t p = {(uint8_t *) data.data(), (uint16_t) data.length()};
             GrIP_Transmit(MSG_REALTIME_CMD, 0, &p);
         }
-    }
-    else if (slider->currentValue() > target)
-    {
-        if(m_Protocol == PROT_GRBL1_1)
-        {
+    } else if (slider->currentValue() > target) {
+        if (m_Protocol == PROT_GRBL1_1) {
             SerialIf_Write(QByteArray(1, char(smallStep ? command + 3 : command + 1)));
-        }
-        else if(m_Protocol == PROT_GRIP)
-        {
+        } else if (m_Protocol == PROT_GRIP) {
             QByteArray data(1, char(smallStep ? command + 3 : command + 1));
             //GrIP_Transmit(MSG_REALTIME_CMD, 0, (const uint8_t*)data.constData(), data.length());
-            Pdu_t p = {(uint8_t*)data.data(), (uint16_t)data.length()};
+            Pdu_t p = {(uint8_t *) data.data(), (uint16_t) data.length()};
             GrIP_Transmit(MSG_REALTIME_CMD, 0, &p);
         }
     }
 }
 
-void frmMain::on_cmdSpindle_triggered(QAction *arg1)
-{
+void frmMain::on_cmdSpindle_triggered(QAction *arg1) {
     Q_UNUSED(arg1);
 }
 
-void frmMain::on_btnReload_clicked()
-{
+void frmMain::on_btnReload_clicked() {
     this->UpdateComPorts();
 }
 
-void frmMain::on_btnConnect_clicked()
-{
-    if(!SerialIf_IsOpen())
-    {
+void frmMain::on_btnConnect_clicked() {
+    if (!SerialIf_IsOpen()) {
         // Get used protocol
         int idx = ui->comboProtocol->currentIndex();
-        switch (idx)
-        {
-        case 0:
-            qDebug() << "GRBL 1.1";
-            m_Protocol = PROT_GRBL1_1;
-            break;
+        switch (idx) {
+            case 0:
+                qDebug() << "GRBL 1.1";
+                m_Protocol = PROT_GRBL1_1;
+                break;
 
-        case 1:
-            qDebug() << "GrIP";
-            m_Protocol = PROT_GRIP;
-            GrIP_Init();
-            break;
+            case 1:
+                qDebug() << "GrIP";
+                m_Protocol = PROT_GRIP;
+                GrIP_Init();
+                break;
 
-        default:
-            qDebug() << "Default GRBL 1.1";
-            m_Protocol = PROT_GRBL1_1;
-            break;
+            default:
+                qDebug() << "Default GRBL 1.1";
+                m_Protocol = PROT_GRBL1_1;
+                break;
         }
 
         QString serial_interface = ui->comboInterface->currentText();
-        if(serial_interface != "ETHERNET")
-        {
+        if (serial_interface != "ETHERNET") {
             // Open serial interface
-            if(SerialIf_OpenSerial(0, ui->comboInterface->currentText(), ui->comboBaud->currentText().toInt()))
-            {
+            if (SerialIf_OpenSerial(0, ui->comboInterface->currentText(), ui->comboBaud->currentText().toInt())) {
                 ui->txtStatus->setText(tr("Port opened"));
                 ui->txtStatus->setStyleSheet(QString("background-color: palette(button); color: palette(text);"));
 #ifndef WINDOWS
@@ -2104,18 +1899,13 @@ void frmMain::on_btnConnect_clicked()
                 m_timerRead.start(ReceiveTimerInterval_ms);
 
                 GrblReset();
-            }
-            else
-            {
+            } else {
                 ui->txtConsole->appendPlainText(tr("Serial port error: ") + SerialIf_GetError());
                 qDebug() << "Coultdn't open serial port";
             }
-        }
-        else
-        {
+        } else {
             // Ethernet
-            if(SerialIf_OpenEth(m_settings->IPAddress(), m_settings->Port()))
-            {
+            if (SerialIf_OpenEth(m_settings->IPAddress(), m_settings->Port())) {
                 qDebug() << "Ethernet OK";
                 // ETH only with GrIP!
                 m_Protocol = PROT_GRIP;
@@ -2130,24 +1920,19 @@ void frmMain::on_btnConnect_clicked()
                 /*uint8_t c[] = "Hello!";
                 Pdu_t p = {c, 6};
                 GrIP_Transmit(1, 2, &p);*/
-            }
-            else
-            {
+            } else {
                 qDebug() << "Ethernet failed";
                 ui->txtConsole->appendPlainText(tr("Ethernet error!") + SerialIf_GetError());
             }
         }
-    }
-    else
-    {
+    } else {
         m_timerRead.stop();
         m_timerToolAnimation.stop();
 
         SerialIf_Close();
     }
 
-    if(SerialIf_IsOpen())
-    {
+    if (SerialIf_IsOpen()) {
         ui->btnConnect->setText("Disconnect");
         // Set button background green
         ui->btnConnect->setPalette(QPalette(QColor(100, 255, 100)));
@@ -2155,9 +1940,7 @@ void frmMain::on_btnConnect_clicked()
         ui->comboProtocol->setEnabled(false);
         ui->comboBaud->setEnabled(false);
         ui->comboInterface->setEnabled(false);
-    }
-    else
-    {
+    } else {
         ui->btnConnect->setText("Connect");
         // Set button background red
         ui->btnConnect->setPalette(QPalette(QColor(255, 140, 140)));
@@ -2169,43 +1952,34 @@ void frmMain::on_btnConnect_clicked()
 
     this->updateControlsState();
 
-    if(ui->comboInterface->currentText() == "ETHERNET")
-    {
+    if (ui->comboInterface->currentText() == "ETHERNET") {
         // Only GrIP
         ui->comboProtocol->setCurrentIndex(1);
     }
 }
 
-void frmMain::on_comboInterface_currentTextChanged(const QString &arg1)
-{
-    if(arg1 == "ETHERNET")
-    {
+void frmMain::on_comboInterface_currentTextChanged(const QString &arg1) {
+    if (arg1 == "ETHERNET") {
         ui->comboProtocol->setEnabled(false);
         ui->comboBaud->setEnabled(false);
         // Only GrIP
         ui->comboProtocol->setCurrentIndex(1);
-    }
-    else    // Serial port
+    } else    // Serial port
     {
         ui->comboProtocol->setEnabled(true);
         ui->comboBaud->setEnabled(true);
     }
 }
 
-void frmMain::on_actionHard_Reset_triggered()
-{
-    if(SerialIf_IsOpen())
-    {
+void frmMain::on_actionHard_Reset_triggered() {
+    if (SerialIf_IsOpen()) {
         // Reset: 0x18
-        if(m_Protocol == PROT_GRBL1_1)
-        {
-            SerialIf_Write(QByteArray(1, (char)0x19));
-        }
-        else if(m_Protocol == PROT_GRIP)
-        {
-            QByteArray data(1, (char)0x19);
+        if (m_Protocol == PROT_GRBL1_1) {
+            SerialIf_Write(QByteArray(1, (char) 0x19));
+        } else if (m_Protocol == PROT_GRIP) {
+            QByteArray data(1, (char) 0x19);
             //GrIP_Transmit(MSG_SYSTEM_CMD, 0, (const uint8_t*)data.constData(), data.length());
-            Pdu_t p = {(uint8_t*)data.data(), (uint16_t)data.length()};
+            Pdu_t p = {(uint8_t *) data.data(), (uint16_t) data.length()};
             GrIP_Transmit(MSG_REALTIME_CMD, 0, &p);
         }
 
@@ -2214,67 +1988,51 @@ void frmMain::on_actionHard_Reset_triggered()
     }
 }
 
-void frmMain::on_actionSet_TLS_Position_triggered()
-{
+void frmMain::on_actionSet_TLS_Position_triggered() {
     sendCommand("$P", -1, m_settings->showUICommands());
 }
 
-void frmMain::on_actionDisable_Stepper_triggered()
-{
-    if(SerialIf_IsOpen())
-    {
+void frmMain::on_actionDisable_Stepper_triggered() {
+    if (SerialIf_IsOpen()) {
         // Disable steppers 0x17
-        if(m_Protocol == PROT_GRBL1_1)
-        {
-            SerialIf_Write(QByteArray(1, (char)0x17));
-        }
-        else if(m_Protocol == PROT_GRIP)
-        {
-            QByteArray data(1, (char)0x17);
+        if (m_Protocol == PROT_GRBL1_1) {
+            SerialIf_Write(QByteArray(1, (char) 0x17));
+        } else if (m_Protocol == PROT_GRIP) {
+            QByteArray data(1, (char) 0x17);
             //GrIP_Transmit(MSG_SYSTEM_CMD, 0, (const uint8_t*)data.constData(), data.length());
-            Pdu_t p = {(uint8_t*)data.data(), (uint16_t)data.length()};
+            Pdu_t p = {(uint8_t *) data.data(), (uint16_t) data.length()};
             GrIP_Transmit(MSG_REALTIME_CMD, 0, &p);
         }
     }
 }
 
-void frmMain::on_btnHandwheel_clicked()
-{
-    if(!m_serialHandWheel.isOpen())
-    {
-        if(ui->comboHandwheel->currentText().size())
-        {
+void frmMain::on_btnHandwheel_clicked() {
+    if (!m_serialHandWheel.isOpen()) {
+        if (ui->comboHandwheel->currentText().size()) {
             m_serialHandWheel.setPortName(ui->comboHandwheel->currentText());
             m_serialHandWheel.open(QIODevice::ReadWrite);
         }
-    }
-    else
-    {
+    } else {
         m_serialHandWheel.close();
     }
 
-    if(m_serialHandWheel.isOpen())
-    {
+    if (m_serialHandWheel.isOpen()) {
         // Set button background green
         ui->btnHandwheel->setPalette(QPalette(QColor(100, 255, 100)));
         ui->comboHandwheel->setEnabled(false);
-    }
-    else
-    {
+    } else {
         // Set button background red
         ui->btnHandwheel->setPalette(QPalette(QColor(255, 140, 140)));
         ui->comboHandwheel->setEnabled(true);
     }
 }
 
-void frmMain::on_btnSetCoord_clicked()
-{
+void frmMain::on_btnSetCoord_clicked() {
     sendCommand(m_coord[ui->cboCoord1->currentIndex()], -1, m_settings->showUICommands());
     m_updateParserStatus = true;
 }
 
-void frmMain::on_btnSaveCoord_clicked()
-{
+void frmMain::on_btnSaveCoord_clicked() {
     QString cmd = "G10L20P";
 
     cmd += QString::number(ui->cboCoord2->currentIndex() + 1);
@@ -2287,26 +2045,22 @@ void frmMain::on_btnSaveCoord_clicked()
     sendCommand(cmd, -1, m_settings->showUICommands());
 }
 
-void frmMain::on_btnClearCoord_clicked()
-{
+void frmMain::on_btnClearCoord_clicked() {
     sendCommand("$RST=C", -1, m_settings->showUICommands());
 }
 
 
-void frmMain::on_btnCoolantFlood_clicked()
-{
+void frmMain::on_btnCoolantFlood_clicked() {
     sendCommand("M8", -1, m_settings->showUICommands());
 }
 
 
-void frmMain::on_btnCoolantMist_clicked()
-{
+void frmMain::on_btnCoolantMist_clicked() {
     sendCommand("M7", -1, m_settings->showUICommands());
 }
 
 
-void frmMain::on_btnCoolantDisable_clicked()
-{
+void frmMain::on_btnCoolantDisable_clicked() {
     sendCommand("M9", -1, m_settings->showUICommands());
 }
 
