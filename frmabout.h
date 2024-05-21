@@ -6,9 +6,7 @@
 
 #include <QDialog>
 
-namespace Ui {
-class frmAbout;
-}
+#include "ui_frmabout.h"
 
 class frmAbout : public QDialog
 {

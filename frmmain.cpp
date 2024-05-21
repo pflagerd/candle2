@@ -36,7 +36,6 @@
 #include <QInputDialog>
 
 #include "frmmain.h"
-#include "ui_frmmain.h"
 
 #include "interface/SerialInterface.h"
 #include "GrIP/GrIP.h"

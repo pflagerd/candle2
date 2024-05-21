@@ -9,9 +9,7 @@
 #include <QListWidgetItem>
 #include "widgets/colorpicker.h"
 
-namespace Ui {
-class frmSettings;
-}
+#include "ui_frmsettings.h"
 
 class frmSettings : public QDialog
 {

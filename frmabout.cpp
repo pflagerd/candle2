@@ -3,7 +3,6 @@
 
 #include <QDesktopServices>
 #include "frmabout.h"
-#include "ui_frmabout.h"
 
 frmAbout::frmAbout(QWidget *parent) :
     QDialog(parent),

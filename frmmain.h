@@ -42,6 +42,7 @@
 
 #include "utils/safequeue.h"
 
+#include "ui_frmmain.h"
 
 // GRBL Status
 #define UNKNOWN             0
@@ -67,13 +68,6 @@
     #include <QtWinExtras/QtWinExtras>
     #include "shobjidl.h"
 #endif
-
-
-namespace Ui
-{
-    class frmMain;
-}
-
 
 struct CommandAttributes
 {

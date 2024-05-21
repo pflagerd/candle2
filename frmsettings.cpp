@@ -1,8 +1,6 @@
 // This file is a part of "Candle" application.
 // Copyright 2015-2016 Hayrullin Denis Ravilevich
 
-#include "frmsettings.h"
-#include "ui_frmsettings.h"
 #include <QtSerialPort/QSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
 #include <QDebug>
@@ -11,6 +9,7 @@
 #include <QHostAddress>
 #include <QProcess>
 
+#include "frmsettings.h"
 
 frmSettings::frmSettings(QWidget *parent) :
     QDialog(parent),
