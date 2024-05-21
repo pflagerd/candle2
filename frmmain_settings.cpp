@@ -22,8 +22,7 @@
 #include "ui_frmmain.h"
 
 
-void frmMain::loadSettings()
-{
+void frmMain::loadSettings() {
     QSettings set(m_settingsFilePath, QSettings::IniFormat);
     set.setIniCodec("UTF-8");
 
@@ -99,7 +98,8 @@ void frmMain::loadSettings()
     m_settings->setIPAddress(set.value("ipaddress", "192.168.1.20").toString());
     m_settings->setPort(set.value("ip_port", 30501).toInt());
 
-    ui->cmdRestoreOrigin->setToolTip(QString(tr("Restore origin:\n%1, %2, %3")).arg(m_storedX).arg(m_storedY).arg(m_storedZ));
+    ui->cmdRestoreOrigin->setToolTip(
+            QString(tr("Restore origin:\n%1, %2, %3")).arg(m_storedX).arg(m_storedY).arg(m_storedZ));
 
     m_recentFiles = set.value("recentFiles", QStringList()).toStringList();
     m_recentHeightmaps = set.value("recentHeightmaps", QStringList()).toStringList();
@@ -109,12 +109,10 @@ void frmMain::loadSettings()
     m_settings->resize(set.value("formSettingsSize", m_settings->size()).toSize());
     QByteArray splitterState = set.value("splitter", QByteArray()).toByteArray();
 
-    if (splitterState.length() == 0)
-    {
+    if (splitterState.length() == 0) {
         ui->splitter->setStretchFactor(0, 1);
         ui->splitter->setStretchFactor(1, 1);
-    }
-    else
+    } else
         ui->splitter->restoreState(splitterState);
 
     ui->chkAutoScroll->setVisible(ui->splitter->sizes()[1]);
@@ -130,11 +128,10 @@ void frmMain::loadSettings()
     m_settings->setTouchCommand(set.value("touchCommand", "G21G91G38.2Z-30F80; G0Z1; G38.2Z-2F10").toString());
     m_settings->setSafePositionCommand(set.value("safePositionCommand", "G21G90; G53G0Z10").toString());
 
-    foreach (StyledToolButton* button, this->findChildren<StyledToolButton*>(QRegExp("cmdUser\\d")))
-    {
-        int i = button->objectName().right(1).toInt();
-        m_settings->setUserCommands(i, set.value(QString("userCommands%1").arg(i)).toString());
-    }
+            foreach (StyledToolButton *button, this->findChildren<StyledToolButton *>(QRegExp("cmdUser\\d"))) {
+            int i = button->objectName().right(1).toInt();
+            m_settings->setUserCommands(i, set.value(QString("userCommands%1").arg(i)).toString());
+        }
 
     ui->cboJogStep->setItems(set.value("jogSteps").toStringList());
     ui->cboJogStep->setCurrentIndex(ui->cboJogStep->findText(set.value("jogStep").toString()));
@@ -169,7 +166,7 @@ void frmMain::loadSettings()
     m_settings->setTool(QColor(set.value("Tool", QColor(255, 153, 0)).toString()));
 
     ui->comboInterface->setCurrentText(set.value("interface", "ETHERNET").toString());
-    
+
     updateRecentFilesMenu();
 
     ui->tblProgram->horizontalHeader()->restoreState(set.value("header", QByteArray()).toByteArray());
@@ -192,8 +189,7 @@ void frmMain::loadSettings()
     m_settingsLoading = false;
 }
 
-void frmMain::saveSettings()
-{
+void frmMain::saveSettings() {
     QSettings set(m_settingsFilePath, QSettings::IniFormat);
     set.setIniCodec("UTF-8");
 
@@ -272,11 +268,10 @@ void frmMain::saveSettings()
     set.setValue("spindleOverride", ui->slbSpindleOverride->isChecked());
     set.setValue("spindleOverrideValue", ui->slbSpindleOverride->value());
 
-    foreach (StyledToolButton* button, this->findChildren<StyledToolButton*>(QRegExp("cmdUser\\d")))
-    {
-        int i = button->objectName().right(1).toInt();
-        set.setValue(QString("userCommands%1").arg(i), m_settings->userCommands(i));
-    }
+            foreach (StyledToolButton *button, this->findChildren<StyledToolButton *>(QRegExp("cmdUser\\d"))) {
+            int i = button->objectName().right(1).toInt();
+            set.setValue(QString("userCommands%1").arg(i), m_settings->userCommands(i));
+        }
 
     set.setValue("jogSteps", ui->cboJogStep->items());
     set.setValue("jogStep", ui->cboJogStep->currentText());
@@ -300,14 +295,13 @@ void frmMain::saveSettings()
     set.setValue("heightmapInterpolationType", ui->cboHeightMapInterpolationType->currentIndex());
     set.setValue("heightmapInterpolationShow", ui->chkHeightMapInterpolationShow->isChecked());
 
-    foreach (ColorPicker* pick, m_settings->colors())
-    {
-        set.setValue(pick->objectName().mid(3), pick->color().name());
-    }
+            foreach (ColorPicker *pick, m_settings->colors()) {
+            set.setValue(pick->objectName().mid(3), pick->color().name());
+        }
 
     QStringList list;
 
-    for(int i = 0; i < ui->cboCommand->count(); i++)
+    for (int i = 0; i < ui->cboCommand->count(); i++)
         list.append(ui->cboCommand->itemText(i));
 
     set.setValue("recentCommands", list);
@@ -315,19 +309,15 @@ void frmMain::saveSettings()
     set.setValue("interface", ui->comboInterface->currentText());
 }
 
-bool frmMain::saveChanges(bool heightMapMode)
-{
+bool frmMain::saveChanges(bool heightMapMode) {
     // Check if gcode file was changed
-    if ((!heightMapMode && m_fileChanged))
-    {
-        int res = QMessageBox::warning(this, this->windowTitle(), tr("G-Code file was changed. Save?"), QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+    if ((!heightMapMode && m_fileChanged)) {
+        int res = QMessageBox::warning(this, this->windowTitle(), tr("G-Code file was changed. Save?"),
+                                       QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
 
-        if (res == QMessageBox::Cancel)
-        {
+        if (res == QMessageBox::Cancel) {
             return false;
-        }
-        else if(res == QMessageBox::Yes)
-        {
+        } else if (res == QMessageBox::Yes) {
             on_actFileSave_triggered();
         }
 
@@ -335,16 +325,13 @@ bool frmMain::saveChanges(bool heightMapMode)
     }
 
     // Check if heightmap file was changed
-    if (m_heightMapChanged)
-    {
-        int res = QMessageBox::warning(this, this->windowTitle(), tr("Heightmap file was changed. Save?"), QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+    if (m_heightMapChanged) {
+        int res = QMessageBox::warning(this, this->windowTitle(), tr("Heightmap file was changed. Save?"),
+                                       QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
 
-        if (res == QMessageBox::Cancel)
-        {
+        if (res == QMessageBox::Cancel) {
             return false;
-        }
-        else if(res == QMessageBox::Yes)
-        {
+        } else if (res == QMessageBox::Yes) {
             m_heightMapMode = true;
             on_actFileSave_triggered();
             m_heightMapMode = heightMapMode;
@@ -357,8 +344,7 @@ bool frmMain::saveChanges(bool heightMapMode)
     return true;
 }
 
-void frmMain::applySettings()
-{
+void frmMain::applySettings() {
     m_originDrawer->setLineWidth(m_settings->lineWidth());
     m_toolDrawer.setToolDiameter(m_settings->toolDiameter());
     m_toolDrawer.setToolLength(m_settings->toolLength());
@@ -385,7 +371,9 @@ void frmMain::applySettings()
     ui->slbSpindle->setMinimum(m_settings->spindleSpeedMin());
     ui->slbSpindle->setMaximum(m_settings->spindleSpeedMax());
 
-    ui->scrollArea->setVisible(m_settings->panelHeightmap() || m_settings->panelOverriding() || m_settings->panelJog() || m_settings->panelSpindle());
+    ui->scrollArea->setVisible(
+            m_settings->panelHeightmap() || m_settings->panelOverriding() || m_settings->panelJog() ||
+            m_settings->panelSpindle());
 
     ui->grpUserCommands->setVisible(m_settings->panelUserCommands());
     ui->grpHeightMap->setVisible(m_settings->panelHeightmap());
@@ -427,8 +415,8 @@ void frmMain::applySettings()
 
     ui->glwVisualizer->setStyleSheet(QString("QToolButton {border: 1px solid %1; \
                 background-color: %3} QToolButton:hover {border: 1px solid %2;}")
-                .arg(normal.name()).arg(highlight.name())
-                .arg(base.name()));
+                                             .arg(normal.name()).arg(highlight.name())
+                                             .arg(base.name()));
 
     ui->cmdFit->setIcon(QIcon(":/images/fit_1.png"));
     ui->cmdIsometric->setIcon(QIcon(":/images/cube.png"));
@@ -436,8 +424,7 @@ void frmMain::applySettings()
     ui->cmdLeft->setIcon(QIcon(":/images/cubeLeft.png"));
     ui->cmdTop->setIcon(QIcon(":/images/cubeTop.png"));
 
-    if (!light)
-    {
+    if (!light) {
         Util::invertButtonIconColors(ui->cmdFit);
         Util::invertButtonIconColors(ui->cmdIsometric);
         Util::invertButtonIconColors(ui->cmdFront);
@@ -449,9 +436,8 @@ void frmMain::applySettings()
     ui->cmdClearConsole->setFixedHeight(ui->cboCommand->height());
     ui->cmdCommandSend->setFixedHeight(ui->cboCommand->height());
 
-    foreach (StyledToolButton* button, this->findChildren<StyledToolButton*>(QRegExp("cmdUser\\d")))
-    {
-        button->setToolTip(m_settings->userCommands(button->objectName().right(1).toInt()));
-        button->setEnabled(!button->toolTip().isEmpty());
-    }
+            foreach (StyledToolButton *button, this->findChildren<StyledToolButton *>(QRegExp("cmdUser\\d"))) {
+            button->setToolTip(m_settings->userCommands(button->objectName().right(1).toInt()));
+            button->setEnabled(!button->toolTip().isEmpty());
+        }
 }
