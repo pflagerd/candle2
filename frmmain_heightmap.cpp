@@ -775,14 +775,14 @@ QList<LineSegment *> frmMain::subdivideSegment(LineSegment *segment) {
     if (count == 0) return QList<LineSegment *>();
 
     for (int i = 0; i < count; i++) {
-        LineSegment *line = new LineSegment(segment);
+        auto *line = new LineSegment(segment);
         line->setStart(i == 0 ? segment->getStart() : list[i - 1]->getEnd());
         line->setEnd(line->getStart() + seg);
         list.append(line);
     }
 
     if (list.count() > 0 && list.last()->getEnd() != segment->getEnd()) {
-        LineSegment *line = new LineSegment(segment);
+        auto *line = new LineSegment(segment);
         line->setStart(list.last()->getEnd());
         line->setEnd(segment->getEnd());
         list.append(line);
