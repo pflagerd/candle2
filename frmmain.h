@@ -98,7 +98,7 @@ typedef enum {
 
 class CancelException : public std::exception {
 public:
-    const char *what() const noexcept {
+    const char *what() const noexcept override {
         return "Operation was cancelled by user";
     }
 };
@@ -108,9 +108,9 @@ class frmMain : public QMainWindow {
 Q_OBJECT
 
 public:
-    explicit frmMain(QWidget *parent = 0);
+    explicit frmMain(QWidget *parent = nullptr);
 
-    ~frmMain();
+    ~frmMain() override;
 
 private slots:
 
@@ -126,7 +126,7 @@ private slots:
 
     void onTimerStatusQuery();
 
-    void onVisualizatorRotationChanged();
+    void onVisualizerRotationChanged();
 
     void onScrollBarAction(int action);
 
@@ -327,19 +327,19 @@ private slots:
     void on_btnCoolantDisable_clicked();
 
 protected:
-    void showEvent(QShowEvent *se);
+    void showEvent(QShowEvent *se) override;
 
-    void hideEvent(QHideEvent *he);
+    void hideEvent(QHideEvent *he) override;
 
-    void resizeEvent(QResizeEvent *re);
+    void resizeEvent(QResizeEvent *re) override;
 
-    void timerEvent(QTimerEvent *);
+    void timerEvent(QTimerEvent *) override;
 
-    void closeEvent(QCloseEvent *ce);
+    void closeEvent(QCloseEvent *ce) override;
 
-    void dragEnterEvent(QDragEnterEvent *dee);
+    void dragEnterEvent(QDragEnterEvent *dee) override;
 
-    void dropEvent(QDropEvent *de);
+    void dropEvent(QDropEvent *de) override;
 
 private:
     void loadFile(QString fileName);
@@ -394,7 +394,7 @@ private:
 
     QString FeedOverride(QString command);
 
-    bool eventFilter(QObject *obj, QEvent *event);
+    bool eventFilter(QObject *obj, QEvent *event) override;
 
     bool keyIsMovement(int key);
 
@@ -440,9 +440,9 @@ private:
 
     void restoreOffsets();
 
-    bool isGCodeFile(QString fileName);
+    bool isGCodeFile(const QString& fileName);
 
-    bool isHeightmapFile(QString fileName);
+    bool isHeightmapFile(const QString& fileName);
 
     bool compareCoordinates(double x, double y, double z);
 
@@ -546,7 +546,7 @@ private:
     bool m_updateParserStatus = false;
     bool m_updateFeed = false;
 
-    bool m_reseting = false;
+    bool m_resetting = false;
     bool m_resetCompleted = true;
     bool m_aborting = false;
     bool m_statusReceived = false;

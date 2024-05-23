@@ -41,10 +41,8 @@
 #include "GrIP/GrIP.h"
 #include "utils/profiles.h"
 
-
 static const int ReceiveTimerInterval_ms = 10;
 static const int SendTimerInterval_ms = 30;
-
 
 frmMain::frmMain(QWidget *parent) :
         QMainWindow(parent),
@@ -132,8 +130,6 @@ frmMain::frmMain(QWidget *parent) :
     if (ui->comboInterface->currentText() == "ETHERNET") {
         ui->comboBaud->setEnabled(false);
     }
-    QString tt = ui->comboInterface->currentText();
-
 
     #ifdef WINDOWS
     if(QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7)
@@ -178,12 +174,12 @@ frmMain::frmMain(QWidget *parent) :
 
     ui->cboJogStep->setValidator(new QDoubleValidator(0, 10000, 2));
     ui->cboJogFeed->setValidator(new QIntValidator(0, 100000));
-    connect(ui->cboJogStep, &ComboBoxKey::currentTextChanged, [=](QString) { updateJogTitle(); });
-    connect(ui->cboJogFeed, &ComboBoxKey::currentTextChanged, [=](QString) { updateJogTitle(); });
+    connect(ui->cboJogStep, &ComboBoxKey::currentTextChanged, [=](const QString&) { updateJogTitle(); });
+    connect(ui->cboJogFeed, &ComboBoxKey::currentTextChanged, [=](const QString&) { updateJogTitle(); });
 
     // Prepare "Send"-button
     ui->cmdFileSend->setMinimumWidth(qMax(ui->cmdFileSend->width(), ui->cmdFileOpen->width()));
-    QMenu *menuSend = new QMenu();
+    auto *menuSend = new QMenu();
     menuSend->addAction(tr("Send from current line"), this, SLOT(onActSendFromLineTriggered()));
     ui->cmdFileSend->setMenu(menuSend);
 
@@ -240,8 +236,8 @@ frmMain::frmMain(QWidget *parent) :
     m_currentDrawer = m_codeDrawer;
     m_toolDrawer.setToolPosition(QVector3D(0, 0, 0));
 
-    QShortcut *insertShortcut = new QShortcut(QKeySequence(Qt::Key_Insert), ui->tblProgram);
-    QShortcut *deleteShortcut = new QShortcut(QKeySequence(Qt::Key_Delete), ui->tblProgram);
+    auto *insertShortcut = new QShortcut(QKeySequence(Qt::Key_Insert), ui->tblProgram);
+    auto *deleteShortcut = new QShortcut(QKeySequence(Qt::Key_Delete), ui->tblProgram);
 
     connect(insertShortcut, SIGNAL(activated()), this, SLOT(onTableInsertLine()));
     connect(deleteShortcut, SIGNAL(activated()), this, SLOT(onTableDeleteLines()));
@@ -260,7 +256,7 @@ frmMain::frmMain(QWidget *parent) :
     ui->glwVisualizer->addDrawable(&m_selectionDrawer);
     ui->glwVisualizer->fitDrawable();
 
-    connect(ui->glwVisualizer, SIGNAL(rotationChanged()), this, SLOT(onVisualizatorRotationChanged()));
+    connect(ui->glwVisualizer, SIGNAL(rotationChanged()), this, SLOT(onVisualizerRotationChanged()));
     connect(ui->glwVisualizer, SIGNAL(resized()), this, SLOT(placeVisualizerButtons()));
     connect(&m_programModel, SIGNAL(dataChanged(QModelIndex, QModelIndex)), this,
             SLOT(onTableCellChanged(QModelIndex, QModelIndex)));
@@ -375,7 +371,7 @@ QString frmMain::findConfigPath() {
     }
 
     const auto profiles = getProfileNames();
-    if (profiles.length() == 0) {
+    if (profiles.empty()) {
         // first run, no profiles at all yet
         return configPathForProfile(default_profile_name);
     } else if (profiles.length() == 1) {
@@ -459,14 +455,14 @@ frmMain::~frmMain() {
     delete ui;
 }
 
-bool frmMain::isGCodeFile(QString fileName) {
+bool frmMain::isGCodeFile(const QString& fileName) {
     return fileName.endsWith(".txt", Qt::CaseInsensitive) || fileName.endsWith(".nc", Qt::CaseInsensitive) ||
            fileName.endsWith(".ncc", Qt::CaseInsensitive)
            || fileName.endsWith(".ngc", Qt::CaseInsensitive) || fileName.endsWith(".tap", Qt::CaseInsensitive) ||
            fileName.endsWith(".gcode", Qt::CaseInsensitive);
 }
 
-bool frmMain::isHeightmapFile(QString fileName) {
+bool frmMain::isHeightmapFile(const QString& fileName) {
     return fileName.endsWith(".map", Qt::CaseInsensitive);
 }
 
@@ -655,7 +651,7 @@ void frmMain::GrblReset() {
     m_transferCompleted = true;
     m_fileCommandIndex = 0;
 
-    m_reseting = true;
+	m_resetting = true;
     m_homing = false;
     m_resetCompleted = false;
     // TODO: Don't set spindle speed at startup. Add option for it
@@ -852,7 +848,7 @@ void frmMain::onTimerStatusQuery() {
                     mCommandsWait.size()));
 }
 
-void frmMain::onVisualizatorRotationChanged() {
+void frmMain::onVisualizerRotationChanged() {
     ui->cmdIsometric->setChecked(false);
 }
 

@@ -35,12 +35,12 @@ void frmMain::ProcessGRBL1_1() {
         qDebug() << "<" << data << ">";
 
         // Filter prereset responses
-        if (m_reseting) {
+        if (m_resetting) {
             qDebug() << "reseting filter:" << data;
             if (!DataIsReset(data))
                 continue;
             else {
-                m_reseting = false;
+				m_resetting = false;
                 m_timerStateQuery.setInterval(m_settings->queryStateTime());
             }
         }
@@ -178,7 +178,7 @@ void frmMain::ProcessGRBL1_1() {
                         case HOLD0: // Hold
                         case HOLD1:
                         case QUEUE:
-                            if (!m_reseting && compareCoordinates(x, y, z)) {
+                            if (!m_resetting && compareCoordinates(x, y, z)) {
                                 x = sNan;
                                 y = sNan;
                                 z = sNan;
@@ -732,7 +732,7 @@ void frmMain::ProcessGRBL1_1() {
                     m_transferCompleted = true;
                     m_fileCommandIndex = 0;
 
-                    m_reseting = false;
+					m_resetting = false;
                     m_homing = false;
                     m_lastGrblStatus = -1;
 
@@ -766,12 +766,12 @@ void frmMain::ProcessGRBL_ETH(QString data) {
         //qDebug() << "-- " << data << " --";
 
         // Filter prereset responses
-        if (m_reseting) {
+        if (m_resetting) {
             qDebug() << "reseting filter:" << data;
             if (!DataIsReset(data))
                 return;
             else {
-                m_reseting = false;
+				m_resetting = false;
                 m_timerStateQuery.setInterval(m_settings->queryStateTime());
             }
         }
@@ -908,7 +908,7 @@ void frmMain::ProcessGRBL_ETH(QString data) {
                         case HOLD0: // Hold
                         case HOLD1:
                         case QUEUE:
-                            if (!m_reseting && compareCoordinates(x, y, z)) {
+                            if (!m_resetting && compareCoordinates(x, y, z)) {
                                 x = sNan;
                                 y = sNan;
                                 z = sNan;
@@ -1454,7 +1454,7 @@ void frmMain::ProcessGRBL_ETH(QString data) {
                     m_transferCompleted = true;
                     m_fileCommandIndex = 0;
 
-                    m_reseting = false;
+					m_resetting = false;
                     m_homing = false;
                     m_lastGrblStatus = -1;
 
