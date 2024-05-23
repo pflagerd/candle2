@@ -1229,13 +1229,13 @@ void frmMain::on_cmdRestoreOrigin_clicked() {
     sendCommand(QString("G21"), -1, m_settings->showUICommands());
 
     // G53: Move in machine coordinates
-    // G90: Absolut distance mode
+    // G90: Absolute distance mode
     // G0: Rapid move
     sendCommand(QString("G53G90G0X%1Y%2Z%3").arg(toMetric(ui->txtMPosX->text().toDouble()))
                         .arg(toMetric(ui->txtMPosY->text().toDouble()))
                         .arg(toMetric(ui->txtMPosZ->text().toDouble())), -1, m_settings->showUICommands());
 
-    // G92: Makes the current position have the coordiantes you want (without motion)
+    // G92: Makes the current position have the coordinates you want (without motion)
     sendCommand(QString("G92X%1Y%2Z%3").arg(toMetric(ui->txtMPosX->text().toDouble()) - m_storedX)
                         .arg(toMetric(ui->txtMPosY->text().toDouble()) - m_storedY)
                         .arg(toMetric(ui->txtMPosZ->text().toDouble()) - m_storedZ), -1, m_settings->showUICommands());
