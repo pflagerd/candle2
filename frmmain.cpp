@@ -572,7 +572,7 @@ void frmMain::updateControlsState() {
     m_heightMapInterpolationDrawer.setVisible(ui->chkHeightMapInterpolationShow->isChecked() && m_heightMapMode);
 
     ui->grpProgram->setTitle(m_heightMapMode ? tr("Heightmap") : tr("G-Code Program"));
-    ui->grpProgram->setProperty("overrided", m_heightMapMode);
+    ui->grpProgram->setProperty("overidden", m_heightMapMode);
     style()->unpolish(ui->grpProgram);
     ui->grpProgram->ensurePolished();
 
@@ -1302,7 +1302,7 @@ void frmMain::on_cmdSafePosition_clicked() {
 }
 
 void frmMain::on_cmdSpindle_toggled(bool checked) {
-    ui->grpSpindle->setProperty("overrided", checked);
+    ui->grpSpindle->setProperty("overidden", checked);
     style()->unpolish(ui->grpSpindle);
     ui->grpSpindle->ensurePolished();
 
@@ -1435,7 +1435,7 @@ void frmMain::on_actFileNew_triggered() {
 
         m_programFileName = "";
         ui->chkHeightMapUse->setChecked(false);
-        ui->grpHeightMap->setProperty("overrided", false);
+        ui->grpHeightMap->setProperty("overidden", false);
         style()->unpolish(ui->grpHeightMap);
         ui->grpHeightMap->ensurePolished();
 
@@ -1818,7 +1818,7 @@ void frmMain::onCmdUserClicked(bool checked) {
 void frmMain::onOverridingToggled(bool checked) {
     Q_UNUSED(checked);
 
-    ui->grpOverriding->setProperty("overrided", ui->slbFeedOverride->isChecked() || ui->slbRapidOverride->isChecked() ||
+    ui->grpOverriding->setProperty("overidden", ui->slbFeedOverride->isChecked() || ui->slbRapidOverride->isChecked() ||
                                                 ui->slbSpindleOverride->isChecked());
 
     style()->unpolish(ui->grpOverriding);

@@ -37,11 +37,11 @@ QGroupBox:disabled {
 	color: palette(shadow);
 }
 
-QGroupBox[overrided=&quot;true&quot;] {
+QGroupBox[overidden=&quot;true&quot;] {
 	color: red;
 }
 
-QGroupBox[overrided=&quot;false&quot;] {
+QGroupBox[overidden=&quot;false&quot;] {
 	color: palette(windowtext);
 }
 
@@ -1215,7 +1215,7 @@ padding-right: 8;</string>
                    <property name="checkable">
                     <bool>true</bool>
                    </property>
-                   <property name="overrided" stdset="0">
+                   <property name="overidden" stdset="0">
                     <bool>false</bool>
                    </property>
                    <layout class="QHBoxLayout" name="horizontalLayout_30">
@@ -1440,7 +1440,7 @@ padding-right: 8;</string>
                      <property name="checkable">
                       <bool>true</bool>
                      </property>
-                     <property name="overrided" stdset="0">
+                     <property name="overidden" stdset="0">
                       <bool>false</bool>
                      </property>
                      <layout class="QHBoxLayout" name="horizontalLayout_14">
@@ -2382,7 +2382,7 @@ padding-right: 8;</string>
           <property name="title">
            <string>State</string>
           </property>
-          <property name="overrided" stdset="0">
+          <property name="overidden" stdset="0">
            <bool>false</bool>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -2897,7 +2897,7 @@ padding-right: 8;</string>
           <property name="title">
            <string>Control</string>
           </property>
-          <property name="overrided" stdset="0">
+          <property name="overidden" stdset="0">
            <bool>false</bool>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout" stretch="0">
@@ -3226,7 +3226,7 @@ padding-right: 8;</string>
              <property name="checkable">
               <bool>false</bool>
              </property>
-             <property name="overrided" stdset="0">
+             <property name="overidden" stdset="0">
               <bool>false</bool>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_11">
@@ -3746,7 +3746,7 @@ padding-right: 8;</string>
              <property name="checkable">
               <bool>true</bool>
              </property>
-             <property name="overrided" stdset="0">
+             <property name="overidden" stdset="0">
               <bool>false</bool>
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -3838,7 +3838,7 @@ padding-right: 8;</string>
              <property name="checkable">
               <bool>true</bool>
              </property>
-             <property name="overrided" stdset="0">
+             <property name="overidden" stdset="0">
               <bool>false</bool>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_16">

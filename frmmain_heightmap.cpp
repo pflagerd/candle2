@@ -80,7 +80,7 @@ void frmMain::updateHeightMapBorderDrawer() {
 
 void frmMain::updateHeightMapGrid(double arg1) {
     if (sender()->property("previousValue").toDouble() != arg1 && !updateHeightMapGrid())
-        static_cast<QDoubleSpinBox *>(sender())->setValue(sender()->property("previousValue").toDouble());
+        dynamic_cast<QDoubleSpinBox *>(sender())->setValue(sender()->property("previousValue").toDouble());
     else
         sender()->setProperty("previousValue", arg1);
 }
@@ -117,7 +117,7 @@ bool frmMain::updateHeightMapGrid() {
     int gridPointsY = ui->txtHeightMapGridY->value();
 
     m_heightMapModel.resize(gridPointsX, gridPointsY);
-    ui->tblHeightMap->setModel(NULL);
+    ui->tblHeightMap->setModel(nullptr);
     ui->tblHeightMap->setModel(&m_heightMapModel);
     resizeTableHeightMapSections();
 
@@ -201,7 +201,7 @@ void frmMain::updateHeightMapInterpolationDrawer(bool reset) {
         interpolationData->append(row);
     }
 
-    if (m_heightMapInterpolationDrawer.data() != NULL) {
+    if (m_heightMapInterpolationDrawer.data() != nullptr) {
         delete m_heightMapInterpolationDrawer.data();
     }
 
@@ -471,7 +471,7 @@ void frmMain::on_txtHeightMapInterpolationStepY_valueChanged(double arg1) {
 void frmMain::on_chkHeightMapUse_clicked(bool checked) {
     // Reset table view
     QByteArray headerState = ui->tblProgram->horizontalHeader()->saveState();
-    ui->tblProgram->setModel(NULL);
+    ui->tblProgram->setModel(nullptr);
 
     CancelException cancel;
 
@@ -488,12 +488,12 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked) {
             // Performance test
             QTime time;
 
-            // Set current model to prevent reseting heightmap cache
+            // Set current model to prevent resetting heightmap cache
             m_currentModel = &m_programHeightmapModel;
 
-            // Update heightmap-modificated program if not cached
+            // Update heightmap-modified program if not cached
             if (m_programHeightmapModel.rowCount() == 0) {
-                // Modifying linesegments
+                // Modifying line segments
                 QList<LineSegment *> *list = m_viewParser.getLines();
                 QRectF borderRect = borderRectFromTextboxes();
                 double x, y, z;
@@ -634,12 +634,12 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked) {
                                 }
                             }
 
-                        // Find first linesegment by command index
+                        // Find first line segment by command index
                         for (int j = lastSegmentIndex; j < list->count(); j++) {
                             if (list->at(j)->getLineNumber() == line) {
                                 if (!qIsNaN(list->at(j)->getEnd().length()) &&
                                     ((isLinearMove && !isMachineCoords) || (!hasCommand && !lastCode.isEmpty()))) {
-                                    // Create new commands for each linesegment with given command index
+                                    // Create new commands for each line segment with given command index
                                     while ((j < list->count()) && (list->at(j)->getLineNumber() == line)) {
 
                                         point = list->at(j)->getEnd();
@@ -733,7 +733,7 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked) {
     }
 
     // Update groupbox title
-    ui->grpHeightMap->setProperty("overrided", checked);
+    ui->grpHeightMap->setProperty("overidden", checked);
     style()->unpolish(ui->grpHeightMap);
     ui->grpHeightMap->ensurePolished();
 
