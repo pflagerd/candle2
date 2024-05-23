@@ -1197,9 +1197,9 @@ void frmMain::on_cmdTouch_clicked() {
 
     QStringList list = m_settings->touchCommand().split(";");
 
-            foreach (QString cmd, list) {
-            sendCommand(cmd.trimmed(), -1, m_settings->showUICommands());
-        }
+	foreach (QString cmd, list) {
+		sendCommand(cmd.trimmed(), -1, m_settings->showUICommands());
+	}
 }
 
 void frmMain::on_cmdZeroX_clicked() {
