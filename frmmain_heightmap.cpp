@@ -311,7 +311,7 @@ void frmMain::on_cmdHeightMapMode_toggled(bool checked) {
     QList<int> indexes;
     for (int i = m_lastDrawnLineIndex; i < list.count(); i++) {
         list[i]->setDrawn(checked);
-        list[i]->setIsHightlight(false);
+        list[i]->setIsHighlighted(false);
         indexes.append(i);
     }
 

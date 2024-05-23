@@ -42,31 +42,31 @@ public:
 
     bool contains(const QVector3D &point);
 
-    bool drawn() const;
+    [[nodiscard]] bool drawn() const;
     void setDrawn(bool drawn);
 
-    bool isMetric() const;
+    [[nodiscard]] bool isMetric() const;
     void setIsMetric(bool isMetric);
 
-    bool isAbsolute() const;
+    [[nodiscard]] bool isAbsolute() const;
     void setIsAbsolute(bool isAbsolute);
 
-    bool isHightlight() const;
-    void setIsHightlight(bool isHightlight);
+    [[nodiscard]] bool isHighlighted() const;
+    void setIsHighlighted(bool isHighlighted);
 
-    int vertexIndex() const;
+    [[nodiscard]] int vertexIndex() const;
     void setVertexIndex(int vertexIndex);
 
-    double getSpindleSpeed() const;
+    [[nodiscard]] double getSpindleSpeed() const;
     void setSpindleSpeed(double spindleSpeed);
 
-    double getDwell() const;
+    [[nodiscard]] double getDwell() const;
     void setDwell(double dwell);
 
-    bool isClockwise() const;
+    [[nodiscard]] bool isClockwise() const;
     void setIsClockwise(bool isClockwise);
 
-    PointSegment::planes plane() const;
+    [[nodiscard]] PointSegment::planes plane() const;
     void setPlane(const PointSegment::planes &plane);
 
 private:

@@ -505,7 +505,7 @@ void frmMain::onTableCellChanged(QModelIndex i1, QModelIndex i2) {
         QList<LineSegment *> list = m_viewParser.getLineSegmentList();
         for (int i = 0; i < list.count() && list[i]->getLineNumber() <=
                                             m_currentModel->data(m_currentModel->index(i1.row(), 4)).toInt(); i++) {
-            list[i]->setIsHightlight(true);
+            list[i]->setIsHighlighted(true);
         }
     }
 }
@@ -527,7 +527,7 @@ void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2) {
     // Update linesegments on cell changed
     if (!m_currentDrawer->geometryUpdated()) {
         for (int i = 0; i < list.count(); i++) {
-            list.at(i)->setIsHightlight(
+            list.at(i)->setIsHighlighted(
                     list.at(i)->getLineNumber() <= m_currentModel->data(m_currentModel->index(idx1.row(), 4)).toInt());
         }
     } else {
@@ -539,7 +539,7 @@ void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2) {
         QList<int> indexes;
         for (int i = lineFirst + 1; i <= lineLast; i++) {
                     foreach (int l, lineIndexes.at(i)) {
-                    list.at(l)->setIsHightlight(idx1.row() > idx2.row());
+                    list.at(l)->setIsHighlighted(idx1.row() > idx2.row());
                     indexes.append(l);
                 }
         }

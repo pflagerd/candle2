@@ -46,7 +46,7 @@ LineSegment::LineSegment(LineSegment* initial)
     m_speed = initial->getSpeed();
     m_isMetric = initial->isMetric();
     m_isAbsolute = initial->isAbsolute();
-    m_isHightlight = initial->isHightlight();
+    m_isHightlight = initial->isHighlighted();
     m_vertexIndex = initial->vertexIndex();
 }
 
@@ -177,14 +177,14 @@ void LineSegment::setIsAbsolute(bool isAbsolute)
 {
     m_isAbsolute = isAbsolute;
 }
-bool LineSegment::isHightlight() const
+bool LineSegment::isHighlighted() const
 {
     return m_isHightlight;
 }
 
-void LineSegment::setIsHightlight(bool isHightlight)
+void LineSegment::setIsHighlighted(bool isHighlighted)
 {
-    m_isHightlight = isHightlight;
+    m_isHightlight = isHighlighted;
 }
 
 int LineSegment::vertexIndex() const
