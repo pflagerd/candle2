@@ -17,7 +17,7 @@ Q_OBJECT
 public:
     explicit frmSettings(QWidget *parent = 0);
 
-    ~frmSettings();
+    ~frmSettings() override;
 
     int exec();
 
@@ -267,7 +267,7 @@ public:
 
 
 protected:
-    void showEvent(QShowEvent *se);
+    void showEvent(QShowEvent *se) override;
 
 private slots:
 
@@ -299,8 +299,6 @@ private slots:
 
 private:
     Ui::frmSettings *ui;
-
-    void searchPorts();
 
     QList<double> m_storedValues;
     QList<bool> m_storedChecks;
