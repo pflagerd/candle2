@@ -35,11 +35,12 @@
 int main(int argc, char *argv[]) {
     #ifdef UNIX
         bool isStyleOverridden = false;
-        for (int i = 0; i < argc; i++)
-            if (QString(argv[i]).toUpper() == "-STYLE") {
-                isStyleOverridden = true;
-                break;
-            }
+        for (int i = 0; i < argc; i++) {
+			if (QString(argv[i]).toUpper()=="-STYLE") {
+				isStyleOverridden = true;
+				break;
+			}
+		}
     #endif
 
     QApplication a(argc, argv);
@@ -65,30 +66,37 @@ int main(int argc, char *argv[]) {
     qDebug() << "locale:" << loc;
 
     if (QFile::exists(translationFileName)) {
-        QTranslator *translator = new QTranslator();
-        if (translator->load(translationFileName)) a.installTranslator(translator); else delete translator;
+        auto *translator = new QTranslator();
+        if (translator->load(translationFileName)) {
+			QApplication::installTranslator(translator);
+		} else {
+			delete translator;
+		}
     }
 
     QString baseTranslationFileName = translationsFolder + "qt_" + loc + ".qm";
 
     if (QFile::exists(translationFileName)) {
-        QTranslator *baseTranslator = new QTranslator();
-        if (baseTranslator->load(baseTranslationFileName))
-            a.installTranslator(baseTranslator);
-        else delete baseTranslator;
+        auto *baseTranslator = new QTranslator();
+        if (baseTranslator->load(baseTranslationFileName)) {
+			QApplication::installTranslator(baseTranslator);
+		} else {
+			delete baseTranslator;
+		}
     }
 
-    a.setApplicationVersion(APP_VERSION);
+    QApplication::setApplicationVersion(APP_VERSION);
 
     #ifdef UNIX
-        if (!isStyleOverridden)
-                    foreach (QString str, QStyleFactory::keys()) {
-                    qDebug() << "style" << str;
-                    if (str.contains("GTK+")) {
-                        a.setStyle(QStyleFactory::create(str));
-                        break;
-                    }
-                }
+        if (!isStyleOverridden) {
+			foreach (QString str, QStyleFactory::keys()) {
+				qDebug() << "style" << str;
+				if (str.contains("GTK+")) {
+					QApplication::setStyle(QStyleFactory::create(str));
+					break;
+				}
+			}
+		}
     #endif
 
     #ifdef GLES
@@ -108,8 +116,7 @@ int main(int argc, char *argv[]) {
 
     a.setStyleSheet(a.styleSheet() + "QWidget {font-size: 8pt}");
 
-    frmMain w;
-    w.show();
+	(new frmMain())->show();
 
     // TODO: DPP: 240520221923Z: What's all this for?
     #ifdef whats_all_this_for
@@ -177,5 +184,5 @@ int main(int argc, char *argv[]) {
         return 0;
     #endif
 
-    return a.exec();
+    return QApplication::exec();
 }
