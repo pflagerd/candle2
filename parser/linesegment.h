@@ -16,7 +16,7 @@ class LineSegment
 public:
     LineSegment();
     LineSegment(QVector3D a, QVector3D b, int num);
-    LineSegment(LineSegment *initial);
+    explicit LineSegment(LineSegment *initial);
     ~LineSegment();
 
     int getLineNumber();

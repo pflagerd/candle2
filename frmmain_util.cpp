@@ -325,7 +325,7 @@ void frmMain::loadFile(QList<QString> data) {
 
     // Reset tableview
     QByteArray headerState = ui->tblProgram->horizontalHeader()->saveState();
-    ui->tblProgram->setModel(NULL);
+    ui->tblProgram->setModel(nullptr);
 
     // Prepare parser
     GcodeParser gp;
