@@ -38,7 +38,7 @@ void frmMain::on_grpJog_toggled(bool checked) {
 }
 
 void frmMain::on_chkKeyboardControl_toggled(bool checked) {
-    ui->grpJog->setProperty("overidden", checked);
+    ui->grpJog->setProperty("overridden", checked);
     style()->unpolish(ui->grpJog);
     ui->grpJog->ensurePolished();
 

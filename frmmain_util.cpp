@@ -319,7 +319,7 @@ void frmMain::loadFile(QList<QString> data) {
 
     // Update interface
     ui->chkHeightMapUse->setChecked(false);
-    ui->grpHeightMap->setProperty("overidden", false);
+    ui->grpHeightMap->setProperty("overridden", false);
     style()->unpolish(ui->grpHeightMap);
     ui->grpHeightMap->ensurePolished();
 

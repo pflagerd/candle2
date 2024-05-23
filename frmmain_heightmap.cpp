@@ -733,7 +733,7 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked) {
     }
 
     // Update groupbox title
-    ui->grpHeightMap->setProperty("overidden", checked);
+    ui->grpHeightMap->setProperty("overridden", checked);
     style()->unpolish(ui->grpHeightMap);
     ui->grpHeightMap->ensurePolished();
 
