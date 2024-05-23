@@ -1269,9 +1269,9 @@ void frmMain::on_cmdUnlock_clicked() {
 void frmMain::on_cmdSafePosition_clicked() {
     QStringList list = m_settings->safePositionCommand().split(";");
 
-            foreach (QString cmd, list) {
-            sendCommand(cmd.trimmed(), -1, m_settings->showUICommands());
-        }
+	foreach (QString cmd, list) {
+		sendCommand(cmd.trimmed(), -1, m_settings->showUICommands());
+	}
 }
 
 void frmMain::on_cmdSpindle_toggled(bool checked) {
