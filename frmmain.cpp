@@ -605,7 +605,7 @@ void frmMain::updateControlsState() {
     m_selectionDrawer.setVisible(!ui->cmdHeightMapMode->isChecked());
 }
 
-void frmMain::sendCommand(QString command, int tableIndex, bool showInConsole) {
+void frmMain::sendCommand(const QString& command, int tableIndex, bool showInConsole) {
     if (!SerialIf_IsOpen() || !m_resetCompleted) {
         // Not connected or still resetting
         return;
@@ -1476,7 +1476,7 @@ void frmMain::on_cmdClearConsole_clicked() {
     ui->txtConsole->clear();
 }
 
-bool frmMain::saveProgramToFile(QString fileName, GCodeTableModel *model) {
+bool frmMain::saveProgramToFile(const QString& fileName, GCodeTableModel *model) {
     QFile file(fileName);
     QDir dir;
 
@@ -1580,7 +1580,7 @@ void frmMain::on_actAbout_triggered() {
     m_frmAbout.exec();
 }
 
-bool frmMain::DataIsEnd(QString data) {
+bool frmMain::DataIsEnd(const QString& data) {
     QStringList ends;
 
     ends << "ok";
@@ -1603,7 +1603,7 @@ bool frmMain::DataIsEnd(QString data) {
     return false;
 }
 
-bool frmMain::DataIsFloating(QString data) {
+bool frmMain::DataIsFloating(const QString& data) {
     QStringList ends;
 
     ends << "Reset to continue";
@@ -1621,7 +1621,7 @@ bool frmMain::DataIsFloating(QString data) {
     return false;
 }
 
-bool frmMain::DataIsReset(QString data) {
+bool frmMain::DataIsReset(const QString& data) {
     // "GRBL" in either case, optionally followed by a number of non-whitespace characters,
     // followed by a version number in the format x.y.
     // This matches e.g.
@@ -1630,7 +1630,7 @@ bool frmMain::DataIsReset(QString data) {
     return QRegExp("^GRBL[^ ]*\\s\\d\\.\\d").indexIn(data.toUpper()) != -1;
 }
 
-QString frmMain::FeedOverride(QString command) {
+QString frmMain::FeedOverride(const QString& command) {
     // Feed override if not in heightmap probing mode
 //    if (!ui->cmdHeightMapMode->isChecked()) command = GcodePreprocessorUtils::overrideSpeed(command, ui->chkFeedOverride->isChecked() ?
 //        ui->txtFeed->value() : 100, &m_originalFeed);
@@ -1732,7 +1732,7 @@ void frmMain::updateLayouts() {
     qApp->processEvents(QEventLoop::ExcludeUserInputEvents);
 }
 
-void frmMain::addRecentFile(QString fileName) {
+void frmMain::addRecentFile(const QString& fileName) {
     m_recentFiles.removeAll(fileName);
     m_recentFiles.append(fileName);
 

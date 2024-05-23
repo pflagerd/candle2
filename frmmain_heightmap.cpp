@@ -24,9 +24,9 @@
 
 void frmMain::resetHeightmap() {
     delete m_heightMapInterpolationDrawer.data();
-    m_heightMapInterpolationDrawer.setData(NULL);
+    m_heightMapInterpolationDrawer.setData(nullptr);
 
-    ui->tblHeightMap->setModel(NULL);
+    ui->tblHeightMap->setModel(nullptr);
     m_heightMapModel.resize(1, 1);
 
     ui->txtHeightMap->clear();
@@ -35,7 +35,7 @@ void frmMain::resetHeightmap() {
 }
 
 
-void frmMain::addRecentHeightmap(QString fileName) {
+void frmMain::addRecentHeightmap(const QString& fileName) {
     m_recentHeightmaps.removeAll(fileName);
     m_recentHeightmaps.append(fileName);
     if (m_recentHeightmaps.count() > 5) {
@@ -324,7 +324,7 @@ void frmMain::on_cmdHeightMapMode_toggled(bool checked) {
     updateControlsState();
 }
 
-bool frmMain::saveHeightMap(QString fileName) {
+bool frmMain::saveHeightMap(const QString& fileName) {
     QFile file(fileName);
     QDir dir;
 
@@ -362,7 +362,7 @@ bool frmMain::saveHeightMap(QString fileName) {
     return true;
 }
 
-void frmMain::loadHeightMap(QString fileName) {
+void frmMain::loadHeightMap(const QString& fileName) {
     QFile file(fileName);
 
     if (!file.open(QIODevice::ReadOnly)) {

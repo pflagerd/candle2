@@ -418,7 +418,7 @@ void frmMain::loadFile(QList<QString> data) {
     updateControlsState();
 }
 
-void frmMain::loadFile(QString fileName) {
+void frmMain::loadFile(const QString& fileName) {
     QFile file(fileName);
 
     if (!file.open(QIODevice::ReadOnly)) {

@@ -27,7 +27,6 @@
 #include "interface/SerialInterface.h"
 #include "GrIP/GrIP.h"
 
-
 void frmMain::ProcessGRBL1_1() {
     while (SerialIf_CanReadLine()) {
         QString data = SerialIf_ReadLine().trimmed();
@@ -758,10 +757,10 @@ void frmMain::ProcessGRBL1_1() {
 }
 
 
-void frmMain::ProcessGRBL_ETH(QString data) {
+void frmMain::ProcessGRBL_ETH(const QString& data_) {
     {
         // Remove CRLF
-        data = data.trimmed();
+        auto data = data_.trimmed();
 
         //qDebug() << "-- " << data << " --";
 

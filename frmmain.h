@@ -90,11 +90,9 @@ struct CommandQueue2 {
     int length;
 };
 
-
 typedef enum {
     PROT_GRBL1_1 = 0, PROT_GRBL2, PROT_GRIP
 } Protocol_e;
-
 
 class CancelException : public std::exception {
 public:
@@ -102,7 +100,6 @@ public:
         return "Operation was cancelled by user";
     }
 };
-
 
 class frmMain : public QMainWindow {
 Q_OBJECT
@@ -342,7 +339,7 @@ protected:
     void dropEvent(QDropEvent *de) override;
 
 private:
-    void loadFile(QString fileName);
+    void loadFile(const QString& fileName);
 
     void loadFile(QList<QString> data);
 
@@ -358,7 +355,7 @@ private:
 
     void updateControlsState();
 
-    void sendCommand(QString command, int tableIndex = -1, bool showInConsole = true);
+    void sendCommand(const QString& command, int tableIndex = -1, bool showInConsole = true);
 
     void GrblReset();
 
@@ -370,17 +367,17 @@ private:
 
     void updateParser();
 
-    bool DataIsFloating(QString data);
+    bool DataIsFloating(const QString& data);
 
-    bool DataIsEnd(QString data);
+    bool DataIsEnd(const QString& data);
 
-    bool DataIsReset(QString data);
+    bool DataIsReset(const QString& data);
 
     void ProcessGRBL1_1();
 
     void ProcessGRBL2();
 
-    void ProcessGRBL_ETH(QString data);
+    void ProcessGRBL_ETH(const QString& data);
 
     double toolZPosition();
 
@@ -390,9 +387,9 @@ private:
 
     QTime updateProgramEstimatedTime(QList<LineSegment *> lines);
 
-    bool saveProgramToFile(QString fileName, GCodeTableModel *model);
+    bool saveProgramToFile(const QString& fileName, GCodeTableModel *model);
 
-    QString FeedOverride(QString command);
+    QString FeedOverride(const QString& command);
 
     bool eventFilter(QObject *obj, QEvent *event) override;
 
@@ -404,9 +401,9 @@ private:
 
     void updateRecentFilesMenu();
 
-    void addRecentFile(QString fileName);
+    void addRecentFile(const QString& fileName);
 
-    void addRecentHeightmap(QString fileName);
+    void addRecentHeightmap(const QString& fileName);
 
     double toMetric(double value);
 
@@ -418,9 +415,9 @@ private:
 
     bool updateHeightMapGrid();
 
-    void loadHeightMap(QString fileName);
+    void loadHeightMap(const QString& fileName);
 
-    bool saveHeightMap(QString fileName);
+    bool saveHeightMap(const QString& fileName);
 
     GCodeTableModel *m_currentModel;
 
@@ -511,10 +508,10 @@ private:
 
     QStringList m_coord;
 
-#ifdef WINDOWS
-    QWinTaskbarButton *m_taskBarButton;
-    QWinTaskbarProgress *m_taskBarProgress;
-#endif
+	#ifdef WINDOWS
+		QWinTaskbarButton *m_taskBarButton;
+		QWinTaskbarProgress *m_taskBarProgress;
+	#endif
 
     QMenu *m_tableMenu;
     QList<CommandAttributes> m_CommandAttributesList;
@@ -589,6 +586,5 @@ private:
 
     QSerialPort m_serialHandWheel;
 };
-
 
 #endif // FRMMAIN_H
