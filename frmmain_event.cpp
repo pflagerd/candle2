@@ -24,16 +24,15 @@
 
 #include "interface/SerialInterface.h"
 
-
 bool frmMain::eventFilter(QObject *obj, QEvent *event) {
     // Main form events
     if (obj == this || obj == ui->tblProgram || obj == ui->cboJogStep || obj == ui->cboJogFeed) {
         // Jog on keyboard control
         if (!m_processingFile && ui->chkKeyboardControl->isChecked() &&
             (event->type() == QEvent::KeyPress || event->type() == QEvent::KeyRelease)
-            && !static_cast<QKeyEvent *>(event)->isAutoRepeat()) {
+            && !dynamic_cast<QKeyEvent *>(event)->isAutoRepeat()) {
 
-            switch (static_cast<QKeyEvent *>(event)->key()) {
+            switch (dynamic_cast<QKeyEvent *>(event)->key()) {
                 case Qt::Key_4:
                     if (event->type() == QEvent::KeyPress) emit ui->cmdXMinus->pressed();
                     else emit ui->cmdXMinus->released();
@@ -67,7 +66,7 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event) {
         }
 
         if (event->type() == QEvent::KeyPress) {
-            QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+            auto *keyEvent = dynamic_cast<QKeyEvent *>(event);
 
             if (!m_processingFile && keyEvent->key() == Qt::Key_ScrollLock && obj == this) {
                 ui->chkKeyboardControl->toggle();
@@ -105,7 +104,7 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event) {
 
     } else if (obj == ui->splitPanels && event->type() == QEvent::Resize) {
         // Splitter events
-        // Resize splited widgets
+        // Resize split widgets
         onPanelsSizeChanged(ui->scrollAreaWidgetContents->sizeHint());
     } else if (obj == ui->splitPanels->handle(1)) {
         // Splitter handle events
@@ -116,10 +115,10 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event) {
                 m_storedConsoleMinimumHeight = ui->grpConsole->minimumHeight();
                 m_storedConsoleHeight = ui->grpConsole->height();
 
-                // Update splited sizes
+                // Update split sizes
                 ui->splitPanels->setSizes(QList<int>() << ui->scrollArea->height() << ui->grpConsole->height());
 
-                // Set new console mimimum height
+                // Set new console minimum height
                 ui->grpConsole->setMinimumHeight(qMax(minHeight, ui->splitPanels->height()
                                                                  - ui->scrollAreaWidgetContents->sizeHint().height() -
                                                                  ui->splitPanels->handleWidth() - 4));
@@ -160,15 +159,15 @@ void frmMain::showEvent(QShowEvent *se) {
 
     placeVisualizerButtons();
 
-#ifdef WINDOWS
-    if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7) {
-        if (m_taskBarButton == NULL) {
-            m_taskBarButton = new QWinTaskbarButton(this);
-            m_taskBarButton->setWindow(this->windowHandle());
-            m_taskBarProgress = m_taskBarButton->progress();
-        }
-    }
-#endif
+	#ifdef WINDOWS
+		if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7) {
+			if (m_taskBarButton == NULL) {
+				m_taskBarButton = new QWinTaskbarButton(this);
+				m_taskBarButton->setWindow(this->windowHandle());
+				m_taskBarProgress = m_taskBarButton->progress();
+			}
+		}
+	#endif
 
     ui->glwVisualizer->setUpdatesEnabled(true);
 
@@ -222,7 +221,7 @@ void frmMain::closeEvent(QCloseEvent *ce) {
         SerialIf_Close();
     }
 
-    if (m_CommandQueueList.length() > 0) {
+    if (!m_CommandQueueList.empty()) {
         m_CommandAttributesList.clear();
         m_CommandQueueList.clear();
     }

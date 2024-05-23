@@ -132,14 +132,14 @@ frmMain::frmMain(QWidget *parent) :
     }
 
     #ifdef WINDOWS
-    if(QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7)
-    {
-        m_taskBarButton = NULL;
-        m_taskBarProgress = NULL;
-    }
+		if(QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7)
+		{
+			m_taskBarButton = NULL;
+			m_taskBarProgress = NULL;
+		}
     #endif
     #ifndef UNIX
-    ui->cboCommand->setStyleSheet("QComboBox {padding: 2;} QComboBox::drop-down {width: 0; border-style: none;} QComboBox::down-arrow {image: url(noimg);	border-width: 0;}");
+	    ui->cboCommand->setStyleSheet("QComboBox {padding: 2;} QComboBox::drop-down {width: 0; border-style: none;} QComboBox::down-arrow {image: url(noimg);	border-width: 0;}");
     #endif
 
     m_heightMapMode = false;
@@ -1594,9 +1594,11 @@ bool frmMain::DataIsEnd(QString data) {
 //    ends << "Check Door";
 //    ends << "Pgm End";
 
-            foreach (QString str, ends) {
-            if (data.contains(str)) return true;
-        }
+	foreach (QString str, ends) {
+		if (data.contains(str)) {
+			return true;
+		}
+	}
 
     return false;
 }
