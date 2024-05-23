@@ -22,10 +22,10 @@ frmSettings::frmSettings(QWidget *parent) :
     ui->cboFps->setValidator(&m_intValidator);
     ui->cboFontSize->setValidator(&m_intValidator);
 
-            foreach (QGroupBox *box, this->findChildren<QGroupBox *>()) {
-            ui->listCategories->addItem(box->title());
-            ui->listCategories->item(ui->listCategories->count() - 1)->setData(Qt::UserRole, box->objectName());
-        }
+	foreach (QGroupBox *box, this->findChildren<QGroupBox *>()) {
+		ui->listCategories->addItem(box->title());
+		ui->listCategories->item(ui->listCategories->count() - 1)->setData(Qt::UserRole, box->objectName());
+	}
 
     ui->listCategories->item(0)->setSelected(true);
     connect(ui->scrollSettings->verticalScrollBar(), SIGNAL(valueChanged(int)), this,
@@ -46,39 +46,39 @@ int frmSettings::exec() {
     m_storedCombos.clear();
     m_storedColors.clear();
 
-            foreach (QAbstractSpinBox *sb, this->findChildren<QAbstractSpinBox *>()) {
-            m_storedValues.append(sb->property("value").toDouble());
-        }
+	foreach (QAbstractSpinBox *sb, this->findChildren<QAbstractSpinBox *>()) {
+		m_storedValues.append(sb->property("value").toDouble());
+	}
 
-            foreach (QAbstractButton *cb, this->findChildren<QAbstractButton *>()) {
-            m_storedChecks.append(cb->isChecked());
-        }
+	foreach (QAbstractButton *cb, this->findChildren<QAbstractButton *>()) {
+		m_storedChecks.append(cb->isChecked());
+	}
 
-            foreach (QComboBox *cb, this->findChildren<QComboBox *>()) {
-            m_storedCombos.append(cb->currentText());
-        }
+	foreach (QComboBox *cb, this->findChildren<QComboBox *>()) {
+		m_storedCombos.append(cb->currentText());
+	}
 
-            foreach (ColorPicker *pick, this->findChildren<ColorPicker *>()) {
-            m_storedColors.append(pick->color());
-        }
+	foreach (ColorPicker *pick, this->findChildren<ColorPicker *>()) {
+		m_storedColors.append(pick->color());
+	}
 
     return QDialog::exec();
 }
 
 void frmSettings::undo() {
-            foreach (QAbstractSpinBox *sb, this->findChildren<QAbstractSpinBox *>()) {
-            sb->setProperty("value", m_storedValues.takeFirst());
-        }
+	foreach (QAbstractSpinBox *sb, this->findChildren<QAbstractSpinBox *>()) {
+		sb->setProperty("value", m_storedValues.takeFirst());
+	}
 
-            foreach (QAbstractButton *cb, this->findChildren<QAbstractButton *>()) {
-            cb->setChecked(m_storedChecks.takeFirst());
-        }
-            foreach (QComboBox *cb, this->findChildren<QComboBox *>()) {
-            cb->setCurrentText(m_storedCombos.takeFirst());
-        }
-            foreach (ColorPicker *pick, this->findChildren<ColorPicker *>()) {
-            pick->setColor(m_storedColors.takeFirst());
-        }
+	foreach (QAbstractButton *cb, this->findChildren<QAbstractButton *>()) {
+		cb->setChecked(m_storedChecks.takeFirst());
+	}
+	foreach (QComboBox *cb, this->findChildren<QComboBox *>()) {
+		cb->setCurrentText(m_storedCombos.takeFirst());
+	}
+	foreach (ColorPicker *pick, this->findChildren<ColorPicker *>()) {
+		pick->setColor(m_storedColors.takeFirst());
+	}
 }
 
 void frmSettings::on_listCategories_currentRowChanged(int currentRow) {
@@ -708,11 +708,11 @@ void frmSettings::on_btnTestNetwork_clicked() {
         //qDebug() << "IP: " << ip.toString() << " is valid";
 
         QStringList args;
-#if defined(Q_OS_LINUX)
-        args << "-c 1 -W 1";
-#elif defined(Q_OS_WIN)
-        args << "-n 1 -w 1500";
-#endif
+		#if defined(Q_OS_LINUX)
+				args << "-c 1 -W 1";
+		#elif defined(Q_OS_WIN)
+				args << "-n 1 -w 1500";
+		#endif
         args << ip.toString();
 
         int exit = QProcess::execute("ping", args);
