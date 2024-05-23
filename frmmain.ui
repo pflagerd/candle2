@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1646</width>
-    <height>932</height>
+    <height>1101</height>
    </rect>
   </property>
   <property name="acceptDrops">
@@ -336,41 +336,6 @@ QSlider::handle:horizontal:hover {
             </size>
            </property>
           </spacer>
-         </item>
-         <item>
-          <widget class="QPushButton" name="btnHandwheel">
-           <property name="minimumSize">
-            <size>
-             <width>100</width>
-             <height>28</height>
-            </size>
-           </property>
-           <property name="font">
-            <font>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>MPG</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="comboHandwheel">
-           <property name="minimumSize">
-            <size>
-             <width>90</width>
-             <height>28</height>
-            </size>
-           </property>
-           <property name="font">
-            <font>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-          </widget>
          </item>
         </layout>
        </item>
@@ -3186,8 +3151,8 @@ padding-right: 8;</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>385</width>
-            <height>570</height>
+            <width>376</width>
+            <height>589</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -4001,7 +3966,7 @@ padding-right: 8;</string>
      <x>0</x>
      <y>0</y>
      <width>1646</width>
-     <height>24</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnuFile">

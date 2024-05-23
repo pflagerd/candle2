@@ -309,8 +309,6 @@ private slots:
 
     void on_actionDisable_Stepper_triggered();
 
-    void on_btnHandwheel_clicked();
-
     void on_btnSetCoord_clicked();
 
     void on_btnSaveCoord_clicked();
@@ -583,8 +581,6 @@ private:
 
     // Size of internal GRBL buffer
     static const int GRBL_BUFFERLENGTH = 127;
-
-    QSerialPort m_serialHandWheel;
 };
 
 #endif // FRMMAIN_H

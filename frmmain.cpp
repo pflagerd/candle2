@@ -339,9 +339,6 @@ frmMain::frmMain(QWidget *parent) :
     ui->btnConnect->setPalette(QPalette(QColor(255, 140, 140)));
     ui->cmdFileSend->setPalette(QPalette(QColor(64, 255, 64)));
 
-    // Set button background red
-    ui->btnHandwheel->setPalette(QPalette(QColor(255, 140, 140)));
-
     // Set default protocol grbl 1.1
     m_Protocol = PROT_GRBL1_1;
 
@@ -393,13 +390,11 @@ QString frmMain::findConfigPath() {
 void frmMain::UpdateComPorts() {
     // Clear combobox
     ui->comboInterface->clear();
-    ui->comboHandwheel->clear();
 
     // Add available ports to combobox
-            foreach (QSerialPortInfo info, QSerialPortInfo::availablePorts()) {
-            ui->comboInterface->insertItem(0, info.portName());
-            ui->comboHandwheel->insertItem(0, info.portName());
-        }
+	foreach (QSerialPortInfo info, QSerialPortInfo::availablePorts()) {
+        ui->comboInterface->insertItem(0, info.portName());
+    }
     // Add Ethernet option
     ui->comboInterface->addItem("ETHERNET");
 
@@ -407,13 +402,13 @@ void frmMain::UpdateComPorts() {
     ui->comboBaud->clear();
 
     // Get baudrates for serial port
-            foreach (int i, QSerialPortInfo::standardBaudRates()) {
-            // Only list between 9600 to 500k
-            if (i < 9600 || i > 500000) {
-                continue;
-            }
-            ui->comboBaud->addItem(QString::number(i));
-        }
+	foreach (int i, QSerialPortInfo::standardBaudRates()) {
+		// Only list between 9600 to 500k
+		if (i < 9600 || i > 500000) {
+			continue;
+		}
+		ui->comboBaud->addItem(QString::number(i));
+	}
 
     // Default 115200 baud
     int idx = ui->comboBaud->findText("115200");
@@ -421,11 +416,6 @@ void frmMain::UpdateComPorts() {
         ui->comboBaud->setCurrentIndex(idx);
     }
 
-    m_serialHandWheel.setParity(QSerialPort::NoParity);
-    m_serialHandWheel.setDataBits(QSerialPort::Data8);
-    m_serialHandWheel.setFlowControl(QSerialPort::NoFlowControl);
-    m_serialHandWheel.setStopBits(QSerialPort::OneStop);
-    m_serialHandWheel.setBaudRate(230400);
 }
 
 frmMain::~frmMain() {
@@ -446,9 +436,6 @@ frmMain::~frmMain() {
         QThread::msleep(100);
 
         SerialIf_Close();
-    }
-    if (m_serialHandWheel.isOpen()) {
-        m_serialHandWheel.close();
     }
 
     delete m_senderErrorBox;
@@ -734,20 +721,6 @@ void frmMain::onProcessData() {
             break;
     }
 
-    if (m_serialHandWheel.isOpen() && SerialIf_IsOpen() && m_serialHandWheel.canReadLine() && m_transferCompleted) {
-        QString msg = m_serialHandWheel.readLine();
-        //qDebug() << "HW: " << msg;
-        if (msg.size() < 3) {
-            // RT message
-            on_cmdStop_clicked();
-            return;
-        }
-        sendCommand(msg, -1, false);
-    }
-    if (m_transferCompleted == false && m_serialHandWheel.isOpen()) {
-        // Drop all data received while sending file
-        m_serialHandWheel.clear();
-    }
 }
 
 void frmMain::onSendSerial() {
@@ -2001,27 +1974,6 @@ void frmMain::on_actionDisable_Stepper_triggered() {
             Pdu_t p = {(uint8_t *) data.data(), (uint16_t) data.length()};
             GrIP_Transmit(MSG_REALTIME_CMD, 0, &p);
         }
-    }
-}
-
-void frmMain::on_btnHandwheel_clicked() {
-    if (!m_serialHandWheel.isOpen()) {
-        if (ui->comboHandwheel->currentText().size()) {
-            m_serialHandWheel.setPortName(ui->comboHandwheel->currentText());
-            m_serialHandWheel.open(QIODevice::ReadWrite);
-        }
-    } else {
-        m_serialHandWheel.close();
-    }
-
-    if (m_serialHandWheel.isOpen()) {
-        // Set button background green
-        ui->btnHandwheel->setPalette(QPalette(QColor(100, 255, 100)));
-        ui->comboHandwheel->setEnabled(false);
-    } else {
-        // Set button background red
-        ui->btnHandwheel->setPalette(QPalette(QColor(255, 140, 140)));
-        ui->comboHandwheel->setEnabled(true);
     }
 }
 
