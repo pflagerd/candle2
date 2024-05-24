@@ -779,15 +779,15 @@ void frmMain::onSendSerial() {
 }
 
 void frmMain::onTimerUpdateSpindleParser() {
-    static bool updateSpinde = false;
+    static bool updateSpindle = false;
 
     if (SerialIf_IsOpen() && !m_homing && !ui->cmdFilePause->isChecked() && mCommandsWait.size() == 0) {
         if (m_updateSpindleSpeed) {
             m_updateSpindleSpeed = false;
             sendCommand(QString("S%1").arg(ui->slbSpindle->value()), -2, m_settings->showUICommands());
         }
-        updateSpinde = !updateSpinde;
-        if (m_updateParserStatus || updateSpinde) {
+		updateSpindle = !updateSpindle;
+        if (m_updateParserStatus || updateSpindle) {
             m_updateParserStatus = false;
             sendCommand("$G", -3, false);
         }
@@ -1873,7 +1873,7 @@ void frmMain::on_btnConnect_clicked() {
                 GrblReset();
             } else {
                 ui->txtConsole->appendPlainText(tr("Serial port error: ") + SerialIf_GetError());
-                qDebug() << "Coultdn't open serial port";
+                qDebug() << "Couldn't open serial port";
             }
         } else {
             // Ethernet
