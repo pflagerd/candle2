@@ -160,8 +160,8 @@ void frmMain::ProcessGRBL1_1() {
                 static double x = sNan;
                 static double y = sNan;
                 static double z = sNan;
-                static double a = sNan;
-                static double b = sNan;
+                static double a = sNan; // DPP: See Issue #27
+                static double b = sNan; // DPP: See Issue #27
 
                 if (m_aborting) {
                     switch (status) {
@@ -891,8 +891,8 @@ void frmMain::ProcessGRBL_ETH(const QString& data_) {
                 static double x = sNan;
                 static double y = sNan;
                 static double z = sNan;
-                static double a = sNan;
-                static double b = sNan;
+                static double a = sNan; // DPP: See Issue #27
+                static double b = sNan; // DPP: See Issue #27
 
                 if (m_aborting) {
                     switch (status) {

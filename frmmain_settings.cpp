@@ -382,7 +382,7 @@ void frmMain::applySettings() {
     ui->grpOverriding->setVisible(m_settings->panelOverriding());
     ui->grpJog->setVisible(m_settings->panelJog());
 
-    ui->cboCommand->setAutoCompletion(m_settings->autoCompletion());
+    ui->cboCommand->setAutoCompletion(m_settings->autoCompletion()); // DPP: See Issue #26
 
     m_codeDrawer->setSimplify(m_settings->simplify());
     m_codeDrawer->setSimplifyPrecision(m_settings->simplifyPrecision());
