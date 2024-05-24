@@ -355,10 +355,10 @@ void GLWidget::setSpendTime(const QTime &spendTime)
 
 void GLWidget::initializeGL()
 {
-#ifndef GLES
-    // Initialize functions
-    initializeOpenGLFunctions();
-#endif
+	#ifndef GLES
+		// Initialize functions
+		initializeOpenGLFunctions();
+	#endif
 
     // Create shader program
     m_shaderProgram = new QOpenGLShaderProgram();
@@ -568,15 +568,15 @@ void GLWidget::timerEvent(QTimerEvent *te)
 {
     if (te->timerId() == m_timerPaint.timerId()) {
         if (m_animateView) viewAnimation();
-#ifndef GLES
+	#ifndef GLES
         if (m_updatesEnabled) update();
-#endif
+	#endif
     } else {
-#ifdef GLES
+	#ifdef GLES
         QOpenGLWidget::timerEvent(te);
-#else
+	#else
         QGLWidget::timerEvent(te);
-#endif
+	#endif
     }
 }
 

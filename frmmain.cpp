@@ -536,12 +536,12 @@ void frmMain::updateControlsState() {
         ui->chkKeyboardControl->setChecked(m_storedKeyboardControl);
     }
 
-#ifdef WINDOWS
-    if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7)
-    {
-        if (!m_processingFile && m_taskBarProgress) m_taskBarProgress->hide();
-    }
-#endif
+	#ifdef WINDOWS
+		if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7)
+		{
+			if (!m_processingFile && m_taskBarProgress) m_taskBarProgress->hide();
+		}
+	#endif
 
     style()->unpolish(ui->cmdFileOpen);
     style()->unpolish(ui->cmdFileReset);
@@ -725,7 +725,7 @@ void frmMain::onProcessData() {
 }
 
 void frmMain::onSendSerial() {
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 4; i++) { // DPP: What's with this i? Issue #30
         if (mCommandsWait.size() > 0) {
             if (!SerialIf_IsOpen()) {
                 return;
@@ -876,17 +876,17 @@ void frmMain::on_cmdFileSend_clicked() {
     }
     storeParserState();
 
-#ifdef WINDOWS
-    if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7)
-    {
-        if (m_taskBarProgress)
-        {
-            m_taskBarProgress->setMaximum(m_currentModel->rowCount() - 2);
-            m_taskBarProgress->setValue(0);
-            m_taskBarProgress->show();
-        }
-    }
-#endif
+	#ifdef WINDOWS
+		if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7)
+		{
+			if (m_taskBarProgress)
+			{
+				m_taskBarProgress->setMaximum(m_currentModel->rowCount() - 2);
+				m_taskBarProgress->setValue(0);
+				m_taskBarProgress->show();
+			}
+		}
+	#endif
 
     updateControlsState();
     ui->cmdFilePause->setFocus();
@@ -997,17 +997,17 @@ void frmMain::onActSendFromLineTriggered() {
 
     storeParserState();
 
-#ifdef WINDOWS
-    if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7)
-    {
-        if (m_taskBarProgress)
-        {
-            m_taskBarProgress->setMaximum(m_currentModel->rowCount() - 2);
-            m_taskBarProgress->setValue(commandIndex);
-            m_taskBarProgress->show();
-        }
-    }
-#endif
+	#ifdef WINDOWS
+		if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7)
+		{
+			if (m_taskBarProgress)
+			{
+				m_taskBarProgress->setMaximum(m_currentModel->rowCount() - 2);
+				m_taskBarProgress->setValue(commandIndex);
+				m_taskBarProgress->show();
+			}
+		}
+	#endif
 
     updateControlsState();
     ui->cmdFilePause->setFocus();
