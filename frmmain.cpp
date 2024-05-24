@@ -1841,18 +1841,15 @@ void frmMain::on_btnConnect_clicked() {
         int idx = ui->comboProtocol->currentIndex();
         switch (idx) {
             case 0:
-                qDebug() << "GRBL 1.1";
                 m_Protocol = PROT_GRBL1_1;
                 break;
 
             case 1:
-                qDebug() << "GrIP";
                 m_Protocol = PROT_GRIP;
                 GrIP_Init();
                 break;
 
             default:
-                qDebug() << "Default GRBL 1.1";
                 m_Protocol = PROT_GRBL1_1;
                 break;
         }
