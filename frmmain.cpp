@@ -186,9 +186,9 @@ frmMain::frmMain(QWidget *parent) :
 
     connect(ui->cboCommand, SIGNAL(returnPressed()), this, SLOT(onCboCommandReturnPressed()));
 
-            foreach (StyledToolButton *button, this->findChildren<StyledToolButton *>(QRegularExpression("cmdUser\\d"), Qt::FindChildOption::FindDirectChildrenOnly)) {
-            connect(button, SIGNAL(clicked(bool)), this, SLOT(onCmdUserClicked(bool)));
-        }
+    foreach (StyledToolButton *button, this->findChildren<StyledToolButton *>(QRegularExpression("cmdUser\\d"), Qt::FindChildOption::FindDirectChildrenOnly)) {
+    	connect(button, SIGNAL(clicked(bool)), this, SLOT(onCmdUserClicked(bool)));
+	}
 
     // Setting up slider boxes
     ui->slbFeedOverride->setRatio(1);
@@ -624,9 +624,9 @@ void frmMain::GrblReset() {
 
     ui->txtConsole->clear();
 
-    // Reset: 0x18
+    // Reset: 0x18 == Ctrl-X == CAN(cel)
     if (m_Protocol == PROT_GRBL1_1) {
-        SerialIf_Write(QByteArray(1, (char) 0x18));
+        SerialIf_Write(QByteArray(1, (char) 0x18)); // Ctrl-X
     } else if (m_Protocol == PROT_GRIP) {
         //QByteArray data(1, (char)0x18);
         //GrIP_Transmit(MSG_SYSTEM_CMD, 0, (const uint8_t*)data.constData(), data.length());
@@ -952,9 +952,9 @@ void frmMain::onActSendFromLineTriggered() {
         if (res == QMessageBox::Cancel) {
             return;
         } else if (res == QMessageBox::Ok) {
-                    foreach (QString command, commands) {
-                    sendCommand(command, -1, m_settings->showUICommands());
-                }
+			foreach (QString command, commands) {
+				sendCommand(command, -1, m_settings->showUICommands());
+			}
         }
     }
 
@@ -1586,11 +1586,11 @@ bool frmMain::DataIsFloating(const QString& data) {
     ends << "ALARM: Hard limit";
     ends << "Check Door";
 
-            foreach (QString str, ends) {
-            if (data.contains(str)) {
-                return true;
-            }
-        }
+	foreach (QString str, ends) {
+		if (data.contains(str)) {
+			return true;
+		}
+	}
 
     return false;
 }
@@ -1741,20 +1741,20 @@ void frmMain::onCboCommandReturnPressed() {
 }
 
 void frmMain::updateRecentFilesMenu() {
-            foreach (QAction *action, ui->mnuRecent->actions()) {
-            if (action->text() == "")
-                break;
-            else {
-                ui->mnuRecent->removeAction(action);
-                delete action;
-            }
-        }
+	foreach (QAction *action, ui->mnuRecent->actions()) {
+		if (action->text() == "")
+			break;
+		else {
+			ui->mnuRecent->removeAction(action);
+			delete action;
+		}
+	}
 
-            foreach (QString file, !m_heightMapMode ? m_recentFiles : m_recentHeightmaps) {
-            QAction *action = new QAction(file, this);
-            connect(action, SIGNAL(triggered()), this, SLOT(onActRecentFileTriggered()));
-            ui->mnuRecent->insertAction(ui->mnuRecent->actions()[0], action);
-        }
+	foreach (QString file, !m_heightMapMode ? m_recentFiles : m_recentHeightmaps) {
+		QAction *action = new QAction(file, this);
+		connect(action, SIGNAL(triggered()), this, SLOT(onActRecentFileTriggered()));
+		ui->mnuRecent->insertAction(ui->mnuRecent->actions()[0], action);
+	}
 
     updateControlsState();
 }
@@ -1784,9 +1784,9 @@ void frmMain::onCmdUserClicked(bool checked) {
 
     QStringList list = m_settings->userCommands(i).split(";");
 
-            foreach (QString cmd, list) {
-            sendCommand(cmd.trimmed(), -1, m_settings->showUICommands());
-        }
+	foreach (QString cmd, list) {
+		sendCommand(cmd.trimmed(), -1, m_settings->showUICommands());
+	}
 }
 
 void frmMain::onOverridingToggled(bool checked) {
@@ -1863,9 +1863,9 @@ void frmMain::on_btnConnect_clicked() {
             if (SerialIf_OpenSerial(0, ui->comboInterface->currentText(), ui->comboBaud->currentText().toInt())) {
                 ui->txtStatus->setText(tr("Port opened"));
                 ui->txtStatus->setStyleSheet(QString("background-color: palette(button); color: palette(text);"));
-#ifndef WINDOWS
-                SerialIf_Clear();
-#endif
+				#ifndef WINDOWS
+                	SerialIf_Clear();
+				#endif
                 qDebug() << "Serial OK";
 
                 m_timerRead.start(ReceiveTimerInterval_ms);
