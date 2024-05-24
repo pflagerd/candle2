@@ -296,9 +296,9 @@ void frmMain::saveSettings() {
     set.setValue("heightmapInterpolationType", ui->cboHeightMapInterpolationType->currentIndex());
     set.setValue("heightmapInterpolationShow", ui->chkHeightMapInterpolationShow->isChecked());
 
-            foreach (ColorPicker *pick, m_settings->colors()) {
-            set.setValue(pick->objectName().mid(3), pick->color().name());
-        }
+	foreach (ColorPicker *pick, m_settings->colors()) {
+		set.setValue(pick->objectName().mid(3), pick->color().name());
+	}
 
     QStringList list;
 
@@ -437,8 +437,8 @@ void frmMain::applySettings() {
     ui->cmdClearConsole->setFixedHeight(ui->cboCommand->height());
     ui->cmdCommandSend->setFixedHeight(ui->cboCommand->height());
 
-            foreach (StyledToolButton *button, this->findChildren<StyledToolButton *>(QRegularExpression("cmdUser\\d"), Qt::FindChildOption::FindDirectChildrenOnly)) {
-            button->setToolTip(m_settings->userCommands(button->objectName().right(1).toInt()));
-            button->setEnabled(!button->toolTip().isEmpty());
-        }
+	foreach (StyledToolButton *button, this->findChildren<StyledToolButton *>(QRegularExpression("cmdUser\\d"), Qt::FindChildOption::FindDirectChildrenOnly)) {
+		button->setToolTip(m_settings->userCommands(button->objectName().right(1).toInt()));
+		button->setEnabled(!button->toolTip().isEmpty());
+	}
 }

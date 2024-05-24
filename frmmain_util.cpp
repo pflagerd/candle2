@@ -539,10 +539,10 @@ void frmMain::onTableCurrentChanged(QModelIndex idx1, QModelIndex idx2) {
 
         QList<int> indexes;
         for (int i = lineFirst + 1; i <= lineLast; i++) {
-                    foreach (int l, lineIndexes.at(i)) {
-                    list.at(l)->setIsHighlighted(idx1.row() > idx2.row());
-                    indexes.append(l);
-                }
+			foreach (int l, lineIndexes.at(i)) {
+				list.at(l)->setIsHighlighted(idx1.row() > idx2.row());
+				indexes.append(l);
+			}
         }
 
         m_selectionDrawer.setEndPosition(indexes.isEmpty() ? QVector3D(sNan, sNan, sNan) :

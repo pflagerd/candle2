@@ -455,8 +455,9 @@ void GLWidget::paintEvent(QPaintEvent *pe) {
         m_shaderProgram->setUniformValue("mv_matrix", m_viewMatrix);
 
         // Update geometries in current opengl context
-        foreach (ShaderDrawable *drawable, m_shaderDrawables)
-            if (drawable->needsUpdateGeometry()) drawable->updateGeometry(m_shaderProgram);
+        foreach (ShaderDrawable *drawable, m_shaderDrawables) {
+			if (drawable->needsUpdateGeometry()) drawable->updateGeometry(m_shaderProgram);
+		}
 
         // Draw geometries
         foreach (ShaderDrawable *drawable, m_shaderDrawables) {

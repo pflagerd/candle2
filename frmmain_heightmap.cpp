@@ -511,7 +511,9 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked) {
                         if (subSegments.count() > 0) {
                             delete list->at(i);
                             list->removeAt(i);
-                                    foreach (LineSegment *subSegment, subSegments) list->insert(i++, subSegment);
+							foreach (LineSegment *subSegment, subSegments) {
+								list->insert(i++, subSegment);
+							}
                             i--;
                         }
                     }
@@ -602,38 +604,38 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked) {
                         newCommand.clear();
 
                         // Parse command args
-                                foreach (QString arg, args) {                   // arg examples: G1, G2, M3, X100...
-                                codeChar = arg.at(0).toLatin1();            // codeChar: G, M, X...
-                                if (!coords.contains(codeChar)) {           // Not parameter
-                                    codeNum = arg.mid(1).toDouble();
-                                    if (g.contains(codeChar)) {             // 'G'-command
-                                        // Store 'G0' & 'G1'
-                                        if (codeNum == 0.0f || codeNum == 1.0f) {
-                                            lastCode = arg;
-                                            isLinearMove = true;            // Store linear move
-                                        }
+						foreach (QString arg, args) {                   // arg examples: G1, G2, M3, X100...
+							codeChar = arg.at(0).toLatin1();            // codeChar: G, M, X...
+							if (!coords.contains(codeChar)) {           // Not parameter
+								codeNum = arg.mid(1).toDouble();
+								if (g.contains(codeChar)) {             // 'G'-command
+									// Store 'G0' & 'G1'
+									if (codeNum == 0.0f || codeNum == 1.0f) {
+										lastCode = arg;
+										isLinearMove = true;            // Store linear move
+									}
 
-                                        // Replace 'G2' & 'G3' with 'G1'
-                                        if (codeNum == 2.0f || codeNum == 3.0f) {
-                                            newCommand.append("G1");
-                                            isLinearMove = true;
-                                            // Drop plane command for arcs
-                                        } else if (codeNum != 17.0f && codeNum != 18.0f && codeNum != 19.0f) {
-                                            newCommand.append(arg);
-                                        }
+									// Replace 'G2' & 'G3' with 'G1'
+									if (codeNum == 2.0f || codeNum == 3.0f) {
+										newCommand.append("G1");
+										isLinearMove = true;
+										// Drop plane command for arcs
+									} else if (codeNum != 17.0f && codeNum != 18.0f && codeNum != 19.0f) {
+										newCommand.append(arg);
+									}
 
-                                        if (codeNum == 53.0f) {
-                                            isMachineCoords = true;
-                                        }
+									if (codeNum == 53.0f) {
+										isMachineCoords = true;
+									}
 
-                                        hasCommand = true;                  // Command has 'G'
-                                    } else {
-                                        if (m.contains(codeChar))
-                                            hasCommand = true;              // Command has 'M'
-                                        newCommand.append(arg);       // Other commands
-                                    }
-                                }
-                            }
+									hasCommand = true;                  // Command has 'G'
+								} else {
+									if (m.contains(codeChar))
+										hasCommand = true;              // Command has 'M'
+									newCommand.append(arg);       // Other commands
+								}
+							}
+						}
 
                         // Find first line segment by command index
                         for (int j = lastSegmentIndex; j < list->count(); j++) {

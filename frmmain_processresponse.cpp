@@ -260,9 +260,9 @@ void frmMain::ProcessGRBL1_1() {
                 }
 
                 if (toolOntoolpath) {
-                            foreach (int i, drawnLines) {
-                            list.at(i)->setDrawn(true);
-                        }
+					foreach (int i, drawnLines) {
+						list.at(i)->setDrawn(true);
+					}
 
                     if (!drawnLines.isEmpty()) {
                         m_currentDrawer->update(drawnLines);
@@ -700,19 +700,19 @@ void frmMain::ProcessGRBL1_1() {
                                 m_toolDrawer.setToolPosition(vec);
                             }
 
-                                    foreach(int i, drawnLines) {
-                                    list.at(i)->setDrawn(true);
-                                }
+							foreach(int i, drawnLines) {
+								list.at(i)->setDrawn(true);
+							}
 
                             if (!drawnLines.isEmpty())
                                 m_currentDrawer->update(drawnLines);
                         } else {
-                                    foreach(LineSegment *s, list) {
-                                    if (!qIsNaN(s->getEnd().length())) {
-                                        m_toolDrawer.setToolPosition(s->getEnd());
-                                        break;
-                                    }
-                                }
+							foreach(LineSegment *s, list) {
+								if (!qIsNaN(s->getEnd().length())) {
+									m_toolDrawer.setToolPosition(s->getEnd());
+									break;
+								}
+							}
                         }
                     }
 
@@ -1429,12 +1429,12 @@ void frmMain::ProcessGRBL_ETH(const QString& data_) {
                             if (!drawnLines.isEmpty())
                                 m_currentDrawer->update(drawnLines);
                         } else {
-                                    foreach(LineSegment *s, list) {
-                                    if (!qIsNaN(s->getEnd().length())) {
-                                        m_toolDrawer.setToolPosition(s->getEnd());
-                                        break;
-                                    }
-                                }
+							foreach(LineSegment *s, list) {
+								if (!qIsNaN(s->getEnd().length())) {
+									m_toolDrawer.setToolPosition(s->getEnd());
+									break;
+								}
+							}
                         }
                     }
 
