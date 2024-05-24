@@ -297,7 +297,7 @@ private slots:
 
     void on_cmdStop_clicked();
 
-    void on_cmdSpindle_triggered(QAction *arg1);
+    static void on_cmdSpindle_triggered(QAction *arg1);
 
     void on_btnReload_clicked();
 
@@ -367,11 +367,11 @@ private:
 
     void updateParser();
 
-    bool DataIsFloating(const QString& data);
+    static bool DataIsFloating(const QString& data);
 
-    bool DataIsEnd(const QString& data);
+    static bool DataIsEnd(const QString& data);
 
-    bool DataIsReset(const QString& data);
+    static bool DataIsReset(const QString& data);
 
     void ProcessGRBL1_1();
 
@@ -387,9 +387,9 @@ private:
 
     QTime updateProgramEstimatedTime(QList<LineSegment *> lines);
 
-    bool saveProgramToFile(const QString& fileName, GCodeTableModel *model);
+    static bool saveProgramToFile(const QString& fileName, GCodeTableModel *model);
 
-    QString FeedOverride(const QString& command);
+    static QString FeedOverride(const QString& command);
 
     bool eventFilter(QObject *obj, QEvent *event) override;
 

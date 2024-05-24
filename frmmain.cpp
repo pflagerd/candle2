@@ -1064,7 +1064,7 @@ void frmMain::restoreOffsets() {
 }
 
 void frmMain::sendNextFileCommands() {
-    if (m_CommandQueueList.length() > 0)
+    if (!m_CommandQueueList.empty())
         return;
 
     QString command = FeedOverride(m_currentModel->data(m_currentModel->index(m_fileCommandIndex, 1)).toString());
@@ -1092,7 +1092,7 @@ void frmMain::on_actServiceSettings_triggered() {
 }
 
 bool buttonLessThan(StyledToolButton *b1, StyledToolButton *b2) {
-    return b1->objectName().right(1).toDouble() < b2->objectName().right(1).toDouble();
+    return b1->objectName().rightRef(1).toDouble() < b2->objectName().rightRef(1).toDouble();
 }
 
 void frmMain::updateParser() {
@@ -1415,7 +1415,7 @@ void frmMain::on_actFileNew_triggered() {
 
         // Reset tableview
         QByteArray headerState = ui->tblProgram->horizontalHeader()->saveState();
-        ui->tblProgram->setModel(NULL);
+        ui->tblProgram->setModel(nullptr);
 
         // Set table model
         ui->tblProgram->setModel(&m_programModel);
@@ -1615,7 +1615,7 @@ QString frmMain::FeedOverride(const QString& command) {
 void frmMain::on_grpOverriding_toggled(bool checked) {
     if (checked) {
         ui->grpOverriding->setTitle(tr("Overriding"));
-    } else if (ui->slbFeedOverride->isChecked() | ui->slbRapidOverride->isChecked() |
+    } else if (ui->slbFeedOverride->isChecked() || ui->slbRapidOverride->isChecked() ||
                ui->slbSpindleOverride->isChecked()) {
         ui->grpOverriding->setTitle(tr("Overriding") + QString(tr(" (%1/%2/%3)"))
                 .arg(ui->slbFeedOverride->isChecked() ? QString::number(ui->slbFeedOverride->value()) : "-")
@@ -1716,10 +1716,10 @@ void frmMain::addRecentFile(const QString& fileName) {
 }
 
 void frmMain::onActRecentFileTriggered() {
-    QAction *action = static_cast<QAction *>(sender());
+    QAction *action = dynamic_cast<QAction *>(sender());
     QString fileName = action->text();
 
-    if (action != NULL) {
+    if (action != nullptr) {
         if (!saveChanges(m_heightMapMode))
             return;
 
@@ -1751,7 +1751,7 @@ void frmMain::updateRecentFilesMenu() {
 	}
 
 	foreach (QString file, !m_heightMapMode ? m_recentFiles : m_recentHeightmaps) {
-		QAction *action = new QAction(file, this);
+		auto *action = new QAction(file, this);
 		connect(action, SIGNAL(triggered()), this, SLOT(onActRecentFileTriggered()));
 		ui->mnuRecent->insertAction(ui->mnuRecent->actions()[0], action);
 	}
@@ -1780,7 +1780,7 @@ bool frmMain::compareCoordinates(double x, double y, double z) {
 void frmMain::onCmdUserClicked(bool checked) {
     Q_UNUSED(checked);
 
-    int i = sender()->objectName().right(1).toInt();
+    int i = sender()->objectName().rightRef(1).toInt();
 
     QStringList list = m_settings->userCommands(i).split(";");
 
@@ -1936,8 +1936,7 @@ void frmMain::on_comboInterface_currentTextChanged(const QString &arg1) {
         ui->comboBaud->setEnabled(false);
         // Only GrIP
         ui->comboProtocol->setCurrentIndex(1);
-    } else    // Serial port
-    {
+    } else {   // Serial port
         ui->comboProtocol->setEnabled(true);
         ui->comboBaud->setEnabled(true);
     }
