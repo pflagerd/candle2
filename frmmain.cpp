@@ -992,7 +992,7 @@ void frmMain::onActSendFromLineTriggered() {
     ui->chkKeyboardControl->setChecked(false);
 
     if (!ui->chkTestMode->isChecked()) {
-        storeOffsets(); // Allready stored on check
+        storeOffsets(); // Already stored on check
     }
 
     storeParserState();
