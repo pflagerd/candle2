@@ -31,11 +31,11 @@ void frmMain::ProcessGRBL1_1() {
     while (SerialIf_CanReadLine()) {
         QString data = SerialIf_ReadLine().trimmed();
 
-        qDebug() << "<" << data << ">";
+        qDebug() << __FILE__ << " (" << __LINE__ << ") frmMain::ProcessGRBL1_1(): SerialIf_ReadLine().trimmed() returned:" << data;
 
-        // Filter prereset responses
+        // Filter pre-reset responses
         if (m_resetting) {
-            qDebug() << "reseting filter:" << data;
+            qDebug() << "resetting filter:" << data;
             if (!DataIsReset(data))
                 continue;
             else {

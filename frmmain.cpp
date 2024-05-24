@@ -616,7 +616,7 @@ void frmMain::sendCommand(const QString& command, int tableIndex, bool showInCon
 }
 
 void frmMain::GrblReset() {
-    qDebug() << "GRBL Reset";
+    qDebug() << "GRBL Reset (Ctrl-X sent to GRBL)";
 
     if (!m_settings->ResetAfterConnect()) {
         return;
@@ -770,7 +770,7 @@ void frmMain::onSendSerial() {
                     Pdu_t p = {(uint8_t *) data.data(), (uint16_t) data.length()};
                     GrIP_Transmit(MSG_DATA_NO_RESPONSE, 0, &p);
                 }
-                //qDebug() << "Sent: " << command;
+                qDebug() << __FILE__ << " (" << __LINE__ << ") frmMain::onSendSerial() command ==" << command;
 
                 m_currentModel->setData(m_currentModel->index(q.tableIndex, 2), GCodeItem::Sent);
             }
