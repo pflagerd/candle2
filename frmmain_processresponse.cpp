@@ -274,7 +274,7 @@ void frmMain::ProcessGRBL1_1() {
                 }
             }
 
-            // Get overridings
+            // Get overrides
             static QRegExp ov("Ov:([^,]*),([^,]*),([^,^>^|]*)");
             if (ov.indexIn(data) != -1) {
                 UpdateOverride(ui->slbFeedOverride, ov.cap(1).toInt(), 0x91);
