@@ -319,6 +319,9 @@ QSlider::handle:horizontal:hover {
              <bold>true</bold>
             </font>
            </property>
+           <property name="toolTip">
+            <string>Connect to serial interface</string>
+           </property>
            <property name="text">
             <string>Connect</string>
            </property>
@@ -2891,6 +2894,9 @@ padding-right: 8;</string>
                  <height>54</height>
                 </size>
                </property>
+               <property name="toolTip">
+                <string>Execute Homing Cycle</string>
+               </property>
                <property name="text">
                 <string>HOME</string>
                </property>
@@ -2968,6 +2974,9 @@ padding-right: 8;</string>
                  <width>54</width>
                  <height>54</height>
                 </size>
+               </property>
+               <property name="toolTip">
+                <string>Move Spindle to Safe Z coordinate</string>
                </property>
                <property name="text">
                 <string>Safe</string>
