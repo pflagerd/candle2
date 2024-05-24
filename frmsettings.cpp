@@ -1,13 +1,13 @@
 // This file is a part of "Candle" application.
 // Copyright 2015-2016 Hayrullin Denis Ravilevich
 
-#include <QtSerialPort/QSerialPort>
-#include <QtSerialPort/QSerialPortInfo>
-#include <QDebug>
-#include <QScrollBar>
 #include <QColorDialog>
+#include <QDebug>
 #include <QHostAddress>
 #include <QProcess>
+#include <QScrollBar>
+#include <QtSerialPort/QSerialPort>
+#include <QtSerialPort/QSerialPortInfo>
 
 #include "frmsettings.h"
 
