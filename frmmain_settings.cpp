@@ -17,6 +17,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include <QFileDialog>
+#include <QRegularExpression>
 
 #include "frmmain.h"
 #include "ui_frmmain.h"
@@ -128,10 +129,10 @@ void frmMain::loadSettings() {
     m_settings->setTouchCommand(set.value("touchCommand", "G21G91G38.2Z-30F80; G0Z1; G38.2Z-2F10").toString());
     m_settings->setSafePositionCommand(set.value("safePositionCommand", "G21G90; G53G0Z10").toString());
 
-            foreach (StyledToolButton *button, this->findChildren<StyledToolButton *>(QRegExp("cmdUser\\d"))) {
-            int i = button->objectName().right(1).toInt();
-            m_settings->setUserCommands(i, set.value(QString("userCommands%1").arg(i)).toString());
-        }
+	foreach (StyledToolButton *button, this->findChildren<StyledToolButton *>(QRegularExpression("cmdUser\\d"), Qt::FindChildOption::FindDirectChildrenOnly)) {
+		int i = button->objectName().right(1).toInt();
+		m_settings->setUserCommands(i, set.value(QString("userCommands%1").arg(i)).toString());
+	}
 
     ui->cboJogStep->setItems(set.value("jogSteps").toStringList());
     ui->cboJogStep->setCurrentIndex(ui->cboJogStep->findText(set.value("jogStep").toString()));
@@ -268,10 +269,10 @@ void frmMain::saveSettings() {
     set.setValue("spindleOverride", ui->slbSpindleOverride->isChecked());
     set.setValue("spindleOverrideValue", ui->slbSpindleOverride->value());
 
-            foreach (StyledToolButton *button, this->findChildren<StyledToolButton *>(QRegExp("cmdUser\\d"))) {
-            int i = button->objectName().right(1).toInt();
-            set.setValue(QString("userCommands%1").arg(i), m_settings->userCommands(i));
-        }
+	foreach (StyledToolButton *button, this->findChildren<StyledToolButton *>(QRegularExpression("cmdUser\\d"), Qt::FindChildOption::FindDirectChildrenOnly)) {
+		int i = button->objectName().right(1).toInt();
+		set.setValue(QString("userCommands%1").arg(i), m_settings->userCommands(i));
+	}
 
     set.setValue("jogSteps", ui->cboJogStep->items());
     set.setValue("jogStep", ui->cboJogStep->currentText());
@@ -436,7 +437,7 @@ void frmMain::applySettings() {
     ui->cmdClearConsole->setFixedHeight(ui->cboCommand->height());
     ui->cmdCommandSend->setFixedHeight(ui->cboCommand->height());
 
-            foreach (StyledToolButton *button, this->findChildren<StyledToolButton *>(QRegExp("cmdUser\\d"))) {
+            foreach (StyledToolButton *button, this->findChildren<StyledToolButton *>(QRegularExpression("cmdUser\\d"), Qt::FindChildOption::FindDirectChildrenOnly)) {
             button->setToolTip(m_settings->userCommands(button->objectName().right(1).toInt()));
             button->setEnabled(!button->toolTip().isEmpty());
         }

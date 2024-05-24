@@ -186,7 +186,7 @@ frmMain::frmMain(QWidget *parent) :
 
     connect(ui->cboCommand, SIGNAL(returnPressed()), this, SLOT(onCboCommandReturnPressed()));
 
-            foreach (StyledToolButton *button, this->findChildren<StyledToolButton *>(QRegExp("cmdUser\\d"))) {
+            foreach (StyledToolButton *button, this->findChildren<StyledToolButton *>(QRegularExpression("cmdUser\\d"), Qt::FindChildOption::FindDirectChildrenOnly)) {
             connect(button, SIGNAL(clicked(bool)), this, SLOT(onCmdUserClicked(bool)));
         }
 
@@ -289,9 +289,9 @@ frmMain::frmMain(QWidget *parent) :
     updateControlsState();
 
     // Prepare jog buttons
-            foreach (StyledToolButton *button, ui->grpJog->findChildren<StyledToolButton *>(QRegExp("cmdJogFeed\\d"))) {
-            connect(button, SIGNAL(clicked(bool)), this, SLOT(onCmdJogFeedClicked()));
-        }
+	foreach (StyledToolButton *button, ui->grpJog->findChildren<StyledToolButton *>(QRegularExpression("cmdJogFeed\\d"), Qt::FindChildOption::FindDirectChildrenOnly)) {
+		connect(button, SIGNAL(clicked(bool)), this, SLOT(onCmdJogFeedClicked()));
+	}
 
     // Prepare User Buttons
     ui->cmdUser0->setText(m_settings->userCommands(0));
