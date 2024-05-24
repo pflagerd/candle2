@@ -102,12 +102,12 @@ void frmMain::ProcessGRBL1_1() {
                 ui->cmdSpindle->setEnabled(!m_processingFile || status == HOLD0);
                 ui->cmdTouch->setEnabled(status == IDLE);
                 ui->cmdHome->setEnabled(status == IDLE || status == ALARM);
-#ifdef WINDOWS
-                if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7)
+				#ifdef WINDOWS
+                	if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7)
                 {
                     if (m_taskBarProgress) m_taskBarProgress->setPaused(status == HOLD0 || status == HOLD1 || status == QUEUE);
                 }
-#endif
+				#endif
 
                 // Update "elapsed time" timer
                 if (m_processingFile) {
@@ -602,13 +602,14 @@ void frmMain::ProcessGRBL1_1() {
                             }
                         }
 
-#ifdef WINDOWS
-                        // Update taskbar progress
+						#ifdef WINDOWS
+                        	// Update taskbar progress
                         if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7)
                         {
                             if (m_taskBarProgress) m_taskBarProgress->setValue(m_fileProcessedCommandIndex);
                         }
-#endif
+						#endif
+
                         // Process error messages
                         static bool holding = false;
                         static QString errors;
@@ -832,12 +833,12 @@ void frmMain::ProcessGRBL_ETH(const QString& data_) {
                 ui->cmdSpindle->setEnabled(!m_processingFile || status == HOLD0);
                 ui->cmdTouch->setEnabled(status == IDLE);
                 ui->cmdHome->setEnabled(status == IDLE || status == ALARM);
-#ifdef WINDOWS
-                if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7)
+				#ifdef WINDOWS
+                	if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7)
                 {
                     if (m_taskBarProgress) m_taskBarProgress->setPaused(status == HOLD0 || status == HOLD1 || status == QUEUE);
                 }
-#endif
+				#endif
 
                 // Update "elapsed time" timer
                 if (m_processingFile) {
@@ -1324,13 +1325,13 @@ void frmMain::ProcessGRBL_ETH(const QString& data_) {
                             }
                         }
 
-#ifdef WINDOWS
-                        // Update taskbar progress
+						#ifdef WINDOWS
+                        	// Update taskbar progress
                         if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS7)
                         {
                             if (m_taskBarProgress) m_taskBarProgress->setValue(m_fileProcessedCommandIndex);
                         }
-#endif
+						#endif
                         // Process error messages
                         static bool holding = false;
                         static QString errors;
@@ -1476,7 +1477,6 @@ void frmMain::ProcessGRBL_ETH(const QString& data_) {
         }
     }
 }
-
 
 void frmMain::ProcessGRBL2() {
     while (SerialIf_CanReadLine()) {

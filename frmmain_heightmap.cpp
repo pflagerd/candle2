@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
+#include <QElapsedTimer>
 #include <QFileDialog>
 
 #include "frmmain.h"
@@ -486,7 +487,7 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked) {
             progress.setStyleSheet("QProgressBar {text-align: center; qproperty-format: \"\"}");
 
             // Performance test
-            QTime time;
+            QElapsedTimer timer;
 
             // Set current model to prevent resetting heightmap cache
             m_currentModel = &m_programHeightmapModel;
@@ -501,7 +502,7 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked) {
 
                 progress.setLabelText(tr("Subdividing segments..."));
                 progress.setMaximum(list->count() - 1);
-                time.start();
+                timer.start();
 
                 for (int i = 0; i < list->count(); i++) {
                     if (!list->at(i)->isZMovement()) {
@@ -525,11 +526,11 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked) {
                     }
                 }
 
-                qDebug() << "Subdivide time: " << time.elapsed();
+                qDebug() << "Subdivide timer: " << timer.elapsed();
 
                 progress.setLabelText(tr("Updating Z-coordinates..."));
                 progress.setMaximum(list->count() - 1);
-                time.start();
+                timer.start();
 
                 for (int i = 0; i < list->count(); i++) {
                     if (i == 0) {
@@ -556,11 +557,11 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked) {
                     }
                 }
 
-                qDebug() << "Z update time (interpolation): " << time.elapsed();
+                qDebug() << "Z update timer (interpolation): " << timer.elapsed();
 
                 progress.setLabelText(tr("Modifying G-code program..."));
                 progress.setMaximum(m_programModel.rowCount() - 2);
-                time.start();
+                timer.start();
 
                 // Modifying g-code program
                 QString command;
@@ -677,7 +678,7 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked) {
             }
             progress.close();
 
-            qDebug() << "Program modification time: " << time.elapsed();
+            qDebug() << "Program modification timer: " << timer.elapsed();
 
             ui->tblProgram->setModel(&m_programHeightmapModel);
             ui->tblProgram->horizontalHeader()->restoreState(headerState);
@@ -694,7 +695,7 @@ void frmMain::on_chkHeightMapUse_clicked(bool checked) {
             // Select first row
             ui->tblProgram->selectRow(0);
         }
-        catch (CancelException) {
+        catch (const CancelException&) {
             // Cancel modification
             m_programHeightmapModel.clear();
             m_currentModel = &m_programModel;

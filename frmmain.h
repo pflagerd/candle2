@@ -3,20 +3,22 @@
 #ifndef FRMMAIN_H
 #define FRMMAIN_H
 
-#include <QMainWindow>
-#include <QtSerialPort/QSerialPort>
-#include <QSettings>
-#include <QTimer>
 #include <QBasicTimer>
-#include <QStringList>
-#include <QList>
-#include <QTime>
-#include <QMenu>
 #include <QDragEnterEvent>
 #include <QDropEvent>
+#include <QElapsedTimer>
+#include <QList>
+#include <QMainWindow>
+#include <QMenu>
 #include <QProgressDialog>
-#include <exception>
+#include <QSettings>
+#include <QStringList>
+#include <QTime>
+#include <QTimer>
+#include <QtSerialPort/QSerialPort>
+
 #include <atomic>
+#include <exception>
 
 #include "parser/gcodeviewparse.h"
 
@@ -514,7 +516,7 @@ private:
     QMenu *m_tableMenu;
     QList<CommandAttributes> m_CommandAttributesList;
     QList<CommandQueue> m_CommandQueueList;
-    QTime m_startTime;
+    QElapsedTimer m_startTime;
 
     SafeQueue<CommandQueue2> mCommandsWait;
     SafeQueue<CommandQueue2> mCommandsSent;

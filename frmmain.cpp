@@ -16,24 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#include <QFileDialog>
-#include <QTextStream>
+#include <QAction>
+#include <QComboBox>
 #include <QDebug>
+#include <QElapsedTimer>
+#include <QFileDialog>
+#include <QInputDialog>
+#include <QLayout>
+#include <QMessageBox>
+#include <QMimeData>
+#include <QScrollBar>
+#include <QShortcut>
+#include <QStandardPaths>
 #include <QStringList>
 #include <QTextBlock>
 #include <QTextCursor>
-#include <QMessageBox>
-#include <QComboBox>
-#include <QScrollBar>
-#include <QShortcut>
-#include <QAction>
-#include <QLayout>
-#include <QMimeData>
+#include <QTextStream>
+#include <QThread>
 #include <QtSerialPort/QSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
-#include <QStandardPaths>
-#include <QThread>
-#include <QInputDialog>
 
 #include "frmmain.h"
 
@@ -1095,10 +1096,10 @@ bool buttonLessThan(StyledToolButton *b1, StyledToolButton *b2) {
 }
 
 void frmMain::updateParser() {
-    QTime time;
+    QElapsedTimer timer;
 
     qDebug() << "Updating parser:" << m_currentModel << m_currentDrawer;
-    time.start();
+    timer.start();
 
     GcodeViewParse *parser = m_currentDrawer->viewParser();
 
@@ -1164,7 +1165,7 @@ void frmMain::updateParser() {
         m_fileChanged = true;
     }
 
-    qDebug() << "Update parser time: " << time.elapsed();
+    qDebug() << "Update parser timer: " << timer.elapsed();
 }
 
 void frmMain::on_cmdCommandSend_clicked() {
@@ -1335,9 +1336,9 @@ void frmMain::on_cmdFileReset_clicked() {
     m_probeIndex = -1;
 
     if (!m_heightMapMode) {
-        QTime time;
+        QElapsedTimer timer;
 
-        time.start();
+        timer.start();
 
         QList<LineSegment *> list = m_viewParser.getLineSegmentList();
 
@@ -1349,9 +1350,9 @@ void frmMain::on_cmdFileReset_clicked() {
 
         m_codeDrawer->update(indexes);
 
-        qDebug() << "Drawn false:" << time.elapsed();
+        qDebug() << "Drawn false:" << timer.elapsed();
 
-        time.start();
+        timer.start();
 
         ui->tblProgram->setUpdatesEnabled(false);
 
@@ -1362,7 +1363,7 @@ void frmMain::on_cmdFileReset_clicked() {
 
         ui->tblProgram->setUpdatesEnabled(true);
 
-        qDebug() << "Table updated:" << time.elapsed();
+        qDebug() << "Table updated:" << timer.elapsed();
 
         ui->tblProgram->scrollTo(m_currentModel->index(0, 0));
         ui->tblProgram->clearSelection();

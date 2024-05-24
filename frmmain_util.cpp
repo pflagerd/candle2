@@ -16,22 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#include <QFileDialog>
-#include <QTextStream>
+#include <QAction>
+#include <QComboBox>
 #include <QDebug>
+#include <QElapsedTimer>
+#include <QFileDialog>
+#include <QLayout>
+#include <QMessageBox>
+#include <QMimeData>
+#include <QScrollBar>
+#include <QShortcut>
 #include <QStringList>
 #include <QTextBlock>
 #include <QTextCursor>
-#include <QMessageBox>
-#include <QComboBox>
-#include <QScrollBar>
-#include <QShortcut>
-#include <QAction>
-#include <QLayout>
-#include <QMimeData>
+#include <QTextStream>
+#include <QThread>
 #include <QtSerialPort/QSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
-#include <QThread>
 
 #include "frmmain.h"
 #include "ui_frmmain.h"
@@ -298,8 +299,8 @@ void frmMain::on_cmdFileOpen_clicked() {
 }
 
 void frmMain::loadFile(QList<QString> data) {
-    QTime time;
-    time.start();
+    QElapsedTimer timer;
+    timer.start();
 
     // Reset tables
     clearTable();
@@ -334,8 +335,8 @@ void frmMain::loadFile(QList<QString> data) {
         gp.reset(QVector3D(qQNaN(), qQNaN(), 0));
     }
 
-    qDebug() << "Prepared to load:" << time.elapsed();
-    time.start();
+    qDebug() << "Prepared to load:" << timer.elapsed();
+    timer.start();
 
     // Block parser updates on table changes
     m_programLoading = true;
@@ -392,12 +393,12 @@ void frmMain::loadFile(QList<QString> data) {
 
     m_programModel.insertRow(m_programModel.rowCount());
 
-    qDebug() << "Model filled:" << time.elapsed();
-    time.start();
+    qDebug() << "Model filled:" << timer.elapsed();
+    timer.start();
 
     updateProgramEstimatedTime(
             m_viewParser.getLinesFromParser(&gp, m_settings->arcPrecision(), m_settings->arcDegreeMode()));
-    qDebug() << "View parser filled:" << time.elapsed();
+    qDebug() << "View parser filled:" << timer.elapsed();
 
     m_programLoading = false;
 
