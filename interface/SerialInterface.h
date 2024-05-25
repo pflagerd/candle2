@@ -1,19 +1,15 @@
 #ifndef SERIALINTERFACE_H
 #define SERIALINTERFACE_H
 
-
 #include <QObject>
 #include <QSerialPort>
 #include <QByteArray>
 #include <QTcpSocket>
 #include <QString>
 
-
-typedef enum
-{
-    IF_SERIAL = 0, IF_ETHERNET
+typedef enum {
+	IF_SERIAL = 0, IF_ETHERNET
 } Interface_e;
-
 
 void SerialIf_Init();
 void SerialIf_DeInit();
@@ -28,14 +24,14 @@ void SerialIf_Clear();
 
 QString SerialIf_GetError();
 
-qint64 SerialIf_Write(const QByteArray &data);
-qint64 SerialIf_Write(const char *data, qint64 len);
+qint64 SerialIf_Write(const QByteArray& data);
+qint64 SerialIf_Write(const char* data, qint64 len);
 
 bool SerialIf_CanReadLine();
 qint64 SerialIf_IsDataAvailable();
 
 QByteArray SerialIf_ReadLine();
-qint64 SerialIf_Read(quint8 *data, qint64 max);
+qint64 SerialIf_Read(quint8* data, qint64 max);
 
 
 /*class SerialInterface : public QObject
