@@ -616,8 +616,6 @@ void frmMain::sendCommand(const QString& command, int tableIndex, bool showInCon
 }
 
 void frmMain::GrblReset() {
-    qDebug() << "GRBL Reset (Ctrl-X sent to GRBL)";
-
     if (!m_settings->ResetAfterConnect()) {
         return;
     }
@@ -639,7 +637,7 @@ void frmMain::GrblReset() {
     m_transferCompleted = true;
     m_fileCommandIndex = 0;
 
-	m_resetting = true;
+	m_isAwaitingGrblVersionString = true;
     m_homing = false;
     m_resetCompleted = false;
     // TODO: Don't set spindle speed at startup. Add option for it
@@ -770,7 +768,7 @@ void frmMain::onSendSerial() {
                     Pdu_t p = {(uint8_t *) data.data(), (uint16_t) data.length()};
                     GrIP_Transmit(MSG_DATA_NO_RESPONSE, 0, &p);
                 }
-                qDebug() << __FILE__ << " (" << __LINE__ << ") frmMain::onSendSerial() command ==" << command;
+                qDebug().nospace() << __FILE__ << " (" << __LINE__ << ") frmMain::onSendSerial() command == " << command;
 
                 m_currentModel->setData(m_currentModel->index(q.tableIndex, 2), GCodeItem::Sent);
             }
@@ -1595,7 +1593,7 @@ bool frmMain::DataIsFloating(const QString& data) {
     return false;
 }
 
-bool frmMain::DataIsReset(const QString& data) {
+bool frmMain::wasGrblVersionStringReceived(const QString& data) {
     // "GRBL" in either case, optionally followed by a number of non-whitespace characters,
     // followed by a version number in the format x.y.
     // This matches e.g.
@@ -1863,7 +1861,6 @@ void frmMain::on_btnConnect_clicked() {
 				#ifndef WINDOWS
                 	SerialIf_Clear();
 				#endif
-                qDebug() << "Serial OK";
 
                 m_timerRead.start(ReceiveTimerInterval_ms);
 
