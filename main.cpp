@@ -33,16 +33,6 @@
 #include "frmmain.h"
 
 int main(int argc, char *argv[]) {
-    #ifdef UNIX
-        bool isStyleOverridden = false;
-        for (int i = 0; i < argc; i++) {
-			if (QString(argv[i]).toUpper()=="-STYLE") {
-				isStyleOverridden = true;
-				break;
-			}
-		}
-    #endif
-
     QApplication a(argc, argv);
 
     // QFontDatabase::addApplicationFont(":/fonts/segoeui.ttf");
