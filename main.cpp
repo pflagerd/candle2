@@ -63,8 +63,6 @@ int main(int argc, char *argv[]) {
     QString translationsFolder = qApp->applicationDirPath() + "/translations/";
     QString translationFileName = translationsFolder + qApp->applicationDisplayName() + "_" + loc + ".qm";
 
-    qDebug() << "locale:" << loc;
-
     if (QFile::exists(translationFileName)) {
         auto *translator = new QTranslator();
         if (translator->load(translationFileName)) {
@@ -86,18 +84,6 @@ int main(int argc, char *argv[]) {
     }
 
     QApplication::setApplicationVersion(APP_VERSION);
-
-    #ifdef UNIX
-        if (!isStyleOverridden) {
-			foreach (QString str, QStyleFactory::keys()) {
-				qDebug() << "style" << str;
-				if (str.contains("GTK+")) {
-					QApplication::setStyle(QStyleFactory::create(str));
-					break;
-				}
-			}
-		}
-    #endif
 
     #ifdef GLES
         a.setStyle(QStyleFactory::create("Fusion"));
