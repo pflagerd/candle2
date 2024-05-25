@@ -1,0 +1,44 @@
+{
+  "name": "Real-time Status Report",
+  "GRBL command used to trigger": "?",
+  "reference": [
+    "https://github.com/pflagerd/grbl/blob/master/doc/markdown/interface.md#:~:text=how%20it%20went.-,Real%2Dtime%20status%20reports,-%2D%20Contains%20current%20run"
+  ],
+  "aliases in project artifacts": [
+    {
+      "alias": "frmMain::onTimerStatusQuery",
+      "artifacts": [
+        {
+          "filename": "frmmain.h",
+          "context": "void onTimerStatusQuery();",
+          "semantics": "C++ declaration"
+        },
+        {
+          "filename": "frmmain.cpp",
+          "context": "connect(&m_timerStateQuery, SIGNAL(timeout()), this, SLOT(onTimerStatusQuery()));",
+          "semantics": "C++ Qt signal/slot"
+        },
+        {
+          "filename": "frmmain.cpp",
+          "context": "void frmMain::onTimerStatusQuery() {",
+          "semantics": "C++ definition"
+        },
+      ]
+    },
+    {
+      "alias": "queryStateTime",
+      "artifacts": [
+        {
+          "filename": "~/.config/candle/settings.ini",
+          "context": "queryStateTime=[0-9]+"
+        }
+      ]
+    },
+    {
+      "alias": "?",
+      "artifacts": [
+        {"filename": "frmmain.cpp:803", "context": "SerialIf_Write(\"?\")"}
+      ]
+    }
+  ]
+}
