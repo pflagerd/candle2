@@ -27,11 +27,14 @@
 #include "interface/SerialInterface.h"
 #include "GrIP/GrIP.h"
 
+static bool debug = false;
+
 void frmMain::ProcessGRBL1_1() {
     while (SerialIf_CanReadLine()) {
         QString data = SerialIf_ReadLine().trimmed();
 
-        qDebug().nospace() << __FILE__ << " (" << __LINE__ << ") frmMain::ProcessGRBL1_1(): SerialIf_ReadLine().trimmed() returned:" << data;
+        if (debug)
+            qDebug().nospace() << __FILE__ << " (" << __LINE__ << ") frmMain::ProcessGRBL1_1(): SerialIf_ReadLine().trimmed() returned:" << data;
 
         if (m_isAwaitingGrblVersionString) { // DPP: is the system in a state where it's waiting for the Grbl Version String which is
 											 // displayed whenever the Grbl processor has been (re-)initialized.
@@ -318,11 +321,14 @@ void frmMain::ProcessGRBL1_1() {
                             if (m_Protocol == PROT_GRBL1_1) {
                                 SerialIf_Write(QByteArray(1, char(0x95)));
                             } else if (m_Protocol == PROT_GRIP) {
-                                QByteArray data(1, char(0x95));
+                                QByteArray data(1, char(0x95)); // TODO: DPP: This seems to do nothing.
                                 uint8_t c = 0x95;
                                 Pdu_t p = {&c, 1};
-                                GrIP_Transmit(MSG_REALTIME_CMD, 0, &p);
+                                GrIP_Transmit(MSG_REALTIME_CMD, 0, &p); // TODO: DPP: What's this doing here? GrIP?
                             }
+                            break;
+                        default:
+                            qDebug() << "Unexpected target" << target;
                             break;
                     }
 
@@ -340,7 +346,7 @@ void frmMain::ProcessGRBL1_1() {
                     m_spindleCW = state.contains("S");
 
                     if (state.contains("S") || state.contains("C")) {
-                        m_timerToolAnimation.start(25, this);
+                        m_timerToolAnimation.start(25, this); // TODO: DPP: Invalid arguments?!!
                         ui->cmdSpindle->setChecked(true);
                     } else {
                         m_timerToolAnimation.stop();
@@ -1047,7 +1053,7 @@ void frmMain::ProcessGRBL_ETH(const QString& data_) {
 						if (m_Protocol == PROT_GRBL1_1) {
 							SerialIf_Write(QByteArray(1, char(0x95)));
 						} else if (m_Protocol == PROT_GRIP) {
-							QByteArray data(1, char(0x95));
+							QByteArray data(1, char(0x95)); // TODO: DPP: This doesn't do anything.
 							uint8_t c = 0x95;
 							Pdu_t p = {&c, 1};
 							GrIP_Transmit(MSG_REALTIME_CMD, 0, &p);
@@ -1069,7 +1075,7 @@ void frmMain::ProcessGRBL_ETH(const QString& data_) {
 				m_spindleCW = state.contains("S");
 
 				if (state.contains("S") || state.contains("C")) {
-					m_timerToolAnimation.start(25, this);
+					m_timerToolAnimation.start(25, this); // TODO: DPP: Invalid arguments!?
 					ui->cmdSpindle->setChecked(true);
 				} else {
 					m_timerToolAnimation.stop();

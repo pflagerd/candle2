@@ -723,7 +723,7 @@ void frmMain::onProcessData() {
 }
 
 void frmMain::onSendSerial() {
-    for (int i = 0; i < 4; i++) { // DPP: What's with this i? Issue #30
+    for (int i = 0; i < 4; i++) { // TODO: DPP: What's with this i? Issue #30
         if (mCommandsWait.size() > 0) {
             if (!SerialIf_IsOpen()) {
                 return;
@@ -768,7 +768,6 @@ void frmMain::onSendSerial() {
                     Pdu_t p = {(uint8_t *) data.data(), (uint16_t) data.length()};
                     GrIP_Transmit(MSG_DATA_NO_RESPONSE, 0, &p);
                 }
-                qDebug().nospace() << __FILE__ << " (" << __LINE__ << ") frmMain::onSendSerial() command == " << command;
 
                 m_currentModel->setData(m_currentModel->index(q.tableIndex, 2), GCodeItem::Sent);
             }
