@@ -1,44 +1,93 @@
-{
-  "name": "Real-time Status Report",
-  "GRBL command used to trigger": "?",
-  "reference": [
-    "https://github.com/pflagerd/grbl/blob/master/doc/markdown/interface.md#:~:text=how%20it%20went.-,Real%2Dtime%20status%20reports,-%2D%20Contains%20current%20run"
-  ],
-  "aliases in project artifacts": [
-    {
-      "alias": "frmMain::onTimerStatusQuery",
-      "artifacts": [
-        {
-          "filename": "frmmain.h",
-          "context": "void onTimerStatusQuery();",
-          "semantics": "C++ declaration"
-        },
-        {
-          "filename": "frmmain.cpp",
-          "context": "connect(&m_timerStateQuery, SIGNAL(timeout()), this, SLOT(onTimerStatusQuery()));",
-          "semantics": "C++ Qt signal/slot"
-        },
-        {
-          "filename": "frmmain.cpp",
-          "context": "void frmMain::onTimerStatusQuery() {",
-          "semantics": "C++ definition"
-        },
-      ]
-    },
-    {
-      "alias": "queryStateTime",
-      "artifacts": [
-        {
-          "filename": "~/.config/candle/settings.ini",
-          "context": "queryStateTime=[0-9]+"
-        }
-      ]
-    },
-    {
-      "alias": "?",
-      "artifacts": [
-        {"filename": "frmmain.cpp:803", "context": "SerialIf_Write(\"?\")"}
-      ]
-    }
-  ]
-}
+[
+  {
+    "name": "G-code Parser State Message",
+    "GRBL command used to trigger": "$G",
+    "reference": [
+      "https://github.com/pflagerd/grbl/blob/master/doc/markdown/interface.md#:~:text=G%2Dcode%20Parser%20State%20Message"
+    ],
+    "aliases in project artifacts": [
+      {
+        "alias": "$G",
+        "artifacts": [
+          {
+            "filename": "frmmain.cpp",
+            "context": "sendCommand(\"$G\", -3, false);",
+            "semantics": "C++ usage"
+          },
+          {
+            "filename": "frmmain_jogcontrol.cpp",
+            "context": "sendCommand(\"$G\", -2, m_settings->showUICommands());",
+            "semantics": "C++ usage"
+          }
+          ]
+      },
+      {
+        "alias": "onTimerUpdateSpindleParser",
+        "artifacts": [
+          {
+            "filename": "frmmain.cpp",
+            "context": "void frmMain::onTimerUpdateSpindleParser() {",
+            "semantics": "C++ definition"
+          },
+          {
+            "filename": "frmmain.h",
+            "context": "void onTimerUpdateSpindleParser();",
+            "semantics": "C++ declaration"
+          },
+          {
+            "filename": "frmmain_jogcontrol.cpp",
+            "context": "sendCommand(\"$G\", -2, m_settings->showUICommands());",
+            "semantics": "C++ usage"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Real-time Status Report",
+    "GRBL command used to trigger": "?",
+    "reference": [
+      "https://github.com/pflagerd/grbl/blob/master/doc/markdown/interface.md#:~:text=how%20it%20went.-,Real%2Dtime%20status%20reports,-%2D%20Contains%20current%20run"
+    ],
+    "aliases in project artifacts": [
+      {
+        "alias": "onTimerStatusQuery",
+        "artifacts": [
+          {
+            "filename": "frmmain.h",
+            "context": "void onTimerStatusQuery();",
+            "semantics": "C++ declaration"
+          },
+          {
+            "filename": "frmmain.cpp",
+            "context": "connect(&m_timerStateQuery, SIGNAL(timeout()), this, SLOT(onTimerStatusQuery()));",
+            "semantics": "C++ Qt signal/slot"
+          },
+          {
+            "filename": "frmmain.cpp",
+            "context": "void frmMain::onTimerStatusQuery() {",
+            "semantics": "C++ definition"
+          }
+        ]
+      },
+      {
+        "alias": "queryStateTime",
+        "artifacts": [
+          {
+            "filename": "~/.config/candle/settings.ini",
+            "context": "queryStateTime=[0-9]+"
+          }
+        ]
+      },
+      {
+        "alias": "?",
+        "artifacts": [
+          {
+            "filename": "frmmain.cpp:803",
+            "context": "SerialIf_Write(\"?\")"
+          }
+        ]
+      }
+    ]
+  }
+]
