@@ -547,15 +547,15 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 void GLWidget::wheelEvent(QWheelEvent *we)
 {
     if (m_zoom > 0.1 && we->delta() < 0) {
-        m_xPan -= ((double)we->pos().x() / width() - 0.5 + m_xPan) * (1 - 1 / ZOOMSTEP);
-        m_yPan += ((double)we->pos().y() / height() - 0.5 - m_yPan) * (1 - 1 / ZOOMSTEP);
+        m_xPan -= ((double)we->position().x() / width() - 0.5 + m_xPan) * (1 - 1 / ZOOMSTEP);
+        m_yPan += ((double)we->position().y() / height() - 0.5 - m_yPan) * (1 - 1 / ZOOMSTEP);
 
         m_zoom /= ZOOMSTEP;
     }
     else if (m_zoom < 10 && we->delta() > 0)
     {
-        m_xPan -= ((double)we->pos().x() / width() - 0.5 + m_xPan) * (1 - ZOOMSTEP);
-        m_yPan += ((double)we->pos().y() / height() - 0.5 - m_yPan) * (1 - ZOOMSTEP);
+        m_xPan -= ((double)we->position().x() / width() - 0.5 + m_xPan) * (1 - ZOOMSTEP);
+        m_yPan += ((double)we->position().y() / height() - 0.5 - m_yPan) * (1 - ZOOMSTEP);
 
         m_zoom *= ZOOMSTEP;
     }
@@ -564,19 +564,18 @@ void GLWidget::wheelEvent(QWheelEvent *we)
     updateView();
 }
 
-void GLWidget::timerEvent(QTimerEvent *te)
-{
+void GLWidget::timerEvent(QTimerEvent *te) {
     if (te->timerId() == m_timerPaint.timerId()) {
         if (m_animateView) viewAnimation();
-	#ifndef GLES
-        if (m_updatesEnabled) update();
-	#endif
+        #ifndef GLES
+            if (m_updatesEnabled) update();
+        #endif
     } else {
-	#ifdef GLES
-        QOpenGLWidget::timerEvent(te);
-	#else
-        QGLWidget::timerEvent(te);
-	#endif
+        #ifdef GLES
+            QOpenGLWidget::timerEvent(te);
+        #else
+            QGLWidget::timerEvent(te);
+        #endif
     }
 }
 

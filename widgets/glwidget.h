@@ -120,7 +120,7 @@ private:
     QString m_bufferState;
     bool m_updatesEnabled;
 
-    double normalizeAngle(double angle);
+    static double normalizeAngle(double angle);
     double calculateVolume(QVector3D size);
     void beginViewAnimation();
     void stopViewAnimation();
