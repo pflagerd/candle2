@@ -371,7 +371,7 @@ private:
 
     static bool DataIsEnd(const QString& data);
 
-    static bool DataIsReset(const QString& data);
+    static bool wasGrblVersionStringReceived(const QString& data);
 
     void ProcessGRBL1_1();
 
@@ -543,7 +543,7 @@ private:
     bool m_updateParserStatus = false;
     bool m_updateFeed = false;
 
-    bool m_resetting = false;
+    bool m_isAwaitingGrblVersionString = false;
     bool m_resetCompleted = true;
     bool m_aborting = false;
     bool m_statusReceived = false;
