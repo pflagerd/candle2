@@ -624,7 +624,7 @@ void frmMain::GrblReset() {
 
     // Reset: 0x18 == Ctrl-X == CAN(cel)
     if (m_Protocol == PROT_GRBL1_1) {
-        SerialIf_Write(QByteArray(1, (char) 0x18)); // Ctrl-X
+        SerialIf_Write(QByteArray(1, (char) 0x18)); // Ctrl-X  TODO:DPP:Shouldn't this go through "command"?
     } else if (m_Protocol == PROT_GRIP) {
         //QByteArray data(1, (char)0x18);
         //GrIP_Transmit(MSG_SYSTEM_CMD, 0, (const uint8_t*)data.constData(), data.length());
