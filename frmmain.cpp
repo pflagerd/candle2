@@ -869,7 +869,7 @@ void frmMain::on_cmdFileSend_clicked() {
     ui->chkKeyboardControl->setChecked(false);
 
     if (!ui->chkTestMode->isChecked()) {
-        storeOffsets(); // Allready stored on check
+        storeOffsets(); // Already stored on check TODO:DPP: Stored on check of what?
     }
     storeParserState();
 
