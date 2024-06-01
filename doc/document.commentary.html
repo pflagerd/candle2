@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candle2 Commentary</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 3vmax;
+        }
+
+        code {
+            font-size: 118%;
+            background-color: #CCCCCC;
+            padding: 0 0.5vmax;
+        }
+
+        pre {
+            margin: 0 3vmax;
+            /* display: inline-block; */
+            background-color: #BBBBBB;
+            padding: 1vmax;
+            border-radius: 5px; /* Optional: adds rounded corners */
+        }
+
+        strike {
+            color: red;
+        }
+
+        .changed-block {
+            position: relative;
+            padding-left: 1.25vmax; /* Adjust to ensure the text doesn't overlap with the bar */
+        }
+
+        .changed-block::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 0.25vmax;
+            background-color: red; /* Change the color as needed */
+        }
+
+        .commentary-block {
+            margin-bottom: 5vmax;
+        }
+
+        .requirement {
+            color: #BB0000;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+        }
+
+        .sedgewick {
+            font-family: LiberationSerif, serif; font-size: 110%;
+            margin: 0 3vmax;
+        }
+
+        .keyword {
+            color: blue;
+        }
+
+        .new-text {
+            color: green;
+        }
+
+        .timestamp {
+            font-size: xx-small;
+            font-weight: bold;
+            border-top: solid darkgray thin;
+            padding: 0.3vh 0;
+        }
+
+        .todo {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<h1 style="color: lightgray;">Commentary</h1>
+<div class="commentary-block">
+    <p class="timestamp">Fri May 31 04:56:24 PM PDT 2024</p>
+    <h3 style="color: lightgray;">Hardware Entities</h3>
+    <p class="todo">TODO: Label the significant parts of the 4030XL (x, y, z axes), spindle motor, etc.</p>
+    <p class="todo">TODO: A video of the thing in operation with some labels might also be super-duper.</p>
+    <p class="todo">TODO: It would be amazing if the image and video had active hovers which did cool stuff like pop up
+        a video showing how the user would move the carriage etc.</p>
+    <p class="todo">TODO: Common workflows would also be amazing.  In particular the initialization one where
+    candle configures itself/and the machine for first-time operation.</p>
+    <p class="todo">TODO: Common hazards addressed by the design could be documented also.</p>
+    <p class="todo">TODO: Candle2 should be self-updating installable as an AppImage</p>
+    <p class="todo">TODO: Also installable as a ubuntu package, fedora package, arch (pacman) package, snap and flatpak.</p>
+    <p class="todo">TODO: It should self-configure.  Finding such things as serial port not accessible because of permissions and making it so (prompting for sudo password if necessary)</p>
+
+    <br>
+    <h3 style="color: lightgray;">Software Entities</h3>
+    <p class="todo">TODO: Not complete obviously</p>
+
+    <br>
+    <h3 style="color: lightgray;">UI Entities</h3>
+    <p class="todo">TODO: Not all UI elements are labelled.</p>
+</div>
+</body>
+</html>
