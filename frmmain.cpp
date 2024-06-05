@@ -318,8 +318,10 @@ frmMain::frmMain(QWidget *parent) :
     ui->splitPanels->installEventFilter(this);
 
     // Connect timers
-    connect(&m_timerSpindleUpdate, SIGNAL(timeout()), this, SLOT(onTimerUpdateSpindleParser()));
-    connect(&m_timerStateQuery, SIGNAL(timeout()), this, SLOT(onTimerStatusQuery()));
+    // TODO: DPP: These two timers should not be turned on until serial port is initialized.
+
+//    connect(&m_timerSpindleUpdate, SIGNAL(timeout()), this, SLOT(onTimerUpdateSpindleParser()));
+//    connect(&m_timerStateQuery, SIGNAL(timeout()), this, SLOT(onTimerStatusQuery()));
     connect(&m_timerRead, SIGNAL(timeout()), this, SLOT(onProcessData()));
 
     connect(&m_timerSend, SIGNAL(timeout()), this, SLOT(onSendSerial()));
@@ -1855,15 +1857,20 @@ void frmMain::on_btnConnect_clicked() {
         if (serial_interface != "ETHERNET") {
             // Open serial interface
             if (SerialIf_OpenSerial(0, ui->comboInterface->currentText(), ui->comboBaud->currentText().toInt())) {
-                ui->txtStatus->setText(tr("Port opened"));
+                ui->txtConsole->appendPlainText("Successfully opened serial port");
+                ui->txtStatus->setText(tr("Port opened")); // TODO: DPP: Where is the txtStatus widget?s
                 ui->txtStatus->setStyleSheet(QString("background-color: palette(button); color: palette(text);"));
 				#ifndef WINDOWS
                 	SerialIf_Clear();
 				#endif
 
+                // TODO: DPP: Not sure why there is a ReceiveTimer.  Why not a slot connection to the serial interface?
                 m_timerRead.start(ReceiveTimerInterval_ms);
 
-                GrblReset();
+                // TODO: DPP: This really seems out of place.  Once initialized, why send a Ctrl-X right away?
+                //            Maybe it has to do with other initializations which occur in GrblReset()?  If so, why
+                //            aren't they in their own function (separate from sending the Ctrl-X)
+//                GrblReset();
             } else {
                 ui->txtConsole->appendPlainText(tr("Serial port error: ") + SerialIf_GetError());
                 qDebug() << "Couldn't open serial port";
