@@ -85,14 +85,10 @@
 <body>
 <h1 style="color: lightgray;">Commentary</h1>
 <div class="commentary-block">
-    <p class="timestamp">Mon Jun  3 06:05:49 PM PDT 2024</p>
-    <p class="todo">I think the first state in <code>frmMain::ProcessGRBL1_1()</code> is waiting for the "\r\n" from the 4030XL.</p>
-</div>
-<div class="commentary-block">
     <p class="timestamp">Sun Jun  2 10:08:12 AM PDT 2024</p>
     <div class="todo">
         <div>TODO: One of the immediate problems I have with candle2 is that the default machine coordinate origin on the
-            Genmitsu 4030 seems to be the upper right corner of the work surface.  I want it to be the lower left corner of the work surface.
+            Genmitsu 4030 seem to be the upper right corner of the work surface.  I want it to be the lower left corner of the work surface.
             I know how to do this using GRBL's "$23=3" command, but I'm unsure where to put this in the code.
             <div style="margin-top: 1em;" class="indent">One possible implementation of this is to create a state machine which waits for a response
                 to the <code>btnConnect</code> button, and when the response is received

@@ -31,10 +31,12 @@ static bool debug = false;
 
 void frmMain::ProcessGRBL1_1() {
     while (SerialIf_CanReadLine()) {
-        QString data = SerialIf_ReadLine().trimmed();
+        QString data = SerialIf_ReadLine();
 
         if (debug)
             qDebug().nospace() << __FILE__ << " (" << __LINE__ << ") frmMain::ProcessGRBL1_1(): SerialIf_ReadLine().trimmed() returned:" << data;
+
+		data = data.trimmed();
 
         if (m_isAwaitingGrblVersionString) { // DPP: is the system in a state where it's waiting for the Grbl Version String which is
 											 // displayed whenever the Grbl processor has been (re-)initialized.
