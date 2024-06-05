@@ -730,11 +730,11 @@ void frmMain::ProcessGRBL1_1() {
                 }
             } else {
                 // Unprocessed responses
-                qDebug() << "Floating response:" << data; // DPP: What does "Floating response" mean?  Does it mean unexpected for the current state?
+//                qDebug() << "Floating response:" << data; // DPP: What does "Floating response" mean?  Does it mean unexpected for the current state?
 
                 // Handle hardware reset
                 if (wasGrblVersionStringReceived(data)) {
-                    qDebug() << "Hardware reset"; // DPP: Is this an assertion that a hardware reset must have occurred?
+//                    qDebug() << "Hardware reset"; // DPP: Is this an assertion that a hardware reset must have occurred?
 
                     m_processingFile = false;
                     m_transferCompleted = true;
@@ -1450,12 +1450,9 @@ void frmMain::ProcessGRBL_ETH(const QString& data_) {
 				response.append(data + "; ");
 			}
 		} else {
-			// Unprocessed responses
-			qDebug() << "Floating response:" << data;
-
 			// Handle hardware reset
 			if (wasGrblVersionStringReceived(data)) {
-				qDebug() << "Hardware reset"; // DPP: Is this an assertion that a hardware assertion must have occurred?
+//				qDebug() << "Hardware reset"; // DPP: Is this an assertion that a hardware assertion must have occurred?
 
 				m_processingFile = false;
 				m_transferCompleted = true;
