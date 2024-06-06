@@ -319,9 +319,9 @@ frmMain::frmMain(QWidget *parent) :
 
     // Connect timers
     // TODO: DPP: These two timers should not be turned on until serial port is initialized.
+	// connect(&m_timerSpindleUpdate, SIGNAL(timeout()), this, SLOT(onTimerUpdateSpindleParser()));
+	// connect(&m_timerStateQuery, SIGNAL(timeout()), this, SLOT(onTimerStatusQuery()));
 
-//    connect(&m_timerSpindleUpdate, SIGNAL(timeout()), this, SLOT(onTimerUpdateSpindleParser()));
-//    connect(&m_timerStateQuery, SIGNAL(timeout()), this, SLOT(onTimerStatusQuery()));
     connect(&m_timerRead, SIGNAL(timeout()), this, SLOT(onProcessData()));
 
     connect(&m_timerSend, SIGNAL(timeout()), this, SLOT(onSendSerial()));

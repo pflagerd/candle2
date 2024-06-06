@@ -34,6 +34,11 @@ QByteArray SerialIf_ReadLine();
 qint64 SerialIf_Read(quint8* data, qint64 max);
 
 
+// TODO: DPP: Wed Jun  5 09:28:21 PM PDT 2024:
+//		Looks like someone was trying to go object oriented.
+//     	Trying to have it support either USB or tcp or "Interface"?
+//		Why have it inherit from QObject?
+//
 /*class SerialInterface : public QObject
 {
 public:

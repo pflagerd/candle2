@@ -17,11 +17,12 @@
         }
 
         pre {
-            margin: 0 3vmax;
+            margin: 0;
             /* display: inline-block; */
             background-color: #BBBBBB;
             padding: 1vmax;
             border-radius: 5px; /* Optional: adds rounded corners */
+            overflow-x: auto;
         }
 
         strike {
@@ -85,8 +86,22 @@
 <body>
 <h1 style="color: lightgray;">Commentary</h1>
 <div class="commentary-block">
+    <p class="timestamp new-text">Mon Jun  3 06:05:49 PM PDT 2024</p>
+    <div class="todo">I found that two timers were turned on at the same time as the serial port's timer was turned on, making the initial state difficult to handle.  So I temporarily <b>commented them out</b>:
+        <p></p>
+        <pre>// Connect timers
+<b>// TODO: DPP: These two timers should not be turned on until serial port is initialized.
+// connect(&m_timerSpindleUpdate, SIGNAL(timeout()), this, SLOT(onTimerUpdateSpindleParser()));
+// connect(&m_timerStateQuery, SIGNAL(timeout()), this, SLOT(onTimerStatusQuery()));</b>
+
+connect(&m_timerRead, SIGNAL(timeout()), this, SLOT(onProcessData()));
+
+connect(&m_timerSend, SIGNAL(timeout()), this, SLOT(onSendSerial()));</pre>
+    </div>
+</div>
+<div class="commentary-block">
     <p class="timestamp">Mon Jun  3 06:05:49 PM PDT 2024</p>
-    <p class="todo">I think the first state in <code>frmMain::ProcessGRBL1_1()</code> is waiting for the "\r\n" from the 4030XL.</p>
+    <p>I think the first state in <code>frmMain::ProcessGRBL1_1()</code> is waiting for the "\r\n" from the 4030XL.</p>
 </div>
 <div class="commentary-block">
     <p class="timestamp">Sun Jun  2 10:08:12 AM PDT 2024</p>
@@ -103,7 +118,7 @@
                     <br>
                     <p>Here's the file in which the serial port gets read from: <code><a href="https://github.com/pflagerd/candle2/blob/4d8efc25080f76c363548fdd3cc6ddc08f5d824c/frmmain_processresponse.cpp#L39">frmmain_processresponse.cpp</a></code></p>
                     <p>Here's the start of a function that gets invoked by a timer, and which processes all serial data received from the 4030XL:</p>
-                    <pre style="overflow-x: auto; margin: 0;">void frmMain::ProcessGRBL1_1() {
+                    <pre>void frmMain::ProcessGRBL1_1() {
 while (SerialIf_CanReadLine()) {
     QString data = SerialIf_ReadLine().trimmed();
 
