@@ -23,6 +23,7 @@
             padding: 1vmax;
             border-radius: 5px; /* Optional: adds rounded corners */
             overflow-x: auto;
+            position: relative;
         }
 
         strike {
@@ -86,10 +87,11 @@
 <body>
 <h1 style="color: lightgray;">Commentary</h1>
 <div class="commentary-block">
-    <p class="timestamp new-text">Mon Jun  3 06:05:49 PM PDT 2024</p>
-    <div class="todo">I found that two timers were turned on at the same time as the serial port's timer was turned on, making the initial state difficult to handle.  So I temporarily <b>commented them out</b>:
+    <p class="timestamp new-text">Mon Jun  3 06:05:49 PM PDT 2024 (0143ac0c17e61fa26184cbf9ac689195251e5415)</p>
+    <div class="todo">I found that two timers were turned on at the same time as the serial port's timer was turned on, making the initial state difficult to handle.  So I temporarily commented them out:
         <p></p>
-        <pre>// Connect timers
+        <pre><span style="font-size: smaller; position: absolute; top: 3px; left: 3px; font-style: italic;">frmmain.cpp 320-327</span>
+// Connect timers
 <b>// TODO: DPP: These two timers should not be turned on until serial port is initialized.
 // connect(&m_timerSpindleUpdate, SIGNAL(timeout()), this, SLOT(onTimerUpdateSpindleParser()));
 // connect(&m_timerStateQuery, SIGNAL(timeout()), this, SLOT(onTimerStatusQuery()));</b>
@@ -98,6 +100,7 @@ connect(&m_timerRead, SIGNAL(timeout()), this, SLOT(onProcessData()));
 
 connect(&m_timerSend, SIGNAL(timeout()), this, SLOT(onSendSerial()));</pre>
     </div>
+    <div class="todo">I really need to find all my TODO: DPP: comments and document them here.</div>
 </div>
 <div class="commentary-block">
     <p class="timestamp">Mon Jun  3 06:05:49 PM PDT 2024</p>

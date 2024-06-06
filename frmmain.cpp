@@ -626,7 +626,7 @@ void frmMain::GrblReset() {
 
     // Reset: 0x18 == Ctrl-X == CAN(cel)
     if (m_Protocol == PROT_GRBL1_1) {
-        SerialIf_Write(QByteArray(1, (char) 0x18)); // Ctrl-X  TODO:DPP:Shouldn't this go through "command"?
+        SerialIf_Write(QByteArray(1, (char) 0x18)); // Ctrl-X  TODO: DPP: Shouldn't this go through "command"?
     } else if (m_Protocol == PROT_GRIP) {
         //QByteArray data(1, (char)0x18);
         //GrIP_Transmit(MSG_SYSTEM_CMD, 0, (const uint8_t*)data.constData(), data.length());
@@ -1870,7 +1870,7 @@ void frmMain::on_btnConnect_clicked() {
                 // TODO: DPP: This really seems out of place.  Once initialized, why send a Ctrl-X right away?
                 //            Maybe it has to do with other initializations which occur in GrblReset()?  If so, why
                 //            aren't they in their own function (separate from sending the Ctrl-X)
-//                GrblReset();
+				// GrblReset();
             } else {
                 ui->txtConsole->appendPlainText(tr("Serial port error: ") + SerialIf_GetError());
                 qDebug() << "Couldn't open serial port";
