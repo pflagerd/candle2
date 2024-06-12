@@ -57,7 +57,7 @@ frmMain::frmMain(QWidget *parent) :
              << "Hold:1"
              << "Queue"
              << "Check"
-             << "Door"                     // TODO: Update "Door" state
+             << "Door"                     // TODO: DPP: There is no Door on a Genmitsu 4030XL [WAS: Update "Door" state]
              << "Jog"
              << "Dwell"
              << "Tool"
