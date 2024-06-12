@@ -86,6 +86,7 @@
 </head>
 <body>
 <h1 style="color: lightgray;">Commentary</h1>
+
 <div class="commentary-block">
     <p class="timestamp new-text">Tue Jun 11 05:11:24 PM PDT 2024 (1e697894a1781cad865d446685a10f0cdd8c6567)</p>
     <div class="todo">I found a case where data is sent directly to the serial port, rather than being echoed to <code>txtConsole</code>:
@@ -98,6 +99,17 @@ if (m_Protocol == PROT_GRBL1_1) {
 </pre>
     </div><br>
     <div class="todo">Find all my TODO: DPP: comments and document them here.</div>
+    <br>
+    <div class="todo">I wrote <a href="http://gitlab.pflager.net/cagd/grbl.py/-/blob/b515ce82bd28e2a658087bd258a85aafe98c908b/simplest-terminal-ever.py" target="_blank"><code>simplest-terminal-ever.py</code></a> so I could test the 4030XL's GRBL implementation by running it from within PyCharm.  When <code>simplest-terminal-ever.py</code> connected to the 4030XL's serial port, it emitted the
+        following output (although the red color was added later to show what was received by the serial port):</div>
+    <pre>
+/home/oy753c/desktops/toadstool-logo/grbl.py/venv/bin/python -X pycache_prefix=/home/oy753c/.cache/JetBrains/PyCharmCE2024.1/cpython-cache /home/oy753c/.local/share/pycharm-community-2024.1.2/plugins/python-ce/helpers/pydev/pydevd.py --multiprocess --qt-support=auto --client 127.0.0.1 --port 41873 --file /home/oy753c/desktops/toadstool-logo/grbl.py/simplest-terminal-ever.py
+Connected to pydev debugger (build 241.17011.127)
+<span style="color: red;">b'\r\n'
+b"Grbl 1.1h ['$' for help]\r\n"
+b"[MSG:'$H'|'$X' to unlock]\r\n"</span>
+</pre>
+
 </div>
 
 <div class="commentary-block">

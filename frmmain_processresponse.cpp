@@ -45,7 +45,10 @@ void frmMain::ProcessGRBL1_1() {
 		switch (grbl1_1State) {
 			case Grbl1_1_State::waitForSerialConnectionCRLFResponse:
 				qDebug().nospace() << __FILE__ << " (" << __LINE__ << ") frmMain::ProcessGRBL1_1(): waitForSerialConnectionCRLFResponse"; // TODO: DPP: 240611T173101 PDT: Need code here.
-				// TODO: DPP: 240611T173101 PDT: Check that the serial data received is CRLF.  If it is, what do we wait for next?
+				// TODO: DPP: 240611T173101 PDT: Check that the serial data received is CRLF.  If it is, it should be part of a three line sequence as follows (python binary strings):
+				//  	b'\r\n'
+				//		b"Grbl 1.1h ['$' for help]\r\n"
+				//		b"[MSG:'$H'|'$X' to unlock]\r\n"
 				break;
 
 			default:
