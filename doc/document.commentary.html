@@ -87,10 +87,24 @@
 <body>
 <h1 style="color: lightgray;">Commentary</h1>
 <div class="commentary-block">
-    <p class="timestamp new-text">Mon Jun  3 06:05:49 PM PDT 2024 (0143ac0c17e61fa26184cbf9ac689195251e5415)</p>
+    <p class="timestamp new-text">Tue Jun 11 05:11:24 PM PDT 2024 (1e697894a1781cad865d446685a10f0cdd8c6567)</p>
+    <div class="todo">I found a case where data is sent directly to the serial port, rather than being echoed to <code>txtConsole</code>:
+        <p></p>
+        <pre><a href="https://github.com/pflagerd/candle2/blob/1e697894a1781cad865d446685a10f0cdd8c6567/frmmain.cpp#L628" target="_blank"><span style="font-size: smaller; position: absolute; top: 3px; left: 3px; font-style: italic;">frmmain.cpp 628-631</span></a>
+// Reset: 0x18 == Ctrl-X == CAN(cel)
+if (m_Protocol == PROT_GRBL1_1) {
+    <b></b>SerialIf_Write(QByteArray(1, (char) 0x18)); // Ctrl-X  TODO: DPP: Shouldn't this go through "command"?</b>
+} else if (m_Protocol == PROT_GRIP) {
+</pre>
+    </div><br>
+    <div class="todo">Find all my TODO: DPP: comments and document them here.</div>
+</div>
+
+<div class="commentary-block">
+    <p class="timestamp">Mon Jun  3 06:05:49 PM PDT 2024 (0143ac0c17e61fa26184cbf9ac689195251e5415)</p>
     <div class="todo">I found that two timers were turned on at the same time as the serial port's timer was turned on, making the initial state difficult to handle.  So I temporarily commented them out:
         <p></p>
-        <pre><span style="font-size: smaller; position: absolute; top: 3px; left: 3px; font-style: italic;">frmmain.cpp 320-327</span>
+        <pre><a href="https://github.com/pflagerd/candle2/blob/1e697894a1781cad865d446685a10f0cdd8c6567/frmmain.cpp#L320" target="_blank"><span style="font-size: smaller; position: absolute; top: 3px; left: 3px; font-style: italic;">frmmain.cpp 320-327</span></a>
 // Connect timers
 <b>// TODO: DPP: These two timers should not be turned on until serial port is initialized.
 // connect(&m_timerSpindleUpdate, SIGNAL(timeout()), this, SLOT(onTimerUpdateSpindleParser()));
@@ -100,7 +114,7 @@ connect(&m_timerRead, SIGNAL(timeout()), this, SLOT(onProcessData()));
 
 connect(&m_timerSend, SIGNAL(timeout()), this, SLOT(onSendSerial()));</pre>
     </div><br>
-    <div class="todo">I really need to find all my TODO: DPP: comments and document them here.</div>
+    <strike title="Moved to commentary-block Tue Jun 11 05:11:24 PM PDT 2024 (1e697894a1781cad865d446685a10f0cdd8c6567)"><div class="todo">I really need to find all my TODO: DPP: comments and document them here.</div></strike>
 </div>
 <div class="commentary-block">
     <p class="timestamp">Mon Jun  3 06:05:49 PM PDT 2024</p>
