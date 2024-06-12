@@ -29,12 +29,28 @@
 
 static bool debug = false;
 
+class Grbl1_1_State {
+	static int waitForSerialConnectionCRLFResponse = 1;
+};
+
+static int grbl1_1_State = Grbl1_1_State::waitForSerialConnectionCRLFReponse;
+
 void frmMain::ProcessGRBL1_1() {
     while (SerialIf_CanReadLine()) {
         QString data = SerialIf_ReadLine();
 
         if (debug)
             qDebug().nospace() << __FILE__ << " (" << __LINE__ << ") frmMain::ProcessGRBL1_1(): SerialIf_ReadLine().trimmed() returned:" << data;
+
+		switch (grbl1_1State) {
+			case Grbl1_1_State::waitForSerialConnectionCRLFResponse:
+				qDebug().nospace() << __FILE__ << " (" << __LINE__ << ") frmMain::ProcessGRBL1_1(): waitForSerialConnectionCRLFResponse"; // TODO: DPP: 240611T173101 PDT: Need code here.
+				// TODO: DPP: 240611T173101 PDT: Check that the serial data received is CRLF.  If it is, what do we wait for next?
+				break;
+
+			default:
+				break;
+		}
 
 		data = data.trimmed();
 
