@@ -85,6 +85,10 @@
     </style>
 </head>
 <body>
+<h1 style="color: lightgray;">TODOs</h1>
+<div class="todo">Find all my TODO: DPP: comments and document them here.</div>
+<br>
+
 <h1 style="color: lightgray;">Commentary</h1>
 
 <div class="commentary-block">
@@ -96,10 +100,8 @@
 if (m_Protocol == PROT_GRBL1_1) {
     <b>SerialIf_Write(QByteArray(1, (char) 0x18)); // Ctrl-X  TODO: DPP: Shouldn't this go through "command"?</b>
 } else if (m_Protocol == PROT_GRIP) {
-</pre>
+        </pre>
     </div><br>
-    <div class="todo">Find all my TODO: DPP: comments and document them here.</div>
-    <br>
     <div class="todo">I wrote <a href="http://gitlab.pflager.net/cagd/grbl.py/-/blob/b515ce82bd28e2a658087bd258a85aafe98c908b/simplest-terminal-ever.py" target="_blank"><code>simplest-terminal-ever.py</code></a> so I could test the 4030XL's GRBL implementation by running it from within PyCharm.  When <code>simplest-terminal-ever.py</code> connected to the 4030XL's serial port, it emitted the
         following output (although the red color was added later to show what was received by the serial port):</div>
     <pre>
@@ -108,8 +110,8 @@ Connected to pydev debugger (build 241.17011.127)
 <span style="color: red;">b'\r\n'
 b"Grbl 1.1h ['$' for help]\r\n"
 b"[MSG:'$H'|'$X' to unlock]\r\n"</span>
-</pre>
-
+    </pre>
+    <br><strike title="Move this to the new TODOs heading above."><div class="todo">Find all my TODO: DPP: comments and document them here and in issues where appropriate.</div></strike>
 </div>
 
 <div class="commentary-block">
