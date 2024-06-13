@@ -92,7 +92,19 @@
 <h1 style="color: lightgray;">COMMENTARY</h1>
 
 <div class="commentary-block">
-    <p class="timestamp new-text">Tue Jun 11 05:11:24 PM PDT 2024 (1e697894a1781cad865d446685a10f0cdd8c6567)</p>
+    <p class="timestamp new-text">Thu Jun 13 12:11:11 PM PDT 2024 (a21e617ac31ba69474668b8d7df0b014a54b6090)</p>
+    <div class="todo">I can't think of any reason why there should be a for loop here with 4 iterations.:
+        <p></p>
+        <pre><a href="https://github.com/pflagerd/candle2/blob/a21e617ac31ba69474668b8d7df0b014a54b6090/frmmain.cpp#L727" target="_blank"><span style="font-size: smaller; position: absolute; top: 3px; left: 3px; font-style: italic;">frmmain.cpp 727-729</span></a>
+void frmMain::onSendSerial() {
+    <b>for (int i = 0; i < 4; i++) { // TODO: DPP: What's with this i? Issue #30</b>
+        if (mCommandsWait.size() > 0) {
+        </pre>
+    </div>
+</div>
+
+<div class="commentary-block">
+    <p class="timestamp">Tue Jun 11 05:11:24 PM PDT 2024 (1e697894a1781cad865d446685a10f0cdd8c6567)</p>
     <div class="todo">I found a case where data is sent directly to the serial port, rather than being echoed to <code>txtConsole</code>:
         <p></p>
         <pre><a href="https://github.com/pflagerd/candle2/blob/1e697894a1781cad865d446685a10f0cdd8c6567/frmmain.cpp#L628" target="_blank"><span style="font-size: smaller; position: absolute; top: 3px; left: 3px; font-style: italic;">frmmain.cpp 628-631</span></a>
