@@ -94,7 +94,7 @@
         <pre><a href="https://github.com/pflagerd/candle2/blob/1e697894a1781cad865d446685a10f0cdd8c6567/frmmain.cpp#L628" target="_blank"><span style="font-size: smaller; position: absolute; top: 3px; left: 3px; font-style: italic;">frmmain.cpp 628-631</span></a>
 // Reset: 0x18 == Ctrl-X == CAN(cel)
 if (m_Protocol == PROT_GRBL1_1) {
-    <b></b>SerialIf_Write(QByteArray(1, (char) 0x18)); // Ctrl-X  TODO: DPP: Shouldn't this go through "command"?</b>
+    <b>SerialIf_Write(QByteArray(1, (char) 0x18)); // Ctrl-X  TODO: DPP: Shouldn't this go through "command"?</b>
 } else if (m_Protocol == PROT_GRIP) {
 </pre>
     </div><br>
