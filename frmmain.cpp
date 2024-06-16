@@ -1858,7 +1858,7 @@ void frmMain::on_btnConnect_clicked() {
             // Open serial interface
             if (SerialIf_OpenSerial(0, ui->comboInterface->currentText(), ui->comboBaud->currentText().toInt())) {
                 ui->txtConsole->appendPlainText("Successfully opened serial port");
-                ui->txtStatus->setText(tr("Port opened")); // TODO: DPP: Where is the txtStatus widget?s
+                ui->txtStatus->setText(tr("Port opened"));
                 ui->txtStatus->setStyleSheet(QString("background-color: palette(button); color: palette(text);"));
 				#ifndef WINDOWS
                 	SerialIf_Clear();
