@@ -30,10 +30,11 @@
 static bool debug = false;
 
 class Grbl1_1_State {
-	static int waitForSerialConnectionCRLFResponse = 1;
+public:
+	static const int waitForSerialConnectionCRLFResponse = 1;
 };
 
-static int grbl1_1_State = Grbl1_1_State::waitForSerialConnectionCRLFReponse;
+static int grbl1_1State = Grbl1_1_State::waitForSerialConnectionCRLFResponse;
 
 void frmMain::ProcessGRBL1_1() {
     while (SerialIf_CanReadLine()) {
