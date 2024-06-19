@@ -92,7 +92,20 @@
 <h1 style="color: lightgray;">COMMENTARY</h1>
 
 <div class="commentary-block">
-    <p class="timestamp new-text">Sat Jun 15 05:51:26 PM PDT 2024 (19e95af4cff9d18ef2f664587d0532c5b83977aa)</p>
+    <p class="timestamp new-text">Tue Jun 18 06:08:30 PM PDT 2024 (74a1305ec70777baa2a8c88e7041a8d34abfaa74)</p>
+    <div class="todo">GrblReset() sends a Ctrl-X, which seems incorrect.  Seems like the Ctrl-X should happen in response to a user action or initialization due to user action.
+        <p></p>
+        <pre><a href="hhttps://github.com/pflagerd/candle2/blob/74a1305ec70777baa2a8c88e7041a8d34abfaa74/frmmain.cpp#L1870-L1873" target="_blank"><span style="font-size: smaller; position: absolute; top: 3px; left: 3px; font-style: italic;">frmmain.cpp 1870-1873</span></a>
+// TODO: DPP: This really seems out of place.  Once initialized, why send a Ctrl-X right away?
+//            Maybe it has to do with other initializations which occur in GrblReset()?  If so, why
+//            aren't they in their own function (separate from sending the Ctrl-X)
+// GrblReset();
+        </pre>
+    </div>
+</div>
+
+<div class="commentary-block">
+    <p class="timestamp">Sat Jun 15 05:51:26 PM PDT 2024 (19e95af4cff9d18ef2f664587d0532c5b83977aa)</p>
     <div class="todo">Someone else's comment originally.  I added to it:
         <p></p>
         <pre><a href="https://github.com/pflagerd/candle2/blob/19e95af4cff9d18ef2f664587d0532c5b83977aa/frmmain.cpp#L1867-L1868" target="_blank"><span style="font-size: smaller; position: absolute; top: 3px; left: 3px; font-style: italic;">frmmain.cpp 1867-1868</span></a>
