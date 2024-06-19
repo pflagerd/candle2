@@ -92,6 +92,21 @@
 <h1 style="color: lightgray;">COMMENTARY</h1>
 
 <div class="commentary-block">
+    <p class="timestamp new-text">Tue Jun 18 08:06:41 PM PDT 2024 (edad18c3e3d611f3257327ec661524c09f0ae95f)</p>
+    <div class="todo">In this first state of the new GRBL processing state-machine, we're awaiting the three lines documented in the comments.  Not sure what the GRBL code itself refers to
+        these strings as (that would be a good thing to find out).
+        <p></p>
+        <pre><a href="https://github.com/pflagerd/candle2/blob/edad18c3e3d611f3257327ec661524c09f0ae95f/frmmain_processresponse.cpp#L48-L52" target="_blank"><span style="font-size: smaller; position: absolute; top: 3px; left: 3px; font-style: italic;">frmmain.cpp 48-52</span></a>
+qDebug().nospace() << __FILE__ << " (" << __LINE__ << ") frmMain::ProcessGRBL1_1(): waitForSerialConnectionCRLFResponse"; // TODO: DPP: 240611T173101 PDT: Need code here.
+// TODO: DPP: 240611T173101 PDT: Check that the serial data received is CRLF.  If it is, it should be part of a three line sequence as follows (python binary strings):
+//  	b'\r\n'
+//		b"Grbl 1.1h ['$' for help]\r\n"
+//		b"[MSG:'$H'|'$X' to unlock]\r\n"
+        </pre>
+    </div>
+</div>
+
+<div class="commentary-block">
     <p class="timestamp new-text">Tue Jun 18 06:08:30 PM PDT 2024 (74a1305ec70777baa2a8c88e7041a8d34abfaa74)</p>
     <div class="todo">GrblReset() sends a Ctrl-X, which seems incorrect.  Seems like the Ctrl-X should happen in response to a user action or initialization due to user action.
         <p></p>
