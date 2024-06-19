@@ -100,9 +100,16 @@
 qDebug().nospace() << __FILE__ << " (" << __LINE__ << ") frmMain::ProcessGRBL1_1(): waitForSerialConnectionCRLFResponse"; // TODO: DPP: 240611T173101 PDT: Need code here.
 // TODO: DPP: 240611T173101 PDT: Check that the serial data received is CRLF.  If it is, it should be part of a three line sequence as follows (python binary strings):
 //  	b'\r\n'
-//		b"Grbl 1.1h ['$' for help]\r\n"
-//		b"[MSG:'$H'|'$X' to unlock]\r\n"
+//	b"Grbl 1.1h ['$' for help]\r\n"
+//	b"[MSG:'$H'|'$X' to unlock]\r\n"
         </pre>
+        <p></p>
+        <p>I found out that the <code style="font-size: 104%;">b"Grbl 1.1h ['$' for help]\r\n"</code>string is called the <a href="https://github.com/pflagerd/grbl/blob/e5e10b5b0d1d571da7ff85b4265b4773736aef01/doc/markdown/interface.md?plain=1#L102" target="_blank">Welcome message</a>.</p>
+        <p>I found out that the <code style="font-size: 104%;">b"[MSG:'$H'|'$X' to unlock]\r\n"</code>string is called a <a href="https://github.com/pflagerd/grbl/blob/e5e10b5b0d1d571da7ff85b4265b4773736aef01/doc/markdown/interface.md?plain=1#L105" target="_blank">Non-queried feedback message</a>.</p>
+        <p>I found out that the <code style="font-size: 104%;">b"[MSG:'$H'|'$X' to unlock]\r\n"</code>string is described more thoroughly <a href="https://github.com/pflagerd/grbl/blob/e5e10b5b0d1d571da7ff85b4265b4773736aef01/doc/markdown/interface.md?plain=1#L339" target="_blank">here</a>.</p>
+        <p>The description <a href="https://github.com/pflagerd/grbl/blob/e5e10b5b0d1d571da7ff85b4265b4773736aef01/doc/markdown/interface.md?plain=1#L339" target="_blank">here</a> says "Startup lines are not executed at initialization if this message is present and the alarm is active."  What is a "Startup line"?</p>
+
+
     </div>
 </div>
 
