@@ -92,7 +92,25 @@
 <h1 style="color: lightgray;">COMMENTARY</h1>
 
 <div class="commentary-block">
-    <p class="timestamp new-text">Tue Jun 18 08:06:41 PM PDT 2024 (edad18c3e3d611f3257327ec661524c09f0ae95f)</p>
+    <p class="timestamp new-text">Fri Jun 21 05:56:38 PM PDT 2024 (775d703a0b3eb506a41f9f4cad848328f2f08284)</p>
+    <div class="todo">In this first state of the new GRBL processing state-machine, we're awaiting the three lines documented in the comments.  Not sure what the GRBL code itself refers to
+        these strings as (that would be a good thing to find out).
+        <p></p>
+        <pre><a href="https://github.com/pflagerd/candle2/blob/775d703a0b3eb506a41f9f4cad848328f2f08284/frmmain_processresponse.cpp#L346-L349" target="_blank"><span style="font-size: smaller; position: absolute; top: 3px; left: 3px; font-style: italic;">frmmain_processresponse.cpp 346-349</span></a>
+<span style="color: #888;"> 346 </span><b>QByteArray data(1, char(0x95)); // TODO: DPP: This seems to do nothing.</b>
+<span style="color: #888;"> 347 </span>uint8_t c = 0x95;
+<span style="color: #888;"> 348 </span>Pdu_t p = {&c, 1};
+<span style="color: #888;"> 349 </span>GrIP_Transmit(MSG_REALTIME_CMD, 0, &p); // TODO: DPP: What's this doing here? GrIP?</pre>
+        <p></p>
+        <p><code style="font-size: 104%;">data</code>shadows another variable of the same name defined <a href="https://github.com/pflagerd/candle2/blob/775d703a0b3eb506a41f9f4cad848328f2f08284/frmmain_processresponse.cpp#L41" target="_blank">here</a>.</p>
+        <p>Also, it seems incongruous for <code style="font-size: 104%;">GrIP_Transmit()</code>to be called here.  It seems like this should go through <code style="font-size: 104%;">txtConsole</code>.</p>
+<!--        <p>I found out that the <code style="font-size: 104%;">b"[MSG:'$H'|'$X' to unlock]\r\n"</code>string is described more thoroughly <a href="https://github.com/pflagerd/grbl/blob/e5e10b5b0d1d571da7ff85b4265b4773736aef01/doc/markdown/interface.md?plain=1#L339" target="_blank">here</a>.</p>-->
+<!--        <p>The description <a href="https://github.com/pflagerd/grbl/blob/e5e10b5b0d1d571da7ff85b4265b4773736aef01/doc/markdown/interface.md?plain=1#L339" target="_blank">here</a> says "Startup lines are not executed at initialization if this message is present and the alarm is active."  What is a "Startup line"?</p>-->
+    </div>
+</div>
+
+<div class="commentary-block">
+    <p class="timestamp">Tue Jun 18 08:06:41 PM PDT 2024 (edad18c3e3d611f3257327ec661524c09f0ae95f)</p>
     <div class="todo">In this first state of the new GRBL processing state-machine, we're awaiting the three lines documented in the comments.  Not sure what the GRBL code itself refers to
         these strings as (that would be a good thing to find out).
         <p></p>
@@ -101,8 +119,7 @@ qDebug().nospace() << __FILE__ << " (" << __LINE__ << ") frmMain::ProcessGRBL1_1
 // TODO: DPP: 240611T173101 PDT: Check that the serial data received is CRLF.  If it is, it should be part of a three line sequence as follows (python binary strings):
 //  	b'\r\n'
 //	b"Grbl 1.1h ['$' for help]\r\n"
-//	b"[MSG:'$H'|'$X' to unlock]\r\n"
-        </pre>
+//	b"[MSG:'$H'|'$X' to unlock]\r\n"</pre>
         <p></p>
         <p>I found out that the <code style="font-size: 104%;">b"Grbl 1.1h ['$' for help]\r\n"</code>string is called the <a href="https://github.com/pflagerd/grbl/blob/e5e10b5b0d1d571da7ff85b4265b4773736aef01/doc/markdown/interface.md?plain=1#L102" target="_blank">Welcome message</a>.</p>
         <p>I found out that the <code style="font-size: 104%;">b"[MSG:'$H'|'$X' to unlock]\r\n"</code>string is called a <a href="https://github.com/pflagerd/grbl/blob/e5e10b5b0d1d571da7ff85b4265b4773736aef01/doc/markdown/interface.md?plain=1#L105" target="_blank">Non-queried feedback message</a>.</p>
@@ -119,8 +136,7 @@ qDebug().nospace() << __FILE__ << " (" << __LINE__ << ") frmMain::ProcessGRBL1_1
 // TODO: DPP: This really seems out of place.  Once initialized, why send a Ctrl-X right away?
 //            Maybe it has to do with other initializations which occur in GrblReset()?  If so, why
 //            aren't they in their own function (separate from sending the Ctrl-X)
-// GrblReset();
-        </pre>
+// GrblReset();</pre>
     </div>
 </div>
 
@@ -130,8 +146,7 @@ qDebug().nospace() << __FILE__ << " (" << __LINE__ << ") frmMain::ProcessGRBL1_1
         <p></p>
         <pre><a href="https://github.com/pflagerd/candle2/blob/19e95af4cff9d18ef2f664587d0532c5b83977aa/frmmain.cpp#L1867-L1868" target="_blank"><span style="font-size: smaller; position: absolute; top: 3px; left: 3px; font-style: italic;">frmmain.cpp 1867-1868</span></a>
 // TODO: DPP: The Qt documentation and/or ChatGPT4o seems to suggest that a signal/slot would be better for this purpose than a timer.
-m_timerRead.start(ReceiveTimerInterval_ms);
-        </pre>
+m_timerRead.start(ReceiveTimerInterval_ms);</pre>
     </div>
 </div>
 
@@ -142,8 +157,7 @@ m_timerRead.start(ReceiveTimerInterval_ms);
         <pre><a href="https://github.com/pflagerd/candle2/blob/1f3cf2b4b44c02ef919e383aa988073b343a9dd2/frmmain.cpp#L873-L875" target="_blank"><span style="font-size: smaller; position: absolute; top: 3px; left: 3px; font-style: italic;">frmmain.cpp 873-875</span></a>
 if (!ui->chkTestMode->isChecked()) {
     storeOffsets(); // Already stored on check TODO: DPP: Already stored on check of what?
-}
-        </pre>
+}</pre>
     </div>
 </div>
 
@@ -154,8 +168,7 @@ if (!ui->chkTestMode->isChecked()) {
         <pre><a href="https://github.com/pflagerd/candle2/blob/a21e617ac31ba69474668b8d7df0b014a54b6090/frmmain.cpp#L727" target="_blank"><span style="font-size: smaller; position: absolute; top: 3px; left: 3px; font-style: italic;">frmmain.cpp 727-729</span></a>
 void frmMain::onSendSerial() {
     <b>for (int i = 0; i < 4; i++) { // TODO: DPP: What's with this i? Issue #30</b>
-        if (mCommandsWait.size() > 0) {
-        </pre>
+        if (mCommandsWait.size() > 0) {</pre>
     </div>
     <br>
     <div class="todo"><a href="https://chatgpt.com/c/22f0cf46-bf34-419e-9019-4a4e646f82d8" target="_blank">ChatGPT4o claims</a> I should be able to create two "mock" serial devices which I can then use to
@@ -173,8 +186,7 @@ void frmMain::onSendSerial() {
 // Reset: 0x18 == Ctrl-X == CAN(cel)
 if (m_Protocol == PROT_GRBL1_1) {
     <b>SerialIf_Write(QByteArray(1, (char) 0x18)); // Ctrl-X  TODO: DPP: Shouldn't this go through "command"?</b>
-} else if (m_Protocol == PROT_GRIP) {
-        </pre>
+} else if (m_Protocol == PROT_GRIP) {</pre>
     </div><br>
     <div class="todo">I wrote <a href="http://gitlab.pflager.net/cagd/grbl.py/-/blob/b515ce82bd28e2a658087bd258a85aafe98c908b/simplest-terminal-ever.py" target="_blank"><code>simplest-terminal-ever.py</code></a> so I could test the 4030XL's GRBL implementation by running it from within PyCharm.  When <code>simplest-terminal-ever.py</code> connected to the 4030XL's serial port, it emitted the
         following output (although the red color was added later to show what was received by the serial port):</div>
@@ -183,8 +195,7 @@ if (m_Protocol == PROT_GRBL1_1) {
 Connected to pydev debugger (build 241.17011.127)
 <span style="color: red;">b'\r\n'
 b"Grbl 1.1h ['$' for help]\r\n"
-b"[MSG:'$H'|'$X' to unlock]\r\n"</span>
-    </pre>
+b"[MSG:'$H'|'$X' to unlock]\r\n"</span></pre>
     <br><strike title="Move this to the new TODOs heading above."><div class="todo">Find all my TODO: DPP: comments and document them here and in issues where appropriate.</div></strike>
 </div>
 
