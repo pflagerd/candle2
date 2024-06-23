@@ -91,8 +91,21 @@
 
 <h1 style="color: lightgray;">COMMENTARY</h1>
 
+<div class="commentary-block new-text">
+    <p class="timestamp">Sun Jun 23 04:37:02 PM PDT 2024 (9f9afb6c50f57d0684ba2fbda05a2537b5119ed1)</p>
+    <div class="todo">These animation updates seem to be in the wrong place.  What does this have to do with processing GRBL?
+        <p></p>
+        <pre><a href="https://github.com/pflagerd/candle2/blob/9f9afb6c50f57d0684ba2fbda05a2537b5119ed1/frmmain_processresponse.cpp#L371" target="_blank"><span style="font-size: smaller; position: absolute; top: 3px; left: 3px; font-style: italic;">frmmain_processresponse.cpp 371</span></a>
+<span style="color: #888;"> 371 </span><b>m_timerToolAnimation.start(25, this); // TODO: DPP: Invalid arguments?!!</b></pre>
+        <p></p>
+        <pre><a href="https://github.com/pflagerd/candle2/blob/9f9afb6c50f57d0684ba2fbda05a2537b5119ed1/frmmain_processresponse.cpp#L1352" target="_blank"><span style="font-size: smaller; position: absolute; top: 3px; left: 3px; font-style: italic;">frmmain_processresponse.cpp 1352</span></a>
+<span style="color: #888;"> 1352 </span><b>m_timerToolAnimation.start(25, this); // TODO: DPP: Invalid arguments?!!</b></pre>
+        <p></p>
+    </div>
+</div>
+
 <div class="commentary-block">
-    <p class="timestamp new-text">Fri Jun 21 05:56:38 PM PDT 2024 (775d703a0b3eb506a41f9f4cad848328f2f08284)</p>
+    <p class="timestamp">Fri Jun 21 05:56:38 PM PDT 2024 (775d703a0b3eb506a41f9f4cad848328f2f08284)</p>
     <div class="todo">In this first state of the new GRBL processing state-machine, we're awaiting the three lines documented in the comments.  Not sure what the GRBL code itself refers to
         these strings as (that would be a good thing to find out).
         <p></p>
@@ -104,8 +117,16 @@
         <p></p>
         <p><code style="font-size: 104%;">data</code>shadows another variable of the same name defined <a href="https://github.com/pflagerd/candle2/blob/775d703a0b3eb506a41f9f4cad848328f2f08284/frmmain_processresponse.cpp#L41" target="_blank">here</a>.</p>
         <p>Also, it seems incongruous for <code style="font-size: 104%;">GrIP_Transmit()</code>to be called here.  It seems like this should go through <code style="font-size: 104%;">txtConsole</code>.</p>
-<!--        <p>I found out that the <code style="font-size: 104%;">b"[MSG:'$H'|'$X' to unlock]\r\n"</code>string is described more thoroughly <a href="https://github.com/pflagerd/grbl/blob/e5e10b5b0d1d571da7ff85b4265b4773736aef01/doc/markdown/interface.md?plain=1#L339" target="_blank">here</a>.</p>-->
-<!--        <p>The description <a href="https://github.com/pflagerd/grbl/blob/e5e10b5b0d1d571da7ff85b4265b4773736aef01/doc/markdown/interface.md?plain=1#L339" target="_blank">here</a> says "Startup lines are not executed at initialization if this message is present and the alarm is active."  What is a "Startup line"?</p>-->
+
+        <p></p>
+        <pre><a href="https://github.com/pflagerd/candle2/blob/775d703a0b3eb506a41f9f4cad848328f2f08284/frmmain_processresponse.cpp#L1078-L1080" target="_blank"><span style="font-size: smaller; position: absolute; top: 3px; left: 3px; font-style: italic;">frmmain_processresponse.cpp 1078-1080</span></a>
+<span style="color: #888;">1078 </span>QByteArray data(1, char(0x95)); // TODO: DPP: This doesn't do anything.
+<span style="color: #888;">1079 </span>uint8_t c = 0x95;
+<span style="color: #888;">1080 </span>Pdu_t p = {&c, 1};
+<span style="color: #888;">1081 </span>GrIP_Transmit(MSG_REALTIME_CMD, 0, &p);</pre>
+        <p></p>
+        <p>Exact repeat of the above. Even <code style="font-size: 104%;">data</code> here again shadows another variable of the same name defined <a href="https://github.com/pflagerd/candle2/blob/775d703a0b3eb506a41f9f4cad848328f2f08284/frmmain_processresponse.cpp#L41" target="_blank">here</a>.</p>
+        <p>As above it seems incongruous for <code style="font-size: 104%;">GrIP_Transmit()</code>to be called here.  It seems like this should go through <code style="font-size: 104%;">txtConsole</code>.</p>
     </div>
 </div>
 
