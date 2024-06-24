@@ -1715,7 +1715,7 @@ void frmMain::addRecentFile(const QString& fileName) {
 }
 
 void frmMain::onActRecentFileTriggered() {
-    QAction *action = dynamic_cast<QAction *>(sender());
+    auto *action = dynamic_cast<QAction *>(sender());
     QString fileName = action->text();
 
     if (action != nullptr) {
