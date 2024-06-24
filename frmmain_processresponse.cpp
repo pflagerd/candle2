@@ -32,8 +32,8 @@ static bool debug = false;
 class Grbl1_1_State {
 public:
 	static const int waitForSerialConnectionCRLFResponse = 1;				// b'\r\n'
-	static const int waitForWelcomeMessage = 2; 							// b"Grbl 1.1h ['$' for help]\r\n" // This is called the "Welcome message": <a href="https://github.com/pflagerd/grbl/blob/e5e10b5b0d1d571da7ff85b4265b4773736aef01/doc/markdown/interface.md?plain=1#L102">See Here for its definition</a>
-	static const int waitForUnlockReminderNonqueriedFeedbackMessage = 3;	// b"[MSG:'$H'|'$X' to unlock]\r\n"
+	static const int waitForWelcomeMessage = 2; 							// b"Grbl 1.1h ['$' for help]\r\n"  // This is called the "Welcome message": <a href="https://github.com/pflagerd/grbl/blob/e5e10b5b0d1d571da7ff85b4265b4773736aef01/doc/markdown/interface.md?plain=1#L102">See Here for its definition</a>
+	static const int waitForUnlockReminderNonqueriedFeedbackMessage = 3;	// b"[MSG:'$H'|'$X' to unlock]\r\n" // This is called a Non-queried feedback message <a href="https://github.com/pflagerd/grbl/blob/e5e10b5b0d1d571da7ff85b4265b4773736aef01/doc/markdown/interface.md?plain=1#L105">defined here.</a> <a href="https://github.com/pflagerd/grbl/blob/e5e10b5b0d1d571da7ff85b4265b4773736aef01/doc/markdown/interface.md?plain=1#L339">See Here for specifics on the Unlock reminder</a>
 };
 
 static int grbl1_1State = Grbl1_1_State::waitForSerialConnectionCRLFResponse;
