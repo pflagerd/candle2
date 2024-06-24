@@ -85,22 +85,156 @@
     </style>
 </head>
 <body>
-<h1 style="color: lightgray;">Commentary</h1>
+<h1 style="color: lightgray;">TODOs</h1>
+<div class="todo">Find all my TODO: DPP: comments and document them here.</div>
+<br>
+
+<h1 style="color: lightgray;">COMMENTARY</h1>
+
+<div class="commentary-block new-text">
+    <p class="timestamp">Sun Jun 23 04:37:02 PM PDT 2024 (9f9afb6c50f57d0684ba2fbda05a2537b5119ed1)</p>
+    <div class="todo">These animation updates seem to be in the wrong place.  What does this have to do with processing GRBL?
+        <p></p>
+        <pre><a href="https://github.com/pflagerd/candle2/blob/9f9afb6c50f57d0684ba2fbda05a2537b5119ed1/frmmain_processresponse.cpp#L371" target="_blank"><span style="font-size: smaller; position: absolute; top: 3px; left: 3px; font-style: italic;">frmmain_processresponse.cpp 371</span></a>
+<span style="color: #888;"> 371 </span><b>m_timerToolAnimation.start(25, this); // TODO: DPP: Invalid arguments?!!</b></pre>
+        <p></p>
+        <pre><a href="https://github.com/pflagerd/candle2/blob/9f9afb6c50f57d0684ba2fbda05a2537b5119ed1/frmmain_processresponse.cpp#L1352" target="_blank"><span style="font-size: smaller; position: absolute; top: 3px; left: 3px; font-style: italic;">frmmain_processresponse.cpp 1352</span></a>
+<span style="color: #888;"> 1352 </span><b>m_timerToolAnimation.start(25, this); // TODO: DPP: Invalid arguments?!!</b></pre>
+        <p></p>
+    </div>
+</div>
+
 <div class="commentary-block">
-    <p class="timestamp new-text">Mon Jun  3 06:05:49 PM PDT 2024 (0143ac0c17e61fa26184cbf9ac689195251e5415)</p>
+    <p class="timestamp">Fri Jun 21 05:56:38 PM PDT 2024 (775d703a0b3eb506a41f9f4cad848328f2f08284)</p>
+    <div class="todo">In this first state of the new GRBL processing state-machine, we're awaiting the three lines documented in the comments.  Not sure what the GRBL code itself refers to
+        these strings as (that would be a good thing to find out).
+        <p></p>
+        <pre><a href="https://github.com/pflagerd/candle2/blob/775d703a0b3eb506a41f9f4cad848328f2f08284/frmmain_processresponse.cpp#L346-L349" target="_blank"><span style="font-size: smaller; position: absolute; top: 3px; left: 3px; font-style: italic;">frmmain_processresponse.cpp 346-349</span></a>
+<span style="color: #888;"> 346 </span><b>QByteArray data(1, char(0x95)); // TODO: DPP: This seems to do nothing.</b>
+<span style="color: #888;"> 347 </span>uint8_t c = 0x95;
+<span style="color: #888;"> 348 </span>Pdu_t p = {&c, 1};
+<span style="color: #888;"> 349 </span>GrIP_Transmit(MSG_REALTIME_CMD, 0, &p); // TODO: DPP: What's this doing here? GrIP?</pre>
+        <p></p>
+        <p><code style="font-size: 104%;">data</code>shadows another variable of the same name defined <a href="https://github.com/pflagerd/candle2/blob/775d703a0b3eb506a41f9f4cad848328f2f08284/frmmain_processresponse.cpp#L41" target="_blank">here</a>.</p>
+        <p>Also, it seems incongruous for <code style="font-size: 104%;">GrIP_Transmit()</code>to be called here.  It seems like this should go through <code style="font-size: 104%;">txtConsole</code>.</p>
+
+        <p></p>
+        <pre><a href="https://github.com/pflagerd/candle2/blob/775d703a0b3eb506a41f9f4cad848328f2f08284/frmmain_processresponse.cpp#L1078-L1080" target="_blank"><span style="font-size: smaller; position: absolute; top: 3px; left: 3px; font-style: italic;">frmmain_processresponse.cpp 1078-1080</span></a>
+<span style="color: #888;">1078 </span>QByteArray data(1, char(0x95)); // TODO: DPP: This doesn't do anything.
+<span style="color: #888;">1079 </span>uint8_t c = 0x95;
+<span style="color: #888;">1080 </span>Pdu_t p = {&c, 1};
+<span style="color: #888;">1081 </span>GrIP_Transmit(MSG_REALTIME_CMD, 0, &p);</pre>
+        <p></p>
+        <p>Exact repeat of the above. Even <code style="font-size: 104%;">data</code> here again shadows another variable of the same name defined <a href="https://github.com/pflagerd/candle2/blob/775d703a0b3eb506a41f9f4cad848328f2f08284/frmmain_processresponse.cpp#L41" target="_blank">here</a>.</p>
+        <p>As above it seems incongruous for <code style="font-size: 104%;">GrIP_Transmit()</code>to be called here.  It seems like this should go through <code style="font-size: 104%;">txtConsole</code>.</p>
+    </div>
+</div>
+
+<div class="commentary-block">
+    <p class="timestamp">Tue Jun 18 08:06:41 PM PDT 2024 (edad18c3e3d611f3257327ec661524c09f0ae95f)</p>
+    <div class="todo">In this first state of the new GRBL processing state-machine, we're awaiting the three lines documented in the comments.  Not sure what the GRBL code itself refers to
+        these strings as (that would be a good thing to find out).
+        <p></p>
+        <pre><a href="https://github.com/pflagerd/candle2/blob/edad18c3e3d611f3257327ec661524c09f0ae95f/frmmain_processresponse.cpp#L48-L52" target="_blank"><span style="font-size: smaller; position: absolute; top: 3px; left: 3px; font-style: italic;">frmmain_processresponse.cpp 48-52</span></a>
+<span style="color: #888;">  48 </span>qDebug().nospace() << __FILE__ << " (" << __LINE__ << ") frmMain::ProcessGRBL1_1(): waitForSerialConnectionCRLFResponse"; // TODO: DPP: 240611T173101 PDT: Need code here.
+<span style="color: #888;">  49 </span>// TODO: DPP: 240611T173101 PDT: Check that the serial data received is CRLF.  If it is, it should be part of a three line sequence as follows (python binary strings):
+<span style="color: #888;">  50 </span>//  	b'\r\n'
+<span style="color: #888;">  51 </span>//	b"Grbl 1.1h ['$' for help]\r\n"
+<span style="color: #888;">  52 </span>//	b"[MSG:'$H'|'$X' to unlock]\r\n"</pre>
+        <p></p>
+        <p>I found out that the <code style="font-size: 104%;">b"Grbl 1.1h ['$' for help]\r\n"</code>string is called the <a href="https://github.com/pflagerd/grbl/blob/e5e10b5b0d1d571da7ff85b4265b4773736aef01/doc/markdown/interface.md?plain=1#L102" target="_blank">Welcome message</a>.</p>
+        <p>I found out that the <code style="font-size: 104%;">b"[MSG:'$H'|'$X' to unlock]\r\n"</code>string is called a <a href="https://github.com/pflagerd/grbl/blob/e5e10b5b0d1d571da7ff85b4265b4773736aef01/doc/markdown/interface.md?plain=1#L105" target="_blank">Non-queried feedback message</a>.</p>
+        <p>I found out that the <code style="font-size: 104%;">b"[MSG:'$H'|'$X' to unlock]\r\n"</code>string is described more thoroughly <a href="https://github.com/pflagerd/grbl/blob/e5e10b5b0d1d571da7ff85b4265b4773736aef01/doc/markdown/interface.md?plain=1#L339" target="_blank">here</a>.</p>
+        <p>The description <a href="https://github.com/pflagerd/grbl/blob/e5e10b5b0d1d571da7ff85b4265b4773736aef01/doc/markdown/interface.md?plain=1#L339" target="_blank">here</a> says "Startup lines are not executed at initialization if this message is present and the alarm is active."  What is a "Startup line"?</p>
+    </div>
+</div>
+
+<div class="commentary-block">
+    <p class="timestamp new-text">Tue Jun 18 06:08:30 PM PDT 2024 (74a1305ec70777baa2a8c88e7041a8d34abfaa74)</p>
+    <div class="todo">GrblReset() sends a Ctrl-X, which seems incorrect.  Seems like the Ctrl-X should happen in response to a user action or initialization due to user action.
+        <p></p>
+        <pre><a href="hhttps://github.com/pflagerd/candle2/blob/74a1305ec70777baa2a8c88e7041a8d34abfaa74/frmmain.cpp#L1870-L1873" target="_blank"><span style="font-size: smaller; position: absolute; top: 3px; left: 3px; font-style: italic;">frmmain.cpp 1870-1873</span></a>
+<span style="color: #888;">1870 </span>// TODO: DPP: This really seems out of place.  Once initialized, why send a Ctrl-X right away?
+<span style="color: #888;">1871 </span>//            Maybe it has to do with other initializations which occur in GrblReset()?  If so, why
+<span style="color: #888;">1872 </span>//            aren't they in their own function (separate from sending the Ctrl-X)
+<span style="color: #888;">1873 </span>// GrblReset();</pre>
+    </div>
+</div>
+
+<div class="commentary-block">
+    <p class="timestamp">Sat Jun 15 05:51:26 PM PDT 2024 (19e95af4cff9d18ef2f664587d0532c5b83977aa)</p>
+    <div class="todo">Someone else's comment originally.  I added to it:
+        <p></p>
+        <pre><a href="https://github.com/pflagerd/candle2/blob/19e95af4cff9d18ef2f664587d0532c5b83977aa/frmmain.cpp#L1867-L1868" target="_blank"><span style="font-size: smaller; position: absolute; top: 3px; left: 3px; font-style: italic;">frmmain.cpp 1867-1868</span></a>
+<span style="color: #888;">1867 </span>// TODO: DPP: The Qt documentation and/or ChatGPT4o seems to suggest that a signal/slot would be better for this purpose than a timer.
+<span style="color: #888;">1868 </span>m_timerRead.start(ReceiveTimerInterval_ms);</pre>
+    </div>
+</div>
+
+<div class="commentary-block">
+    <p class="timestamp">Sat Jun 15 05:29:38 PM PDT 2024 (1f3cf2b4b44c02ef919e383aa988073b343a9dd2)</p>
+    <div class="todo">Someone else's comment originally.  I added to it:
+        <p></p>
+        <pre><a href="https://github.com/pflagerd/candle2/blob/1f3cf2b4b44c02ef919e383aa988073b343a9dd2/frmmain.cpp#L873-L875" target="_blank"><span style="font-size: smaller; position: absolute; top: 3px; left: 3px; font-style: italic;">frmmain.cpp 873-875</span></a>
+<span style="color: #888;"> 873 </span>if (!ui->chkTestMode->isChecked()) {
+<span style="color: #888;"> 874 </span>    storeOffsets(); // Already stored on check TODO: DPP: Already stored on check of what?
+<span style="color: #888;"> 875 </span>}</pre>
+    </div>
+</div>
+
+<div class="commentary-block">
+    <p class="timestamp">Thu Jun 13 12:11:11 PM PDT 2024 (a21e617ac31ba69474668b8d7df0b014a54b6090)</p>
+    <div class="todo">I can't think of any reason why there should be a for loop here with 4 iterations.:
+        <p></p>
+        <pre><a href="https://github.com/pflagerd/candle2/blob/a21e617ac31ba69474668b8d7df0b014a54b6090/frmmain.cpp#L727" target="_blank"><span style="font-size: smaller; position: absolute; top: 3px; left: 3px; font-style: italic;">frmmain.cpp 727-729</span></a>
+<span style="color: #888;"> 727 </span>void frmMain::onSendSerial() {
+<span style="color: #888;"> 728 </span>    <b>for (int i = 0; i < 4; i++) { // TODO: DPP: What's with this i? Issue #30</b>
+<span style="color: #888;"> 729 </span>        if (mCommandsWait.size() > 0) {</pre>
+    </div>
+    <br>
+    <div class="todo"><a href="https://chatgpt.com/c/22f0cf46-bf34-419e-9019-4a4e646f82d8" target="_blank">ChatGPT4o claims</a> I should be able to create two "mock" serial devices which I can then use to
+        simulate i/o with candle (i.e. send mock data).  It also claims I should be able to create a single "mock" serial device and connect it to an existing serial port device and send/receive mock data to that.
+
+        
+    </div>
+</div>
+
+<div class="commentary-block">
+    <p class="timestamp">Tue Jun 11 05:11:24 PM PDT 2024 (1e697894a1781cad865d446685a10f0cdd8c6567)</p>
+    <div class="todo">I found a case where data is sent directly to the serial port, rather than being echoed to <code>txtConsole</code>:
+        <p></p>
+        <pre><a href="https://github.com/pflagerd/candle2/blob/1e697894a1781cad865d446685a10f0cdd8c6567/frmmain.cpp#L628" target="_blank"><span style="font-size: smaller; position: absolute; top: 3px; left: 3px; font-style: italic;">frmmain.cpp 628-631</span></a>
+<span style="color: #888;"> 628 </span>// Reset: 0x18 == Ctrl-X == CAN(cel)
+<span style="color: #888;"> 629 </span>if (m_Protocol == PROT_GRBL1_1) {
+<span style="color: #888;"> 630 </span>    <b>SerialIf_Write(QByteArray(1, (char) 0x18)); // Ctrl-X  TODO: DPP: Shouldn't this go through "command"?</b>
+<span style="color: #888;"> 631 </span>} else if (m_Protocol == PROT_GRIP) {</pre>
+    </div><br>
+    <div class="todo">I wrote <a href="http://gitlab.pflager.net/cagd/grbl.py/-/blob/b515ce82bd28e2a658087bd258a85aafe98c908b/simplest-terminal-ever.py" target="_blank"><code>simplest-terminal-ever.py</code></a> so I could test the 4030XL's GRBL implementation by running it from within PyCharm.  When <code>simplest-terminal-ever.py</code> connected to the 4030XL's serial port, it emitted the
+        following output (although the red color was added later to show what was received by the serial port):</div>
+    <pre>
+/home/oy753c/desktops/toadstool-logo/grbl.py/venv/bin/python -X pycache_prefix=/home/oy753c/.cache/JetBrains/PyCharmCE2024.1/cpython-cache /home/oy753c/.local/share/pycharm-community-2024.1.2/plugins/python-ce/helpers/pydev/pydevd.py --multiprocess --qt-support=auto --client 127.0.0.1 --port 41873 --file /home/oy753c/desktops/toadstool-logo/grbl.py/simplest-terminal-ever.py
+Connected to pydev debugger (build 241.17011.127)
+<span style="color: red;">b'\r\n'
+b"Grbl 1.1h ['$' for help]\r\n"
+b"[MSG:'$H'|'$X' to unlock]\r\n"</span></pre>
+    <br><strike title="Move this to the new TODOs heading above."><div class="todo">Find all my TODO: DPP: comments and document them here and in issues where appropriate.</div></strike>
+</div>
+
+<div class="commentary-block">
+    <p class="timestamp">Mon Jun  3 06:05:49 PM PDT 2024 (0143ac0c17e61fa26184cbf9ac689195251e5415)</p>
     <div class="todo">I found that two timers were turned on at the same time as the serial port's timer was turned on, making the initial state difficult to handle.  So I temporarily commented them out:
         <p></p>
-        <pre><span style="font-size: smaller; position: absolute; top: 3px; left: 3px; font-style: italic;">frmmain.cpp 320-327</span>
-// Connect timers
-<b>// TODO: DPP: These two timers should not be turned on until serial port is initialized.
-// connect(&m_timerSpindleUpdate, SIGNAL(timeout()), this, SLOT(onTimerUpdateSpindleParser()));
-// connect(&m_timerStateQuery, SIGNAL(timeout()), this, SLOT(onTimerStatusQuery()));</b>
-
-connect(&m_timerRead, SIGNAL(timeout()), this, SLOT(onProcessData()));
-
-connect(&m_timerSend, SIGNAL(timeout()), this, SLOT(onSendSerial()));</pre>
+        <pre><a href="https://github.com/pflagerd/candle2/blob/1e697894a1781cad865d446685a10f0cdd8c6567/frmmain.cpp#L320" target="_blank"><span style="font-size: smaller; position: absolute; top: 3px; left: 3px; font-style: italic;">frmmain.cpp 320-327</span></a>
+<span style="color: #888;"> 320 </span>// Connect timers
+<span style="color: #888;"> 321 </span><b>// TODO: DPP: These two timers should not be turned on until serial port is initialized.
+<span style="color: #888;"> 322 </span>// connect(&m_timerSpindleUpdate, SIGNAL(timeout()), this, SLOT(onTimerUpdateSpindleParser()));
+<span style="color: #888;"> 323 </span>// connect(&m_timerStateQuery, SIGNAL(timeout()), this, SLOT(onTimerStatusQuery()));</b>
+<span style="color: #888;"> 324 </span>
+<span style="color: #888;"> 325 </span>connect(&m_timerRead, SIGNAL(timeout()), this, SLOT(onProcessData()));
+<span style="color: #888;"> 326 </span>
+<span style="color: #888;"> 327 </span>connect(&m_timerSend, SIGNAL(timeout()), this, SLOT(onSendSerial()));</pre>
     </div><br>
-    <div class="todo">I really need to find all my TODO: DPP: comments and document them here.</div>
+    <strike title="Moved to commentary-block Tue Jun 11 05:11:24 PM PDT 2024 (1e697894a1781cad865d446685a10f0cdd8c6567)"><div class="todo">I really need to find all my TODO: DPP: comments and document them here.</div></strike>
 </div>
 <div class="commentary-block">
     <p class="timestamp">Mon Jun  3 06:05:49 PM PDT 2024</p>
@@ -121,27 +255,28 @@ connect(&m_timerSend, SIGNAL(timeout()), this, SLOT(onSendSerial()));</pre>
                     <br>
                     <p>Here's the file in which the serial port gets read from: <code><a href="https://github.com/pflagerd/candle2/blob/4d8efc25080f76c363548fdd3cc6ddc08f5d824c/frmmain_processresponse.cpp#L39">frmmain_processresponse.cpp</a></code></p>
                     <p>Here's the start of a function that gets invoked by a timer, and which processes all serial data received from the 4030XL:</p>
-                    <pre>void frmMain::ProcessGRBL1_1() {
-while (SerialIf_CanReadLine()) {
-    QString data = SerialIf_ReadLine().trimmed();
-
-    if (debug)
-        qDebug().nospace() << __FILE__ << " (" << __LINE__ << ") frmMain::ProcessGRBL1_1(): SerialIf_ReadLine().trimmed() returned:" << data;
-
-    if (m_isAwaitingGrblVersionString) { // DPP: is the system in a state where it's waiting for the Grbl Version String which is
-                                         // displayed whenever the Grbl processor has been (re-)initialized.
-        if (!wasGrblVersionStringReceived(data)) // does <code style="font-size: 100%;">data</code> above contain a Grbl Version String which looks something like "Grbl 1.1h ['$' for help]"
-            continue;
-        else {
-            m_isAwaitingGrblVersionString = false;
-            <span title="This is not the timer that triggers the call to void frmMain::ProcessGRBL1_1().  It sends ? messages to the 4030XL every so often.">m_timerStateQuery.setInterval(m_settings->queryStateTime());</span>
-        }
-    }</pre>
+                    <pre><a href="https://github.com/pflagerd/candle2/blob/775d703a0b3eb506a41f9f4cad848328f2f08284/frmmain_processresponse.cpp#L39-L54" target="_blank"><span style="font-size: smaller; position: absolute; top: 3px; left: 3px; font-style: italic;">frmmain_processresponse.cpp 39-54</span></a>
+<span style="color: #888;">  39 </span>void frmMain::ProcessGRBL1_1() {
+<span style="color: #888;">  40 </span>while (SerialIf_CanReadLine()) {
+<span style="color: #888;">  41 </span>    QString data = SerialIf_ReadLine().trimmed();
+<span style="color: #888;">  42 </span>
+<span style="color: #888;">  43 </span>    if (debug)
+<span style="color: #888;">  44 </span>        qDebug().nospace() << __FILE__ << " (" << __LINE__ << ") frmMain::ProcessGRBL1_1(): SerialIf_ReadLine().trimmed() returned:" << data;
+<span style="color: #888;">  45 </span>
+<span style="color: #888;">  46 </span>    if (m_isAwaitingGrblVersionString) { // DPP: is the system in a state where it's waiting for the Grbl Version String which is
+<span style="color: #888;">  47 </span>                                         // displayed whenever the Grbl processor has been (re-)initialized.
+<span style="color: #888;">  48 </span>        if (!wasGrblVersionStringReceived(data)) // does <code style="font-size: 100%;">data</code> above contain a Grbl Version String which looks something like "Grbl 1.1h ['$' for help]"
+<span style="color: #888;">  49 </span>            continue;
+<span style="color: #888;">  50 </span>        else {
+<span style="color: #888;">  51 </span>            m_isAwaitingGrblVersionString = false;
+<span style="color: #888;">  52 </span>            <span title="This is not the timer that triggers the call to void frmMain::ProcessGRBL1_1().  It sends ? messages to the 4030XL every so often.">m_timerStateQuery.setInterval(m_settings->queryStateTime());</span>
+<span style="color: #888;">  53 </span>        }
+<span style="color: #888;">  54 </span>    }</pre>
                 <br>
                     <p>I think <code>m_isAwaitingGrblVersionString</code> is a flag indicating that Candle is waiting for
                         the <a href="https://github.com/pflagerd/grbl/blob/e5e10b5b0d1d571da7ff85b4265b4773736aef01/doc/markdown/interface.md#L102:~:text=Grbl%20X.Xx%20%5B%27%24%27%20for%20help%5D%20%3A%20Welcome%20message" target="_blank">"Grbl Welcome message"</a> mentioned above</p>
                     <p class="todo">I think <code>m_isAwaitingGrblVersionString</code> belongs with "Grbl Welcome message"
-                        in the <a href="../ontology/lexicon.json" target="blank">candle ontology lexicon.</a></p>
+                        in the <a href="lexicon.json" target="blank">candle ontology lexicon.</a></p>
                     <p class="todo">Came up with a notion of a URI scheme to identify a specific range of lines/characters in a text document.
                         See <a href="https://chatgpt.com/c/77d7c432-05a1-4aad-9679-0dedf649b426">here</a>.
                     Could use that in conjunction with github's persistent links to identify parts of particular versions

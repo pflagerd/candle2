@@ -57,7 +57,7 @@ frmMain::frmMain(QWidget *parent) :
              << "Hold:1"
              << "Queue"
              << "Check"
-             << "Door"                     // TODO: Update "Door" state
+             << "Door"                     // TODO: DPP: There is no Door on a Genmitsu 4030XL [WAS: Update "Door" state]
              << "Jog"
              << "Dwell"
              << "Tool"
@@ -871,7 +871,7 @@ void frmMain::on_cmdFileSend_clicked() {
     ui->chkKeyboardControl->setChecked(false);
 
     if (!ui->chkTestMode->isChecked()) {
-        storeOffsets(); // Already stored on check TODO:DPP: Stored on check of what?
+        storeOffsets(); // Already stored on check TODO: DPP: Already stored on check of what?
     }
     storeParserState();
 
@@ -1858,7 +1858,7 @@ void frmMain::on_btnConnect_clicked() {
             // Open serial interface
             if (SerialIf_OpenSerial(0, ui->comboInterface->currentText(), ui->comboBaud->currentText().toInt())) {
                 ui->txtConsole->appendPlainText("Successfully opened serial port");
-                ui->txtStatus->setText(tr("Port opened")); // TODO: DPP: Where is the txtStatus widget?s
+                ui->txtStatus->setText(tr("Port opened"));
                 ui->txtStatus->setStyleSheet(QString("background-color: palette(button); color: palette(text);"));
 				#ifndef WINDOWS
                 	SerialIf_Clear();
