@@ -91,7 +91,33 @@
 
 <h1 style="color: lightgray;">COMMENTARY</h1>
 
-<div class="commentary-block new-text">
+<div class="commentary-block">
+    <p class="timestamp">Tue Jun 25 08:52:38 PM PDT 2024 (fb97f97156155fd7e5b913a661f4496544b034a7)</p>
+    <p>I installed <a href="https://github.com/pflagerd/pyserial/blob/master/documentation/pyserial.rst" target="_blank">pyserial</a> and used the <a href="https://pythonhosted.org/pyserial/tools.html#module-serial.tools.miniterm" target="_blank">miniterm</a>
+    module within it to test the 4030XL to find out why the spindle motor does not turn on when it receives and <a href="https://www.sainsmart.com/blogs/news/grbl-v1-1-quick-reference" target="_blank">M3 (Start spindle clockwise)</a>.  It turns out
+    that one must explicitly initialize a speed using an <a href="https://www.sainsmart.com/blogs/news/grbl-v1-1-quick-reference" target="_blank">Sxxxx command</a> OR one must
+    use an <a href="https://www.sainsmart.com/blogs/news/grbl-v1-1-quick-reference" target="_blank">M3 Sxxxx</a>.  One other disconcerting
+    implication of this is that if one issues an M3, and an Sxxxx has NOT been previous issued, and <i>then</i> one issues an Sxxxx, the spindle motor will turn on, so it's
+    important to issue an M2 (or M5) before issuing an Sxxxx to make sure no accidental turning-on of the spindle motor occurs.</p>
+    <div>To run <code>miniterm</code> I used the following syntax:
+        <pre>python -m serial.tools.miniterm -e /dev/ttyUSB0 115200</pre>
+        The <code>-e</code> stands for "echo" which prints what you type.
+    </div>
+    <p class="todo">Add to the initialization sequence an M2 followed by CRLF, followed by an S1000 followed by CRLF</p>
+    <p class="todo">Add to the initialization sequence an $23=3 followed by CRLF to set the homing position to be front left.</p>
+    <p class="todo">Use the initialization sequence found in the grbl.py project file <a href="https://github.com/pflagerd/grbl.py/blob/54d542c1e7e2cca69b77414368e863345efff224/find_and_set_home.py#L1" target="_blank">find_and_set_home.py</a></p>
+    <div class="todo">These animation updates seem to be in the wrong place.  What does this have to do with processing GRBL?
+        <p></p>
+        <pre><a href="https://github.com/pflagerd/candle2/blob/9f9afb6c50f57d0684ba2fbda05a2537b5119ed1/frmmain_processresponse.cpp#L371" target="_blank"><span style="font-size: smaller; position: absolute; top: 3px; left: 3px; font-style: italic;">frmmain_processresponse.cpp 371</span></a>
+<span style="color: #888;"> 371 </span><b>m_timerToolAnimation.start(25, this); // TODO: DPP: Invalid arguments?!!</b></pre>
+        <p></p>
+        <pre><a href="https://github.com/pflagerd/candle2/blob/9f9afb6c50f57d0684ba2fbda05a2537b5119ed1/frmmain_processresponse.cpp#L1352" target="_blank"><span style="font-size: smaller; position: absolute; top: 3px; left: 3px; font-style: italic;">frmmain_processresponse.cpp 1352</span></a>
+<span style="color: #888;"> 1352 </span><b>m_timerToolAnimation.start(25, this); // TODO: DPP: Invalid arguments?!!</b></pre>
+        <p></p>
+    </div>
+</div>
+
+<div class="commentary-block">
     <p class="timestamp">Sun Jun 23 04:37:02 PM PDT 2024 (9f9afb6c50f57d0684ba2fbda05a2537b5119ed1)</p>
     <div class="todo">These animation updates seem to be in the wrong place.  What does this have to do with processing GRBL?
         <p></p>
