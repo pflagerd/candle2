@@ -92,6 +92,24 @@
 <h1 style="color: lightgray;">COMMENTARY</h1>
 
 <div class="commentary-block">
+    <p class="timestamp">Sun Jun 30 04:51:42 PM PDT 2024 (84eb8c11f2d64bbde87fdcdb532206ace91b7e02)</p>
+    <p class="todo">As I have started working on <code>void frmMain::ProcessGRBL1_1()</code> to add the appropriate initialization code, it occurs
+    to me that this async state machine architecture is unnecessarily complicated.  GRBL is mostly a synchronous protocol, except when something
+    goes horribly wrong (See <a href="https://github.com/pflagerd/grbl/blob/e5e10b5b0d1d571da7ff85b4265b4773736aef01/doc/markdown/interface.md?plain=1#L181">"Push Messages"</a>),
+    therefore I'm thinking that I will use the m_timerRead timer only when I'm NOT using/expecting a synchronous response, so I will need
+    a way to quickly "enable/disable" it. I'm not sure what all of the available options are for this.</p>
+    <div class="todo">There are two timers which seem to be associated with Serial Port data transfer:
+        <p></p>
+        <pre><a href="https://github.com/pflagerd/candle2/blob/84eb8c11f2d64bbde87fdcdb532206ace91b7e02/frmmain.cpp#L325-L327" target="_blank"><span style="font-size: smaller; position: absolute; top: 3px; left: 3px; font-style: italic;">frmmain.cpp 325-327</span></a>
+<span style="color: #888;"> 325 </span>connect(&m_timerRead, SIGNAL(timeout()), this, SLOT(onProcessData()));
+<span style="color: #888;"> 326 </span>
+<span style="color: #888;"> 327 </span>connect(&m_timerSend, SIGNAL(timeout()), this, SLOT(onSendSerial()));</pre>
+        These names are awful.  onReceivingSerialData() and onSendingSerialData() would be better.
+    </div>
+
+</div>
+
+<div class="commentary-block">
     <p class="timestamp">Tue Jun 25 08:52:38 PM PDT 2024 (fb97f97156155fd7e5b913a661f4496544b034a7)</p>
     <p>I installed <a href="https://github.com/pflagerd/pyserial/blob/master/documentation/pyserial.rst" target="_blank">pyserial</a> and used the <a href="https://pythonhosted.org/pyserial/tools.html#module-serial.tools.miniterm" target="_blank">miniterm</a>
     module within it to test the 4030XL to find out why the spindle motor does not turn on when it receives and <a href="https://www.sainsmart.com/blogs/news/grbl-v1-1-quick-reference" target="_blank">M3 (Start spindle clockwise)</a>.  It turns out
