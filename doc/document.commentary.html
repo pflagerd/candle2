@@ -104,7 +104,13 @@
 <span style="color: #888;"> 325 </span>connect(&m_timerRead, SIGNAL(timeout()), this, SLOT(onProcessData()));
 <span style="color: #888;"> 326 </span>
 <span style="color: #888;"> 327 </span>connect(&m_timerSend, SIGNAL(timeout()), this, SLOT(onSendSerial()));</pre>
-        These names are awful.  onReceivingSerialData() and onSendingSerialData() would be better.
+        <br>
+        These names are awful.  <code>uponReceivingSerialData()</code> and <code>uponSendingSerialData()</code> would be better, but also
+        it seems that <code>onSendSerial()</code> is unnecessary.  All of its logic could be put into a <code>grblController.sendLine() function</code>
+        which could have a corresponding <code>grblController.receiveLine()</code> function.
+        <br>
+        <br>When these two functions are active, they could disable <code>m_timerRead</code>, which is also an
+        awful name. <code>m_TimerToCheckForReceivedSerialData</code> would be better.
     </div>
 
 </div>
