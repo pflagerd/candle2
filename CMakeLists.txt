@@ -65,6 +65,8 @@ set(SOURCES
     GrIP/GrIP.cpp
     shaders.qrc
     images.qrc
+        grblController.cpp
+        grblController.h
 )
 
 # Add the header files
@@ -106,6 +108,8 @@ set(HEADERS
     GrIP/CRC.h
     GrIP/GrIP.h
     utils/safequeue.h
+        grblController.cpp
+        grblController.h
 )
 
 # Add the UI files
