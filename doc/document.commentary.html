@@ -92,13 +92,20 @@
 <h1 style="color: lightgray;">COMMENTARY</h1>
 
 <div class="commentary-block">
+    <p class="timestamp">Mon Jul  1 07:26:14 PM PDT 2024 (432cce211d1985cca3c8ee2c8f24bcac0a26bfe3)</p>
+    <p>Renamed occurrences of <code>onProcessData()</code> with <code>uponReceivingSerialData()</code> and rename
+        <code>m_timerRead</code> to <code>m_TimerToCheckForReceivedSerialData</code>.
+    </p>
+</div>
+
+<div class="commentary-block">
     <p class="timestamp">Sun Jun 30 04:51:42 PM PDT 2024 (84eb8c11f2d64bbde87fdcdb532206ace91b7e02)</p>
     <p class="todo">As I have started working on <code>void frmMain::ProcessGRBL1_1()</code> to add the appropriate initialization code, it occurs
     to me that this async state machine architecture is unnecessarily complicated.  GRBL is mostly a synchronous protocol, except when something
     goes horribly wrong (See <a href="https://github.com/pflagerd/grbl/blob/e5e10b5b0d1d571da7ff85b4265b4773736aef01/doc/markdown/interface.md?plain=1#L181">"Push Messages"</a>),
     therefore I'm thinking that I will use the m_timerRead timer only when I'm NOT using/expecting a synchronous response, so I will need
     a way to quickly "enable/disable" it. I'm not sure what all of the available options are for this.</p>
-    <div class="todo">There are two timers which seem to be associated with Serial Port data transfer:
+    <div class="">There are two timers which seem to be associated with Serial Port data transfer:
         <p></p>
         <pre><a href="https://github.com/pflagerd/candle2/blob/84eb8c11f2d64bbde87fdcdb532206ace91b7e02/frmmain.cpp#L325-L327" target="_blank"><span style="font-size: smaller; position: absolute; top: 3px; left: 3px; font-style: italic;">frmmain.cpp 325-327</span></a>
 <span style="color: #888;"> 325 </span>connect(&m_timerRead, SIGNAL(timeout()), this, SLOT(onProcessData()));
@@ -106,13 +113,12 @@
 <span style="color: #888;"> 327 </span>connect(&m_timerSend, SIGNAL(timeout()), this, SLOT(onSendSerial()));</pre>
         <br>
         These names are awful.  <code>uponReceivingSerialData()</code> and <code>uponSendingSerialData()</code> would be better, but also
-        it seems that <code>onSendSerial()</code> is unnecessary.  All of its logic could be put into a <code>grblController.sendLine() function</code>
+        <span class="todo">it seems that <code>onSendSerial()</code> is unnecessary</span>.  All of its logic could be put into a <code>grblController.sendLine() function</code>
         which could have a corresponding <code>grblController.receiveLine()</code> function.
         <br>
         <br>When these two functions are active, they could disable <code>m_timerRead</code>, which is also an
         awful name. <code>m_TimerToCheckForReceivedSerialData</code> would be better.
     </div>
-
 </div>
 
 <div class="commentary-block">

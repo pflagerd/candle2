@@ -117,7 +117,7 @@ private slots:
 
     void placeVisualizerButtons();
 
-    void onProcessData();
+    void uponReceivingSerialData();
 
     void onSendSerial();
 
@@ -498,7 +498,7 @@ private:
     QTimer m_timerStateQuery;
     QBasicTimer m_timerToolAnimation;
 
-    QTimer m_timerRead;
+    QTimer m_TimerToCheckForReceivedSerialData;
     QTimer m_timerSend;
 
     QStringList m_status;

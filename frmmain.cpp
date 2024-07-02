@@ -322,7 +322,7 @@ frmMain::frmMain(QWidget *parent) :
 	// connect(&m_timerSpindleUpdate, SIGNAL(timeout()), this, SLOT(onTimerUpdateSpindleParser()));
 	// connect(&m_timerStateQuery, SIGNAL(timeout()), this, SLOT(onTimerStatusQuery()));
 
-    connect(&m_timerRead, SIGNAL(timeout()), this, SLOT(onProcessData()));
+    connect(&m_TimerToCheckForReceivedSerialData, SIGNAL(timeout()), this, SLOT(uponReceivingSerialData()));
 
     connect(&m_timerSend, SIGNAL(timeout()), this, SLOT(onSendSerial()));
 
@@ -697,7 +697,7 @@ int frmMain::BufferLength() {
     return length;
 }
 
-void frmMain::onProcessData() {
+void frmMain::uponReceivingSerialData() {
     RX_Packet_t dat;
 
     switch (m_Protocol) {
@@ -1865,7 +1865,7 @@ void frmMain::on_btnConnect_clicked() {
 				#endif
 
                 // TODO: DPP: Not sure why there is a ReceiveTimer.  Why not a slot connection to the serial interface?
-                m_timerRead.start(ReceiveTimerInterval_ms);
+                m_TimerToCheckForReceivedSerialData.start(ReceiveTimerInterval_ms);
 
                 // TODO: DPP: This really seems out of place.  Once initialized, why send a Ctrl-X right away?
                 //            Maybe it has to do with other initializations which occur in GrblReset()?  If so, why
@@ -1882,7 +1882,7 @@ void frmMain::on_btnConnect_clicked() {
                 // ETH only with GrIP!
                 m_Protocol = PROT_GRIP;
 
-                m_timerRead.start(ReceiveTimerInterval_ms);
+                m_TimerToCheckForReceivedSerialData.start(ReceiveTimerInterval_ms);
 
                 //m_statusReceived = true;
 
@@ -1898,7 +1898,7 @@ void frmMain::on_btnConnect_clicked() {
             }
         }
     } else {
-        m_timerRead.stop();
+        m_TimerToCheckForReceivedSerialData.stop();
         m_timerToolAnimation.stop();
 
         SerialIf_Close();
