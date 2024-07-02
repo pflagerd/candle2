@@ -7,13 +7,13 @@
 
 #include <string>
 
-class grblController {
+class GrblController {
 public:
-	grblController& receiveLine(std::string) {
+	GrblController& receiveLine(std::string) {
 		return *this;
 	}
 
-	grblController& sendLine(std::string) {
+	GrblController& sendLine(std::string) {
 		return *this;
 	}
 
