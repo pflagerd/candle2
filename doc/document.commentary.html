@@ -90,6 +90,16 @@
 <h1 style="color: lightgray;">COMMENTARY</h1>
 
 <div class="commentary-block">
+    <p class="timestamp">Tue Jul  9 05:08:47 PM PDT 2024 (64ee5f534076a5b5f22f087b7bab9f80a71cff1c)</p>
+    <p class="todo">Implement and deploy new class Genmitsu4030XL (extends GrblController).</p>
+    <p class="todo">The connect button should be obsoleted.  The software should immediately connect when executed, or wait
+    until the machine is turned on (with message)</p>
+    <p class="todo">The first thing that should happen is a findCorners() operation in which Candle locates all
+    four corners and the z-depth range and saves the data to a file.  I've got a work-in-progress prototype
+    in Python <a href="https://github.com/pflagerd/grbl.py/blob/54d542c1e7e2cca69b77414368e863345efff224/probe_machine_coordinates_of_all_limits.py#L1" target="_blank">here</a>.</p>
+</div>
+
+<div class="commentary-block">
     <p class="timestamp">Mon Jul  1 07:26:14 PM PDT 2024 (432cce211d1985cca3c8ee2c8f24bcac0a26bfe3)</p>
     <p>Renamed occurrences of <code>onProcessData()</code> with <code>uponReceivingSerialData()</code> and rename
         <code>m_timerRead</code> to <code>m_TimerToCheckForReceivedSerialData</code>.
