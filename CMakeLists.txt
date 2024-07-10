@@ -67,6 +67,8 @@ set(SOURCES
     images.qrc
     GrblController.cpp
     GrblController.h
+    Genmitsu4030XL.cpp
+    Genmitsu4030XL.h
 )
 
 # Add the header files
@@ -118,6 +120,8 @@ set(UIS
     frmsettings.ui
     frmabout.ui
     widgets/sliderbox.ui
+        Genmitsu4030XL.cpp
+        Genmitsu4030XL.h
 )
 
 # Add the executable
