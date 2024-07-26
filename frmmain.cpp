@@ -1038,7 +1038,7 @@ void frmMain::on_cmdFileAbort_clicked() {
 
 void frmMain::storeParserState() {
     m_storedParserStatus = ui->glwVisualizer->parserStatus().remove(
-            QRegExp("GC:|\\[|\\]|G[01234]\\s|M[0345]+\\s|\\sF[\\d\\.]+|\\sS[\\d\\.]+"));
+            QRegExp(R"(GC:|\[|\]|G[01234]\s|M[0345]+\s|\sF[\d\.]+|\sS[\d\.]+)"));
 }
 
 void frmMain::restoreParserState() {
@@ -1376,7 +1376,7 @@ void frmMain::on_cmdFileReset_clicked() {
         ui->txtHeightMapGridZTop->setEnabled(true);
 
         delete m_heightMapInterpolationDrawer.data();
-        m_heightMapInterpolationDrawer.setData(NULL);
+        m_heightMapInterpolationDrawer.setData(nullptr);
 
         m_heightMapModel.clear();
         updateHeightMapGrid();
