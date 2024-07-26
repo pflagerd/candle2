@@ -1600,7 +1600,7 @@ bool frmMain::wasGrblVersionStringReceived(const QString& data) {
     // This matches e.g.
     // Grbl 1.1h ['$' for help]
     // GrblHAL 1.1f ['$' or '' for help]
-    return QRegExp("^GRBL[^ ]*\\s\\d\\.\\d").indexIn(data.toUpper()) != -1;
+    return QRegExp(R"(^GRBL[^ ]*\s\d\.\d)").indexIn(data.toUpper()) != -1;
 }
 
 QString frmMain::FeedOverride(const QString& command) {
