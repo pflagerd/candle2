@@ -1865,7 +1865,7 @@ void frmMain::on_btnConnect_clicked() {
 				#endif
 
                 // TODO: DPP: Not sure why there is a ReceiveTimer.  Why not a slot connection to the serial interface?
-                // m_TimerToCheckForReceivedSerialData.start(ReceiveTimerInterval_ms);
+                m_TimerToCheckForReceivedSerialData.start(ReceiveTimerInterval_ms);
 
                 // TODO: DPP: This really seems out of place.  Once initialized, why send a Ctrl-X right away?
                 //            Maybe it has to do with other initializations which occur in GrblReset()?  If so, why
@@ -1873,11 +1873,11 @@ void frmMain::on_btnConnect_clicked() {
 				// GrblReset();
 
 				// TODO: DPP: 240726T200625PDT: Do literal initialization here as an experiment.
-                while (true) {
-                    while (SerialIf_IsDataAvailable())
-                        qDebug() << SerialIf_ReadLine();
-                    QThread::sleep(1);
-                }
+//                while (true) {
+//                    while (SerialIf_IsDataAvailable())
+//                        qDebug() << SerialIf_ReadLine();
+//                    QThread::sleep(1);
+//                }
 
 
             } else {
