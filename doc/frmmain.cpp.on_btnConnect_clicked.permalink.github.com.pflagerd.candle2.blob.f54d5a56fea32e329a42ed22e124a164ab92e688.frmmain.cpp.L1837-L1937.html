@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>frmmain.cpp::on_btnConnect_clicked() @ github.com/pflagerd/candle2/blob/f54d5a56fea32e329a42ed22e124a164ab92e688/frmmain.cpp#L1837-L1937</title>
+</head>
+<style>
+    body {
+        margin: 7%;
+    }
+</style>
+<body>
+<h1><a href="" target="_blank:">frmmain.cpp::on_btnConnect_clicked()</a></h1>
+<div id="working-area">
+    <pre>
+  1837 void frmMain::on_btnConnect_clicked() {
+  1838     if (!SerialIf_IsOpen()) {
+  1839         // Get used protocol
+  1840         int idx = ui->comboProtocol->currentIndex();
+  1841         switch (idx) {
+  1842             case 0:
+  1843                 m_Protocol = PROT_GRBL1_1;
+  1844                 break;
+  1845
+  1846             case 1:
+  1847                 m_Protocol = PROT_GRIP;
+  1848                 GrIP_Init();
+  1849                 break;
+  1850
+  1851             default:
+  1852                 m_Protocol = PROT_GRBL1_1;
+  1853                 break;
+  1854         }
+  1855
+  1856         QString serial_interface = ui->comboInterface->currentText();
+  1857         if (serial_interface != "ETHERNET") {
+  1858             // Open serial interface
+  1859             if (SerialIf_OpenSerial(0, ui->comboInterface->currentText(), ui->comboBaud->currentText().toInt())) {
+  1860                 ui->txtConsole->appendPlainText("Successfully opened serial port");
+  1861                 ui->txtStatus->setText(tr("Port opened"));
+  1862                 ui->txtStatus->setStyleSheet(QString("background-color: palette(button); color: palette(text);"));
+  1863                 #ifndef WINDOWS
+  1864                     SerialIf_Clear();
+  1865                 #endif
+  1866
+  1867                 // TODO: DPP: Not sure why there is a ReceiveTimer.  Why not a slot connection to the serial interface?
+  1868                 m_TimerToCheckForReceivedSerialData.start(ReceiveTimerInterval_ms);
+  1869
+  1870                 // TODO: DPP: This really seems out of place.  Once initialized, why send a Ctrl-X right away?
+  1871                 //            Maybe it has to do with other initializations which occur in GrblReset()?  If so, why
+  1872                 //            aren't they in their own function (separate from sending the Ctrl-X)
+  1873                 // GrblReset();
+  1874
+  1875                 // TODO: DPP: 240726T200625PDT: Do literal initialization here as an experiment.
+  1876                 while (SerialIf_IsDataAvailable())
+  1877                     qDebug() << SerialIf_ReadLine();
+  1878
+  1879
+  1880             } else {
+  1881                 ui->txtConsole->appendPlainText(tr("Serial port error: ") + SerialIf_GetError());
+  1882                 qDebug() << "Couldn't open serial port";
+  1883             }
+  1884         } else {
+  1885             // Ethernet
+  1886             if (SerialIf_OpenEth(m_settings->IPAddress(), m_settings->Port())) {
+  1887                 qDebug() << "Ethernet OK";
+  1888                 // ETH only with GrIP!
+  1889                 m_Protocol = PROT_GRIP;
+  1890
+  1891                 m_TimerToCheckForReceivedSerialData.start(ReceiveTimerInterval_ms);
+  1892
+  1893                 //m_statusReceived = true;
+  1894
+  1895                 GrblReset();
+  1896
+  1897                 // Test
+  1898                 /*uint8_t c[] = "Hello!";
+  1899                 Pdu_t p = {c, 6};
+  1900                 GrIP_Transmit(1, 2, &p);*/
+  1901             } else {
+  1902                 qDebug() << "Ethernet failed";
+  1903                 ui->txtConsole->appendPlainText(tr("Ethernet error!") + SerialIf_GetError());
+  1904             }
+  1905         }
+  1906     } else {
+  1907         m_TimerToCheckForReceivedSerialData.stop();
+  1908         m_timerToolAnimation.stop();
+  1909
+  1910         SerialIf_Close();
+  1911     }
+  1912
+  1913     if (SerialIf_IsOpen()) {
+  1914         ui->btnConnect->setText("Disconnect");
+  1915         // Set button background green
+  1916         ui->btnConnect->setPalette(QPalette(QColor(100, 255, 100)));
+  1917
+  1918         ui->comboProtocol->setEnabled(false);
+  1919         ui->comboBaud->setEnabled(false);
+  1920         ui->comboInterface->setEnabled(false);
+  1921     } else {
+  1922         ui->btnConnect->setText("Connect");
+  1923         // Set button background red
+  1924         ui->btnConnect->setPalette(QPalette(QColor(255, 140, 140)));
+  1925
+  1926         ui->comboProtocol->setEnabled(true);
+  1927         ui->comboBaud->setEnabled(true);
+  1928         ui->comboInterface->setEnabled(true);
+  1929     }
+  1930
+  1931     this->updateControlsState();
+  1932
+  1933     if (ui->comboInterface->currentText() == "ETHERNET") {
+  1934         // Only GrIP
+  1935         ui->comboProtocol->setCurrentIndex(1);
+  1936     }
+  1937 }
+
+    </pre>
+</div>
+</body>
+</html>
