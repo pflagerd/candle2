@@ -1871,6 +1871,12 @@ void frmMain::on_btnConnect_clicked() {
                 //            Maybe it has to do with other initializations which occur in GrblReset()?  If so, why
                 //            aren't they in their own function (separate from sending the Ctrl-X)
 				// GrblReset();
+
+				// TODO: DPP: 240726T200625PDT: Do literal initialization here as an experiment.
+				while (SerialIf_IsDataAvailable())
+					qDebug() << SerialIf_ReadLine();
+
+
             } else {
                 ui->txtConsole->appendPlainText(tr("Serial port error: ") + SerialIf_GetError());
                 qDebug() << "Couldn't open serial port";
