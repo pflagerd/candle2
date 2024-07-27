@@ -8,3 +8,4 @@ qrc_*
 settings.ini
 build-*/
 /cmake-build-debug
+/CMakeLists.txt.user*
