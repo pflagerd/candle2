@@ -437,9 +437,9 @@ private:
 
     void restoreOffsets();
 
-    bool isGCodeFile(const QString& fileName);
+    static bool isGCodeFile(const QString& fileName);
 
-    bool isHeightmapFile(const QString& fileName);
+    static bool isHeightmapFile(const QString& fileName);
 
     bool compareCoordinates(double x, double y, double z);
 
